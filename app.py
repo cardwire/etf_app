@@ -32,7 +32,7 @@ def connect_to_server():
 
 
 st.markdown('## ETF Overview and Comparison Tool')
-st.markdown(" ## __Disclaimer: Data provided by this app is not an official source. I can not guarantee for itsquality and actuality, so take it witha grain of salt. Never use this app soleily to actually make financial decisiions with real money!__")
+st.markdown(" ## _Disclaimer: Data provided by this app is not an official source. I can not guarantee for itsquality and actuality, so take it witha grain of salt. Never use this app soleily to actually make financial decisiions with real money!_")
 
 st.divider()
 st.markdown('## ETF Overview and Comparison Tool')
