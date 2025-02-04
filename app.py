@@ -1,3 +1,7 @@
+
+'''
+FIX DATABASE CONNECTION LATER, PRESUME WITH CSV FILES FROM DATABASE
+
 import streamlit as st
 import pyodbc as odbc_driver
 import sqlalchemy
@@ -56,8 +60,9 @@ if rows:
     for row in rows:
         st.write(f"{row[0]} has a :{row[1]}:")
 
+'''
 
-
+st.titel("ETF Finder")
 
 # ETF Filtering
 # etfs = get_etfs()
