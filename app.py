@@ -48,8 +48,8 @@ st.button(label= "Load Database", type = "primary", on_click = connect_to_server
 st.title('ETF Overview and Comparison Tool')
 
 # ETF Filtering
-etfs = get_etfs()
-selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
+#etfs = get_etfs()
+#selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
 
 
