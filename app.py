@@ -6,21 +6,20 @@ from dotenv import load_dotenv
 from os import getenv
 import urllib.parse
 
-
-
-st.titel("ETF-Finder")
-
-# Load the environment variables
-load_dotenv()
-
 # Define the connection string using the environment variables
 credentials = {
-"server" : st.secrets['AZURE_SQL_SERVER']
-"database" : st.secrets['AZURE_SQL_DATABASE']
-"username" : st.secrets['AZURE_SQL_USER']
-"password" :  st.secrets['AZURE_SQL_PASSWORD']
-"driver" : st.secrets['AZURE_SQL_DRIVER']
+server : st.secrets['AZURE_SQL_SERVER']
+database : st.secrets['AZURE_SQL_DATABASE']
+username : st.secrets['AZURE_SQL_USER']
+password :  st.secrets['AZURE_SQL_PASSWORD']
+driver : st.secrets['AZURE_SQL_DRIVER']
+port : st.secrets["AZURE_SQL-PORT"]
 }
+
+#TITEL
+st.titel("ETF-Finder")
+
+
 
 # Create the connection string
 connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={urllib.parse.quote_plus(driver)}&TrustServerCertificate=yes'
