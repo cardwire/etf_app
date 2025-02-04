@@ -31,7 +31,7 @@ def connect_to_server():
         st.write(f"Connection failed: {e}")
 
 
-st.subtitle('ETF Overview and Comparison Tool')
+st.markdown('## ETF Overview and Comparison Tool')
 st.markdown(""" # /Disclaimer: Data provided by this app is not an official source. I can not guarantee for itsquality and actuality, 
     so take it witha grain of salt. Never use this app soleily to actually make financial decisiions with real money!""")
 
