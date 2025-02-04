@@ -1,7 +1,7 @@
-pip install streamlit
-pip install pandas
-pip install numpy
-pip install sqlalchemy
-pip install psycopg2
-pip install plotly
-pip install os
+streamlit
+pandas
+numpy
+sqlalchemy
+psycopg2
+plotly
+os
