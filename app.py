@@ -9,7 +9,7 @@ import plotly.io as pio
 import plotly.figure_factory as ff
 import plotly.offline as pyo
 import urllib.parse
-
+import pypyodbc as odbc
 
 # Define the connection string using the environment variables
 credentials = {
