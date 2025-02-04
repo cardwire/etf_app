@@ -1,3 +1,8 @@
+import pandas as pd
+import numpy as np
+import plotly express as px 
+import plotly graphic objects as go
+
 
 '''
 FIX DATABASE CONNECTION LATER, PRESUME WITH CSV FILES FROM DATABASE
