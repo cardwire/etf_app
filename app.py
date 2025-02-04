@@ -1,5 +1,5 @@
 import streamlit as st
-from database.operations import get_etfs, get_etf_details
+from database.operations import get_etfs
 from yfinance_integration.yfinance_api import get_etf_data
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
