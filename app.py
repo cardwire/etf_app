@@ -14,24 +14,45 @@ credentials = {
     'port': st.secrets["AZURE_SQL_PORT"]
 }
 
-# Adjust ODBC connection string
-connection_string = f"DRIVER={{{credentials['driver']}}};SERVER={credentials['server']},{credentials['port']};DATABASE={credentials['database']};UID={credentials['username']};PWD={credentials['password']}"
 
-# Create PyODBC connection
-def connect_to_server():
-    try:
-        conn = pyodbc.connect(connection_string)
-        st.write("✅ Connection successful!")
+import streamlit as st
+import pyodbc
+
+# Initialize connection.
+# Uses st.cache_resource to only run once.
+@st.cache_resource
+def init_connection():
+    return pyodbc.connect(
+        "DRIVER={ODBC Driver 18 for SQL Server};SERVER="
+        + st.secrets["server"]
+        + ";DATABASE="
+        + st.secrets["database"]
+        + ";UID="
+        + st.secrets["username"]
+        + ";PWD="
+        + st.secrets["password"]
+    )
+
+conn = init_connection()
+
+# Perform query.
+# Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def run_query(query):
+    with conn.cursor() as cur:
+        cur.execute(query)
+        return cur.fetchall()
+
+rows = run_query("SELECT * from mytable;")
+
+# Print results.
+for row in rows:
+    st.write(f"{row[0]} has a :{row[1]}:")
+
+    st.write("✅ Connection successful!")
         conn.close()
-    except Exception as e:
-        st.write(f"❌ Connection failed: {e}")
 
-st.title("ETF-Finder")
-st.button(label="Load Database", type="primary", on_click=connect_to_server)
-
-
-# ETF Filtering
-# etfs = get_etfs()
+ etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
 '''
