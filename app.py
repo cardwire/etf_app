@@ -1,7 +1,5 @@
 import urllib.parse
 import streamlit as st
-import sqlalchemy
-from sqlalchemy import create_engine
 import pyodbc  # Ensure pyodbc is installed
 
 # Load credentials from secrets
@@ -14,39 +12,46 @@ credentials = {
     'port': st.secrets["AZURE_SQL_PORT"]
 }
 
-# Initialize connection.
-# Uses st.cache_resource to only run once.
+# Initialize connection
 @st.cache_resource
 def init_connection():
-    return pyodbc.connect(
-        "DRIVER= st.secrets['AZURE_SQL_DRIVER'];SERVER="
-        + st.secrets['AZURE_SQL_SERVER']
-        + ";DATABASE="
-        + st.secrets['AZURE_SQL_DATABASE']
-        + ";UID="
-        + st.secrets['AZURE_SQL_USERNAME']
-        + ";PWD="
-        + st.secrets['AZURE_SQL_PASSWORD']
-    )
+    try:
+        conn = pyodbc.connect(
+            f"DRIVER={st.secrets['AZURE_SQL_DRIVER']};"
+            f"SERVER={st.secrets['AZURE_SQL_SERVER']};"
+            f"DATABASE={st.secrets['AZURE_SQL_DATABASE']};"
+            f"UID={st.secrets['AZURE_SQL_USERNAME']};"
+            f"PWD={st.secrets['AZURE_SQL_PASSWORD']};"
+            "TrustServerCertificate=yes;"
+        )
+        st.write("✅ Connection successful!")
+        return conn
+    except Exception as e:
+        st.error(f"🚨 Connection failed: {e}")
+        return None
 
 conn = init_connection()
 
-# Perform query.
-# Uses st.cache_data to only rerun when the query changes or after 10 min.
+# Perform query
 @st.cache_data(ttl=600)
 def run_query(query):
-    with conn.cursor() as cur:
-        cur.execute(query)
-        return cur.fetchall()
+    if conn:
+        with conn.cursor() as cur:
+            cur.execute(query)
+            return cur.fetchall()
+    return []
 
-rows = run_query("SELECT * from mytable;")
+# Run SQL Query
+rows = run_query("SELECT * FROM mytable;")
 
-# Print results.
-for row in rows:
-    st.write(f"{row[0]} has a :{row[1]}:")
+# Print results
+if rows:
+    for row in rows:
+        st.write(f"{row[0]} has a :{row[1]}:")
 
-st.write("✅ Connection successful!")
-conn.close()
+
+
+
 
 # ETF Filtering
 # etfs = get_etfs()
