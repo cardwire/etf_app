@@ -14,23 +14,19 @@ credentials = {
     'port': st.secrets["AZURE_SQL_PORT"]
 }
 
-
-import streamlit as st
-import pyodbc
-
 # Initialize connection.
 # Uses st.cache_resource to only run once.
 @st.cache_resource
 def init_connection():
     return pyodbc.connect(
         "DRIVER={ODBC Driver 18 for SQL Server};SERVER="
-        + st.secrets["server"]
+        + credentials["server"]
         + ";DATABASE="
-        + st.secrets["database"]
+        + credentials["database"]
         + ";UID="
-        + st.secrets["username"]
+        + credentials["username"]
         + ";PWD="
-        + st.secrets["password"]
+        + credentials["password"]
     )
 
 conn = init_connection()
@@ -49,8 +45,12 @@ rows = run_query("SELECT * from mytable;")
 for row in rows:
     st.write(f"{row[0]} has a :{row[1]}:")
 
-    st.write("✅ Connection successful!")
-        conn.close()
+st.write("✅ Connection successful!")
+conn.close()
+
+# ETF Filtering
+# etfs = get_etfs()
+# selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
  etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
