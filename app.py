@@ -20,7 +20,6 @@ port : st.secrets["AZURE_SQL-PORT"]
 st.titel("ETF-Finder")
 
 
-
 # Create the connection string
 connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={urllib.parse.quote_plus(driver)}&TrustServerCertificate=yes'
 
