@@ -39,7 +39,8 @@ def connect_to_server():
 
 
 st.subtitle('ETF Overview and Comparison Tool')
-st.markdown(# /Disclaimer: Data provided by this app is not an official source. I can not guarantee for itsquality and actuality, so take it witha grain of salt. Never use this app soleily to actually make financial decisiions with real money!)
+st.markdown(""" # /Disclaimer: Data provided by this app is not an official source. I can not guarantee for itsquality and actuality, 
+    so take it witha grain of salt. Never use this app soleily to actually make financial decisiions with real money!""")
 
 # Test the connection
 st.text("Click on load database to connect with SQL-Server")
