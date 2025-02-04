@@ -23,11 +23,14 @@ connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?d
 engine = create_engine(connection_string)
 
 # Test the connection
-try:
-    with engine.connect() as connection:
-        print("Connection successful!")
-except Exception as e:
-    print(f"Connection failed: {e}")
+st.text("click on load database to connect with SQL-Server")
+
+st.button(label= "Load Database", type = "primary", on_click =
+    try:
+        with engine.connect() as connection:
+            print("Connection successful!")
+    except Exception as e:
+        print(f"Connection failed: {e}"))
 
 
 
