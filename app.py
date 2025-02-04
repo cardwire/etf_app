@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 import plotly.io as pio
 import plotly.figure_factory as ff
 import plotly.offline as pyo
+import urllib.parse
 
 
 # Define the connection string using the environment variables
