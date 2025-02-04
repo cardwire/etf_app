@@ -4,3 +4,12 @@ numpy
 sqlalchemy
 psycopg2-binary
 plotly
+time
+tqmd
+urllib
+pypyodbc
+datetime
+requests
+BeautyfulSoup
+selenium
+yfinance
