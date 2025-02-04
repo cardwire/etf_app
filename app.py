@@ -9,10 +9,10 @@ import plotly.offline as pyo
 import yfinance as yf
 
 
-st.titel("ETF Finder")
+st.markdown("# ETF Finder")
 
 pd.read_csv(etf_df)
-st.button("Load Database", args=[1], on_click = print(etf_df))
+st.button("Load Database", args=[1], on_click = st.table(etf_df))
 
 
 # ETF Filtering
