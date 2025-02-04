@@ -19,14 +19,14 @@ credentials = {
 @st.cache_resource
 def init_connection():
     return pyodbc.connect(
-        "DRIVER={ODBC Driver 18 for SQL Server};SERVER="
-        + credentials["server"]
+        "DRIVER= st.secrets['AZURE_SQL_DRIVER'];SERVER="
+        + st.secrets['AZURE_SQL_SERVER']
         + ";DATABASE="
-        + credentials["database"]
+        + st.secrets['AZURE_SQL_DATABASE']
         + ";UID="
-        + credentials["username"]
+        + st.secrets['AZURE_SQL_USERNAME']
         + ";PWD="
-        + credentials["password"]
+        + st.secrets['AZURE_SQL_PASSWORD']
     )
 
 conn = init_connection()
