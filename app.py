@@ -64,6 +64,9 @@ if rows:
 
 st.titel("ETF Finder")
 
+st.button("Load Database", 1, on_click = pd.read_csv(etf_df))
+
+
 # ETF Filtering
 # etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
