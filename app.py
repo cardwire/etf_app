@@ -1,9 +1,3 @@
-
-from sqlalchemy import create_engine
-from dotenv import load_dotenv
-from os import getenv
-import urllib.parse
-
 # Define the connection string using the environment variables
 credentials = {
 server : st.secrets['AZURE_SQL_SERVER'],
