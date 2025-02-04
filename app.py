@@ -11,8 +11,8 @@ import yfinance as yf
 
 st.markdown("# ETF Finder")
 
-pd.read_csv(etf_df)
-st.button("Load Database", args=[1], on_click = st.table(etf_df))
+basic_table = st.file_downloader(etf_df.csv)
+st.button("Load Database", args=[1], on_click = st.table(basic_table))
 
 
 # ETF Filtering
