@@ -1,8 +1,11 @@
 import pandas as pd
 import numpy as np
-import plotly express as px 
-import plotly graphic objects as go
-
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+import plotly.figure_factory as ff
+import plotly.offline as pyo
+import yfinance as yf
 
 '''
 FIX DATABASE CONNECTION LATER, PRESUME WITH CSV FILES FROM DATABASE
@@ -69,7 +72,8 @@ if rows:
 
 st.titel("ETF Finder")
 
-st.button("Load Database", 1, on_click = pd.read_csv(etf_df))
+pd.read_csv(etf_df)
+st.button("Load Database", args=[1], on_click = print(etf_df))
 
 
 # ETF Filtering
