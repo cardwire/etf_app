@@ -7,6 +7,7 @@ import plotly.io as pio
 import plotly.figure_factory as ff
 import plotly.offline as pyo
 import yfinance as yf
+from csv import etf_df
 
 
 st.markdown("# ETF Finder")
