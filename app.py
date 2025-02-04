@@ -1,10 +1,13 @@
+
+
+
 import urllib.parse
 import streamlit as st
+import sqlalchemy
 from sqlalchemy import create_engine
+import pyodbc  # Ensure pyodbc is installed
 import pypyodbc as odbc_driver
-
-
-# Define the connection string using the environment variables
+# Load credentials from secrets
 credentials = {
     'server': st.secrets['AZURE_SQL_SERVER'],
     'database': st.secrets['AZURE_SQL_DATABASE'],
@@ -14,32 +17,19 @@ credentials = {
     'port': st.secrets["AZURE_SQL_PORT"]
 }
 
-# Create the connection string
-connection_string = f'mssql+pyodbc://{credentials["username"]}:{credentials["password"]}@{credentials["server"]}/{credentials["database"]}?driver={urllib.parse.quote_plus(credentials["driver"])}&TrustServerCertificate=yes'
+# Adjust ODBC connection string
+connection_string = f"DRIVER={{{credentials['driver']}}};SERVER={credentials['server']},{credentials['port']};DATABASE={credentials['database']};UID={credentials['username']};PWD={credentials['password']};TrustServerCertificate=yes"
 
-# Create the engine
-engine = create_engine(connection_string)
-
-
-
-# Title
-st.title("ETF-Finder")
-
-def connect_to_server(): 
+# Create PyODBC connection
+def connect_to_server():
     try:
-        with engine.connect() as connection:
-            st.write("Connection successful!")
+        conn = pyodbc.connect(connection_string)
+        st.write("✅ Connection successful!")
+        conn.close()
     except Exception as e:
-        st.write(f"Connection failed: {e}")
+        st.write(f"❌ Connection failed: {e}")
 
-
-st.markdown('## ETF Overview and Comparison Tool')
-st.markdown(" ## __Disclaimer: Data provided by this app is no official data source. There is no guarantee to its quality and actuality - so please take it witha grain of salt and never use this app soleily to actually make financial decisiions with real money!__")
-
-st.divider()
-st.markdown('## ETF Overview and Comparison Tool')
-# Test the connection
-st.text("Click on load database to connect with SQL-Server")
+st.title("ETF-Finder")
 st.button(label="Load Database", type="primary", on_click=connect_to_server)
 
 
