@@ -6,7 +6,7 @@ psycopg2-binary
 plotly
 time
 tqmd
-urllib
+urllib.parser
 pypyodbc
 datetime
 requests
