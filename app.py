@@ -1,12 +1,9 @@
-
-
-
 import urllib.parse
 import streamlit as st
 import sqlalchemy
 from sqlalchemy import create_engine
 import pyodbc  # Ensure pyodbc is installed
-import pypyodbc as odbc_driver
+
 # Load credentials from secrets
 credentials = {
     'server': st.secrets['AZURE_SQL_SERVER'],
@@ -18,7 +15,7 @@ credentials = {
 }
 
 # Adjust ODBC connection string
-connection_string = f"DRIVER={{{credentials['driver']}}};SERVER={credentials['server']},{credentials['port']};DATABASE={credentials['database']};UID={credentials['username']};PWD={credentials['password']};TrustServerCertificate=yes"
+connection_string = f"DRIVER={{{credentials['driver']}}};SERVER={credentials['server']},{credentials['port']};DATABASE={credentials['database']};UID={credentials['username']};PWD={credentials['password']}"
 
 # Create PyODBC connection
 def connect_to_server():
@@ -31,7 +28,6 @@ def connect_to_server():
 
 st.title("ETF-Finder")
 st.button(label="Load Database", type="primary", on_click=connect_to_server)
-
 
 
 # ETF Filtering
