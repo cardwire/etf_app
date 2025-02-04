@@ -25,7 +25,7 @@ def init_connection():
             "MultipleActiveResultSets=False;"+
             "Encrypt=True;"+
             "TrustServerCertificate=False;"+
-            "Authentication="Active Directory Integrated"
+            "Authentication=Active Directory Integrated"
             )
             
         conn = pyodbc.connect(conn_str)
