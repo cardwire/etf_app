@@ -1,15 +1,6 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import sqlalchemy
-from sqlalchemy import create_engine
-import plotly.express as px
-import plotly.graph_objects as go
-import plotly.io as pio
-import plotly.figure_factory as ff
-import plotly.offline as pyo
 import urllib.parse
-import pypyodbc as odbc
+import streamlit as st
+from sqlalchemy import create_engine
 
 # Define the connection string using the environment variables
 credentials = {
@@ -22,9 +13,11 @@ credentials = {
 }
 
 # Create the connection string
-connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={urllib.parse.quote_plus(driver)}&TrustServerCertificate=yes'
+connection_string = f'mssql+pyodbc://{credentials["username"]}:{credentials["password"]}@{credentials["server"]}/{credentials["database"]}?driver={urllib.parse.quote_plus(credentials["driver"])}&TrustServerCertificate=yes'
+
 # Create the engine
 engine = create_engine(connection_string)
+
 
 
 # Title
