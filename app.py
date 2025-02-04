@@ -18,14 +18,16 @@ credentials = {
 @st.cache_resource
 def init_connection():
     try:
-        conn_str = (
-            DRIVER=="ODBC Driver 17 for SQL Server",
-            f"SERVER={credentials['server']}",
-            f"DATABASE={credentials['database']};"
-            f"UID={credentials['username']};"
-            f"PWD={credentials['password']};"
-            "TrustServerCertificate=yes;"
-        )
+        conn_str = (f"Server=tcp:myfreesqldbserverjonny.database.windows.net,1433;
+            Initial Catalog=myFreeDB;
+            Persist Security Info=False;
+            User ID={username};
+            MultipleActiveResultSets=False;
+            Encrypt=True;
+            TrustServerCertificate=False;
+            Authentication="Active Directory Integrated"
+            )
+            
         conn = pyodbc.connect(conn_str)
         st.write("✅ Connection successful!")
         return conn
