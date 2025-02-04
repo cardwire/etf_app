@@ -1,5 +1,5 @@
 import streamlit as st
-import pyodbc as odbc
+import pyodbc as ODBC
 import sqlalchemy
 from sqlalchemy import create_engine
 
@@ -19,7 +19,8 @@ credentials = {
 def init_connection():
     try:
         conn_str = (f"Server=tcp:myfreesqldbserverjonny.database.windows.net,1433;"+
-            "Initial Catalog=myFreeDB;?driver=ODBC Driver 17 for SQL Server"+
+            "Initial Catalog=myFreeDB;"+
+            "driver=ODBC Driver 17 for SQL Server"+
             "Persist Security Info=False;"+
             "User ID={username};"+
             "MultipleActiveResultSets=False;"+
