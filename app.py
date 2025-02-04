@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 from os import getenv
 import urllib.parse
 
+
+
+st.titel("ETF-Finder")
+
 # Load the environment variables
 load_dotenv()
 
