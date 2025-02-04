@@ -10,8 +10,8 @@ credentials = {
     'database': st.secrets['AZURE_SQL_DATABASE'],
     'username': st.secrets['AZURE_SQL_USERNAME'],
     'password': st.secrets['AZURE_SQL_PASSWORD'],
-    'driver': st.secrets['AZURE_SQL_DRIVER'],
-    'port': st.secrets["AZURE_SQL_PORT"]
+   
+   
 }
 
 # Initialize connection
@@ -19,8 +19,8 @@ credentials = {
 def init_connection():
     try:
         conn_str = (
-            f"DRIVER={credentials['driver']};"
-            f"SERVER={credentials['server']},{credentials['port']};"
+            f"DRIVER={credentials['driver'] = "ODBC Driver 17 for SQL Server"}"
+            f"SERVER={credentials['server']}",
             f"DATABASE={credentials['database']};"
             f"UID={credentials['username']};"
             f"PWD={credentials['password']};"
