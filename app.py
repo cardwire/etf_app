@@ -14,11 +14,13 @@ st.titel("ETF-Finder")
 load_dotenv()
 
 # Define the connection string using the environment variables
-server = os.getenv('AZURE_SQL_SERVER')
-database = os.getenv('AZURE_SQL_DATABASE')
-username = os.getenv('AZURE_SQL_USER')
-password =  os.getenv('AZURE_SQL_PASSWORD')
-driver = os.getenv('AZURE_SQL_DRIVER')
+credentials = {
+"server" : st.secrets['AZURE_SQL_SERVER']
+"database" : st.secrets['AZURE_SQL_DATABASE']
+"username" : st.secrets['AZURE_SQL_USER']
+"password" :  st.secrets['AZURE_SQL_PASSWORD']
+"driver" : st.secrets['AZURE_SQL_DRIVER']
+}
 
 # Create the connection string
 connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={urllib.parse.quote_plus(driver)}&TrustServerCertificate=yes'
