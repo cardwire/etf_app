@@ -20,7 +20,7 @@ connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?d
 # Create the engine
 engine = create_engine(connection_string)
 
-def connect_to_server: 
+def connect_to_server(): 
     try:
         with engine.connect() as connection:
             print("Connection successful!")
