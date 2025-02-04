@@ -4,7 +4,6 @@ numpy
 sqlalchemy
 psycopg2-binary
 plotly
-
 pyodbc==18.x.x
 requests
 BS4
