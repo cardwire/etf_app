@@ -19,7 +19,7 @@ credentials = {
 def init_connection():
     try:
         conn_str = (
-            f"DRIVER="{"ODBC Driver 17 for SQL Server"},
+            DRIVER="ODBC Driver 17 for SQL Server",
             f"SERVER={credentials['server']}",
             f"DATABASE={credentials['database']};"
             f"UID={credentials['username']};"
