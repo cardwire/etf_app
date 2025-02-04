@@ -4,8 +4,8 @@ numpy
 sqlalchemy
 psycopg2-binary
 plotly
-pyodbc 
-odbc
+pyodbc
+pypyodbc
 requests
 BS4
 selenium
