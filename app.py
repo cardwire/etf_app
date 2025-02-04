@@ -1,6 +1,5 @@
-import urllib.parse
 import streamlit as st
-import pyodbc  # Ensure pyodbc is installed
+import pyodbc
 
 # Load credentials from secrets
 credentials = {
@@ -16,18 +15,20 @@ credentials = {
 @st.cache_resource
 def init_connection():
     try:
-        conn = pyodbc.connect(
-            f"DRIVER={st.secrets['AZURE_SQL_DRIVER']};"
-            f"SERVER={st.secrets['AZURE_SQL_SERVER']};"
-            f"DATABASE={st.secrets['AZURE_SQL_DATABASE']};"
-            f"UID={st.secrets['AZURE_SQL_USERNAME']};"
-            f"PWD={st.secrets['AZURE_SQL_PASSWORD']};"
+        conn_str = (
+            f"DRIVER={credentials['driver']};"
+            f"SERVER={credentials['server']},{credentials['port']};"
+            f"DATABASE={credentials['database']};"
+            f"UID={credentials['username']};"
+            f"PWD={credentials['password']};"
             "TrustServerCertificate=yes;"
         )
+        conn = pyodbc.connect(conn_str)
         st.write("✅ Connection successful!")
         return conn
     except Exception as e:
         st.error(f"🚨 Connection failed: {e}")
+        st.error(f"Connection string used: {conn_str}")
         return None
 
 conn = init_connection()
@@ -52,7 +53,6 @@ if rows:
 
 
 
-
 # ETF Filtering
 # etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
@@ -60,7 +60,7 @@ if rows:
 # etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
- etfs = get_etfs()
+ #etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
 '''
