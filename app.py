@@ -1,5 +1,4 @@
-import streamlit as st
-import psychopg2
+
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from os import getenv
