@@ -8,6 +8,9 @@ st.title('ETF Overview and Comparison Tool')
 etfs = get_etfs()
 selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
+
+
+'''
 # Display ETF Details
 for etf in selected_etfs:
     st.header(etf.name)
@@ -24,3 +27,4 @@ for etf in selected_etfs:
     st.line_chart(etf_data['history']['Close'])
     st.subheader('Sustainability')
     st.write(etf_data['sustainability'])
+'''
