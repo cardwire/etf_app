@@ -51,6 +51,9 @@ conn.close()
 # ETF Filtering
 # etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
+# ETF Filtering
+# etfs = get_etfs()
+# selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
 
  etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
