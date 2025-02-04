@@ -11,7 +11,7 @@ import yfinance as yf
 
 st.markdown("# ETF Finder")
 
-basic_table = st.file_downloader(etf_df.csv)
+st.file_downloader(etf_df.csv) = basic_table
 st.button("Load Database", args=[1], on_click = st.table(basic_table))
 
 
