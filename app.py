@@ -21,14 +21,14 @@ credentials = {
     'port': st.secrets["AZURE_SQL_PORT"]
 }
 
-# Title
-st.title("ETF-Finder")
-
 # Create the connection string
-connection_string = f'mssql+pyodbc://{credentials["username"]}:{credentials["password"]}@{credentials["server"]}/{credentials["database"]}?driver={urllib.parse.quote_plus(credentials["driver"])}&TrustServerCertificate=yes'
-
+connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver={urllib.parse.quote_plus(driver)}&TrustServerCertificate=yes'
 # Create the engine
 engine = create_engine(connection_string)
+
+
+# Title
+st.title("ETF-Finder")
 
 def connect_to_server(): 
     try:
@@ -37,11 +37,15 @@ def connect_to_server():
     except Exception as e:
         st.write(f"Connection failed: {e}")
 
+
+st.subtitle('ETF Overview and Comparison Tool')
+st.markdown(# /Disclaimer: Data provided by this app is not an official source. I can not guarantee for itsquality and actuality, so take it witha grain of salt. Never use this app soleily to actually make financial decisiions with real money!)
+
 # Test the connection
 st.text("Click on load database to connect with SQL-Server")
 st.button(label="Load Database", type="primary", on_click=connect_to_server)
 
-st.title('ETF Overview and Comparison Tool')
+
 
 # ETF Filtering
 # etfs = get_etfs()
