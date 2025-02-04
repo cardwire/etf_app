@@ -8,11 +8,11 @@ import urllib.parse
 
 # Define the connection string using the environment variables
 credentials = {
-server : st.secrets['AZURE_SQL_SERVER']
-database : st.secrets['AZURE_SQL_DATABASE']
-username : st.secrets['AZURE_SQL_USERNAME']
-password :  st.secrets['AZURE_SQL_PASSWORD']
-driver : st.secrets['AZURE_SQL_DRIVER']
+server : st.secrets['AZURE_SQL_SERVER'],
+database : st.secrets['AZURE_SQL_DATABASE'],
+username : st.secrets['AZURE_SQL_USERNAME'],
+password :  st.secrets['AZURE_SQL_PASSWORD'],
+driver : st.secrets['AZURE_SQL_DRIVER'],
 port : st.secrets["AZURE_SQL-PORT"]
 }
 
