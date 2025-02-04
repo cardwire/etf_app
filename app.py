@@ -27,7 +27,7 @@ def connect_to_server:
         with engine.connect() as connection:
             print("Connection successful!")
     except Exception as e:
-        print(f"Connection failed: {e}"))
+        print(f"Connection failed: {e}")
 
 
 
