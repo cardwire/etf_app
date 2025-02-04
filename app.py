@@ -1,6 +1,5 @@
 import streamlit as st
 import pyodbc as odbc
-from odbc import connect
 from odbc import driver
 import sqlalchemy
 from sqlalchemy import create_engine
