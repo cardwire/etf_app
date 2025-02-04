@@ -12,7 +12,7 @@ import yfinance as yf
 st.markdown("# ETF Finder")
 
 
-st.button(label = "Load Database", type= "primary", on_click = st.dataframe(etf_df.csv) )
+st.button("Load Database", type= "primary", on_click = st.dataframe(etf_df.csv) )
 
 
 # ETF Filtering
