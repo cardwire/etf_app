@@ -10,7 +10,6 @@ etf_df.drop(columns = "maxAge", axis=1, inplace= True)
 
 # Add a checkbox column
 etf_df['select'] = False
-
 st.dataframe(etf_df)
 
 
