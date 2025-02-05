@@ -4,6 +4,7 @@ import pandas as pd
 
 st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
+st.dataframe(etf_df)
 
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
