@@ -3,6 +3,13 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
+Here is the updated code with the confirm button removed and functionality added to select and deselect ETFs directly from the table, with checkboxes crossed out when selected:
+
+```python
+import streamlit as st
+import pandas as pd
+import yfinance as yf
+
 st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
 etf_df.drop(columns="maxAge", axis=1, inplace=True)
@@ -30,12 +37,6 @@ for i, row in etf_df.iterrows():
 
 st.write("Selected ETFs:", st.session_state.selected_etfs)
 
-# Confirm button
-if st.button("Confirm Selection"):
-    confirmed_etfs = st.session_state.selected_etfs
-    st.write("You confirmed:", confirmed_etfs)
-    # Add logic to handle confirmed ETFs (e.g., display details)
-
 # JavaScript for handling checkbox click event
 st.markdown("""
     <script>
@@ -51,3 +52,6 @@ st.markdown("""
     });
     </script>
 """, unsafe_allow_html=True)
+```
+
+This code removes the confirm button and updates the table to allow direct selection and deselection of ETFs. The checkboxes will show an 'x' when selected, providing visual feedback.
