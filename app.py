@@ -24,9 +24,6 @@ def toggle_selection(symbol):
     else:
         st.session_state.selected_etfs.append(symbol)
 
-st.text("Click once on a symbol to select, click again to deselect. Max 5 selections.")
-st.write("Selected ETFs:", st.session_state.selected_etfs)
-
 # Display the scrollable table with checkboxes
 for i, row in etf_df.iterrows():
     if len(st.session_state.selected_etfs) < 5 or row['symbol'] in st.session_state.selected_etfs:
