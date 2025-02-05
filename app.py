@@ -29,7 +29,7 @@ for i, row in etf_df.iterrows():
     if row['select'] and row['symbol'] not in st.session_state.selected_etfs:
         toggle_selection(row['symbol'])
     elif not row['select'] and row['symbol'] in st.session_state.selected_etfs:
-        toggle_selection(row['symbol'])
+        toggle_selection(row['symbol'], st.checkbox())
 
 st.write("Selected ETFs:", st.session_state.selected_etfs)
 
