@@ -13,6 +13,7 @@ etf_df['select'] = False
 
 st.dataframe(etf_df)
 
+
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
     st.session_state.selected_etfs = []
