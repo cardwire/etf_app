@@ -6,8 +6,9 @@ import yfinance as yf
 
 
 st.markdown("# ETF Finder")
+
 etf_df = pd.read_csv("database/etf_df.csv")
-etf_df.drop(columns="maxAge", axis=1, inplace=True)
+
 
 # Add a checkbox column
 etf_df['select'] = False
