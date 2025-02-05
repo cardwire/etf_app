@@ -16,10 +16,9 @@ etf_df = pd.read_csv("database/etf_df.csv")
 
 st.text("select up to 5 ETFs for multiple comparisons")
 options = "select up to 5 ETFs", [etf_df.symbol] 
-st.multiselect("select ETFs",options = f"{etf_df.symbol}", max_selections=5)
+st.multiselect("select ETFs",options = f"{etf_df.symbol}")
 #st.button("Load Database", type= "primary", on_click = st.dataframe(etf_df) )
-st.write("you selected", options)
-
+st.write("you selected", options,  max_selections=5)
 # ETF Filtering
 # etfs = get_etfs()
 # selected_etfs = st.multiselect('Select up to 5 ETFs to compare', etfs, default=etfs[:5])
