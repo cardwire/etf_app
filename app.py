@@ -3,8 +3,6 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
-
-
 st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
 etf_df.drop(columns="maxAge", axis=1, inplace=True)
@@ -37,3 +35,19 @@ if st.button("Confirm Selection"):
     confirmed_etfs = st.session_state.selected_etfs
     st.write("You confirmed:", confirmed_etfs)
     # Add logic to handle confirmed ETFs (e.g., display details)
+
+# JavaScript for handling checkbox click event
+st.markdown("""
+    <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', function() {
+            if (this.checked) {
+                this.nextSibling.textContent = 'x';
+            } else {
+                this.nextSibling.textContent = '';
+            }
+        });
+    });
+    </script>
+""", unsafe_allow_html=True)
