@@ -3,12 +3,7 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
-Here is the updated code with the confirm button removed and functionality added to select and deselect ETFs directly from the table, with checkboxes crossed out when selected:
 
-```python
-import streamlit as st
-import pandas as pd
-import yfinance as yf
 
 st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
