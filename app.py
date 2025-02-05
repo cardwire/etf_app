@@ -1,12 +1,4 @@
 
-1. Load the ETF data into a DataFrame.
-2. Create a scrollable table for selecting/deselecting ETFs.
-3. Implement logic to handle selection/deselection.
-4. Add a confirm button to finalize the selection.
-
-Here is the updated code:
-
-```python
 import streamlit as st
 import pandas as pd
 
@@ -38,4 +30,4 @@ if st.button("Confirm Selection"):
     confirmed_etfs = st.session_state.selected_etfs
     st.write("You confirmed:", confirmed_etfs)
     # Add logic to handle confirmed ETFs (e.g., display details)
-```
+
