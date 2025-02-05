@@ -7,13 +7,13 @@ import plotly.io as pio
 import plotly.figure_factory as ff
 import plotly.offline as pyo
 import yfinance as yf
-from database import etf_df
+
 
 
 st.markdown("# ETF Finder")
 
-
-st.button("Load Database", type= "primary", on_click = st.dataframe(etf_df.csv) )
+etf_df = pd.read_csv("")
+st.button("Load Database", type= "primary", on_click = st.dataframe(etf_df) )
 
 
 # ETF Filtering
