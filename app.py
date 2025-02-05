@@ -47,6 +47,3 @@ st.markdown("""
     });
     </script>
 """, unsafe_allow_html=True)
-```
-
-This code removes the confirm button and updates the table to allow direct selection and deselection of ETFs. The checkboxes will show an 'x' when selected, providing visual feedback.
