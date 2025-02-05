@@ -14,7 +14,7 @@ st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
 
 st.text("select up to 5 ETFs for multiple comparisons")
-st.multiselect("select ETFs,options =etf_df.symbol, max_selections=5")
+st.multiselect("select ETFs",options = "etf_df.symbol", max_selections=5")
 #st.button("Load Database", type= "primary", on_click = st.dataframe(etf_df) )
 
 
