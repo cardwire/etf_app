@@ -31,3 +31,9 @@ if st.button("Confirm Selection"):
     st.write("You confirmed:", confirmed_etfs)
     # Add logic to handle confirmed ETFs (e.g., display details)
 
+
+
+
+
+
+
