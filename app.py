@@ -12,7 +12,7 @@ import yfinance as yf
 
 st.markdown("# ETF Finder")
 
-etf_df = pd.read_csv("")
+etf_df = pd.read_csv("database/etf_df.csv")
 st.button("Load Database", type= "primary", on_click = st.dataframe(etf_df) )
 
 
