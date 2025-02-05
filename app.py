@@ -1,4 +1,3 @@
-To implement a scrollable database where clicking once on a symbol selects it and clicking again deselects it, along with a confirm button, follow these steps:
 
 1. Load the ETF data into a DataFrame.
 2. Create a scrollable table for selecting/deselecting ETFs.
@@ -40,5 +39,3 @@ if st.button("Confirm Selection"):
     st.write("You confirmed:", confirmed_etfs)
     # Add logic to handle confirmed ETFs (e.g., display details)
 ```
-
-Replace the existing code with this snippet to implement the new selection method.
