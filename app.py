@@ -7,7 +7,7 @@ st.markdown("# ETF Finder")
 
 
 etf_df = pd.read_csv("database/etf_df.csv")
-etf_df["daylow"] = daylow for symbol in etf_df.symbol.apply()
+etf_df["daylow"] = daylow for symbol in etf_df.symbol.apply_map()
 
 
 # Initialize session state for selected ETFs
