@@ -3,12 +3,18 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
+
 st.markdown("# ETF Finder")
 
-
 etf_df = pd.read_csv("database/etf_df.csv")
-etf_df["daylow"] = daylow for symbol in etf_df.symbol.apply_map()
 
+# Function to get day low for a given symbol
+def get_daylow(symbol):
+    ticker = yf.Ticker(symbol)
+    return ticker.info['dayLow']
+
+# Apply the function to get day low values
+etf_df['daylow'] = etf_df['symbol'].apply(get_daylow)
 
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
@@ -30,6 +36,5 @@ for i, row in etf_df.iterrows():
         toggle_selection(row['symbol'])
 
 st.write("Selected ETFs:", st.session_state.selected_etfs)
-```
 
-This implementation uses `st.checkbox` to handle the checkbox state and updates the session state accordingly. The selected ETFs are displayed below the table.
+This updated code should resolve the issues and ensure that checkboxes get selected on clicking and the session state changes accordingly.
