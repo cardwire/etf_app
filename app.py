@@ -36,5 +36,3 @@ for i, row in etf_df.iterrows():
         toggle_selection(row['symbol'])
 
 st.write("Selected ETFs:", st.session_state.selected_etfs)
-
-This updated code should resolve the issues and ensure that checkboxes get selected on clicking and the session state changes accordingly.
