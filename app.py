@@ -3,13 +3,12 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
-
 st.markdown("# ETF Finder")
 
 etf_df = pd.read_csv("database/etf_df.csv")
 
 # Function to get day low for a given symbol
-def get_daylow(checkbox):
+def get_daylow(symbol):
     ticker = yf.Ticker(symbol)
     return ticker.info['dayLow']
 
