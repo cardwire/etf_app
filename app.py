@@ -9,7 +9,7 @@ st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
 
 # Function to get day low for a given symbol
-def get_daylow(symbol):
+def get_daylow(checkbox):
     ticker = yf.Ticker(symbol)
     return ticker.info['dayLow']
 
