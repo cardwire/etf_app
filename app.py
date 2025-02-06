@@ -1,10 +1,10 @@
-
 import streamlit as st
 import pandas as pd
 import yfinance as yf
 
 st.markdown("# ETF Finder")
 
+# Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
 
 # Function to get day low for a given symbol
@@ -28,10 +28,20 @@ def toggle_selection(symbol):
 
 # Display the dataframe with checkboxes
 for i, row in etf_df.iterrows():
-    checkbox = st.checkbox(row['symbol'], key=row['symbol'], value=row['symbol'] in st.session_state.selected_etfs)
-    if checkbox and row['symbol'] not in st.session_state.selected_etfs:
-        toggle_selection(row['symbol'])
-    elif not checkbox and row['symbol'] in st.session_state.selected_etfs:
-        toggle_selection(row['symbol'])
+    # Create a checkbox for each ETF symbol
+    checkbox = st.checkbox(
+        f"{row['symbol']} - {row['daylow']}", 
+        key=row['symbol'], 
+        value=row['symbol'] in st.session_state.selected_etfs
+    )
+    
+    # Update the session state based on the checkbox state
+    if checkbox:
+        if row['symbol'] not in st.session_state.selected_etfs:
+            toggle_selection(row['symbol'])
+    else:
+        if row['symbol'] in st.session_state.selected_etfs:
+            toggle_selection(row['symbol'])
 
+# Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
