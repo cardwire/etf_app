@@ -4,11 +4,9 @@ import pandas as pd
 import yfinance as yf
 
 
-
 st.markdown("# ETF Finder")
 
 etf_df = pd.read_csv("database/etf_df.csv")
-
 
 # Add a checkbox column
 etf_df['select'] = False
@@ -29,7 +27,7 @@ for i, row in etf_df.iterrows():
     if row['select'] and row['symbol'] not in st.session_state.selected_etfs:
         toggle_selection(row['symbol'])
     elif not row['select'] and row['symbol'] in st.session_state.selected_etfs:
-        toggle_selection(row['symbol'], st.checkbox())
+        toggle_selection(row['symbol'])
 
 st.write("Selected ETFs:", st.session_state.selected_etfs)
 
@@ -40,11 +38,13 @@ st.markdown("""
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('click', function() {
             if (this.checked) {
+                this.parentElement.style.textDecoration = 'line-through';
                 this.nextSibling.textContent = 'x';
             } else {
+                this.parentElement.style.textDecoration = 'none';
                 this.nextSibling.textContent = '';
             }
         });
     });
     </script>
-"""unsafe_allow_html=True)
+""", unsafe_allow_html=True)
