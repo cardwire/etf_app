@@ -8,12 +8,12 @@ st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
 
 # Function to get day low for a given symbol
+daylow = []
 def get_daylow(symbol):
-    ticker = yf.Ticker(symbol)
+    for symbol in range len(etf_df.symbol):
+        daylow[i] =  yf.Ticker(symbol).info().daylow()
     return ticker.info['dayLow']
 
-# Apply the function to get day low values
-etf_df['daylow'] = etf_df['symbol'].apply(get_daylow)
 
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
