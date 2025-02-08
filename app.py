@@ -15,6 +15,9 @@ def get_daylow(symbol):
         daylow[i] =  yf.Ticker(symbol).info().daylow()
     return ticker.info['dayLow']
 
+# add column
+etf_df["dayLow"] = ticker.info['dayLow']
+
 #initialize database
 st.dataframe(etf_df)
 
