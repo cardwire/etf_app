@@ -7,7 +7,7 @@ st.markdown("# ETF Finder")
 etf_df = pd.read_csv("database/etf_df.csv")
 
 # Display dataframe
-st.write("ETF Data:", etf_df.head())
+st.dataframe(etf_df)
 
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
@@ -23,7 +23,6 @@ def toggle_selection(symbol):
 # Display the dataframe with checkboxes
 for i, row in etf_df.iterrows():
     checkbox = st.checkbox(
-        f"{row['symbol']}, 
         key=row['symbol'], 
         value=row['symbol'] in st.session_state.selected_etfs
     )
