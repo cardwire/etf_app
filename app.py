@@ -1,15 +1,10 @@
 import streamlit as st
 import pandas as pd
-import yfinance as yf
-import time
 
 st.markdown("# ETF Finder")
 
 # Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
-
-
-
 
 # Display dataframe
 st.write("ETF Data:", etf_df.head())
@@ -28,7 +23,7 @@ def toggle_selection(symbol):
 # Display the dataframe with checkboxes
 for i, row in etf_df.iterrows():
     checkbox = st.checkbox(
-        f"{row['symbol']} - {row['dayLow']}", 
+        f"{row['symbol']} - {row.get('dayLow', 'N/A')}", 
         key=row['symbol'], 
         value=row['symbol'] in st.session_state.selected_etfs
     )
@@ -43,4 +38,5 @@ for i, row in etf_df.iterrows():
 
 # Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
+
 
