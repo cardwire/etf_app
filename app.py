@@ -1,22 +1,39 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
+import time
 
 st.markdown("# ETF Finder")
 
 # Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
 
-# Function to get day low for a given symbol
-def get_daylow(symbol):
-    try:
-        return yf.Ticker(symbol).info.get('dayLow', None)
-    except Exception as e:
-        st.warning(f"Failed to get data for {symbol}: {e}")
-        return None
+# Function to get day low for a batch of symbols
+def get_daylow_batch(symbols):
+    day_low_dict = {}
+    
+    for i in range(0, len(symbols), 50):  # Process in chunks of 50
+        batch = symbols[i:i+50]
+        tickers = yf.Tickers(" ".join(batch))  # Fetch multiple tickers at once
+
+        for symbol in batch:
+            try:
+                day_low = tickers.tickers[symbol].info.get('dayLow', None)
+                day_low_dict[symbol] = day_low
+            except Exception as e:
+                st.warning(f"Failed to get data for {symbol}: {e}")
+                day_low_dict[symbol] = None
+        
+        time.sleep(1)  # Pause for 1 second before processing the next batch
+
+    return day_low_dict
+
+# Fetch the dayLow values in batches
+symbols = etf_df["symbol"].tolist()
+day_low_values = get_daylow_batch(symbols)
 
 # Add dayLow column to etf_df
-etf_df["dayLow"] = etf_df["symbol"].apply(get_daylow)
+etf_df["dayLow"] = etf_df["symbol"].map(day_low_values)
 
 # Display dataframe
 st.write("ETF Data:", etf_df.head())
@@ -50,3 +67,4 @@ for i, row in etf_df.iterrows():
 
 # Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
+
