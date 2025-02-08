@@ -8,25 +8,8 @@ st.markdown("# ETF Finder")
 # Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
 
-# Function to get day low for a batch of symbols
-def get_daylow_batch(symbols):
-    day_low_dict = {}
-    
-    for i in range(0, len(symbols), 50):  # Process in chunks of 50
-        batch = symbols[i:i+50]
-        tickers = yf.Tickers(" ".join(batch))  # Fetch multiple tickers at once
 
-        for symbol in batch:
-            try:
-                day_low = tickers.tickers[symbol].info.get('dayLow', None)
-                day_low_dict[symbol] = day_low
-            except Exception as e:
-                st.warning(f"Failed to get data for {symbol}: {e}")
-                day_low_dict[symbol] = None
-        
-        time.sleep(1)  # Pause for 1 second before processing the next batch
 
-    return day_low_dict
 
 # Fetch the dayLow values in batches
 symbols = etf_df["symbol"].tolist()
