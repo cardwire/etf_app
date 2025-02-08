@@ -15,6 +15,7 @@ if 'selected_etfs' not in st.session_state:
 
 # Function to toggle selection
 def toggle_selection(symbol):
+    symbol = etf_df.symbol
     if symbol in st.session_state.selected_etfs:
         st.session_state.selected_etfs.remove(symbol)
     else:
