@@ -7,6 +7,9 @@ st.markdown("# ETF Finder")
 # Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
 
+#initialize database
+st.dataframe(etf_df)
+
 # Function to get day low for a given symbol
 daylow = []
 def get_daylow(symbol):
