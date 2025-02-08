@@ -23,8 +23,8 @@ def toggle_selection(symbol):
 # Display the dataframe with checkboxes
 for i, row in etf_df.iterrows():
     checkbox = st.checkbox(
-        key=row['symbol'], 
-        value=row['symbol'] in st.session_state.selected_etfs
+    key=row['symbol'], 
+    value=row['symbol'] in st.session_state.selected_etfs
     )
 
     # Update session state based on the checkbox state
