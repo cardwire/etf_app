@@ -23,7 +23,7 @@ def toggle_selection(symbol):
 # Display the dataframe with checkboxes
 for i, row in etf_df.iterrows():
     checkbox = st.checkbox(
-        f"{row['symbol']} - {row.get('dayLow', 'N/A')}", 
+        f"{row['symbol']}, 
         key=row['symbol'], 
         value=row['symbol'] in st.session_state.selected_etfs
     )
