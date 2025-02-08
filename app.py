@@ -9,14 +9,11 @@ etf_df = pd.read_csv("database/etf_df.csv")
 
 
 # Function to get day low for a given symbol
-daylow = []
 def get_daylow(symbol):
-    for symbol in etf_df.symbol:
-        daylow[i] =  yf.Ticker(symbol).info().daylow()
-    return ticker.info['dayLow']
+    return yf.Ticker(symbol).info['dayLow']
 
-# add column
-etf_df["dayLow"] = ticker.info['dayLow']
+# Add dayLow column to etf_df
+etf_df["dayLow"] = etf_df["symbol"].apply(get_daylow)
 
 #initialize database
 st.dataframe(etf_df)
