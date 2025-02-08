@@ -14,12 +14,12 @@ if 'selected_etfs' not in st.session_state:
     st.session_state.selected_etfs = []
 
 # Function to toggle selection
-def toggle_selection(symbol):
-    symbol = etf_df.symbol
-    if symbol in st.session_state.selected_etfs:
-        st.session_state.selected_etfs.remove(symbol)
+def toggle_selection(etf_df.symbol):
+   
+    if etf_df.symbol in st.session_state.selected_etfs:
+        st.session_state.selected_etfs.remove(etf_df.symbol)
     else:
-        st.session_state.selected_etfs.append(symbol)
+        st.session_state.selected_etfs.append(etf_df.symbol)
 
 # Display the dataframe with checkboxes
 for i, row in etf_df.iterrows():  # Fix: Correct way to iterate over DataFrame rows
