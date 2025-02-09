@@ -6,7 +6,6 @@ st.markdown("# ETF Finder")
 # Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
 
-info_df = pd.read_csv("database/etf_info.csv)
 
 
 
