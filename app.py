@@ -1,6 +1,4 @@
-Here is the content of your `app.py` file with some syntax errors that need fixing:
 
-```python
 import streamlit as st
 import pandas as pd
 
@@ -45,9 +43,4 @@ for i, row in etf_df.iterrows():
 
 # Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
-```
 
-Here are the changes made:
-1. Corrected the `sort_values` method call.
-2. Fixed the `on_click` parameter in `st.button`.
-3. Adjusted the `toggle_selection` function to take a symbol instead of `etf_df.symbol`.
