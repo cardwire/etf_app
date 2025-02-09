@@ -22,17 +22,18 @@ type_counts = data['type'].value_counts().reset_index()
 type_counts.columns = ['type', 'count']
 
 # Bar plot of df.type in plotly
-st.plot(fig = px.bar(type_counts, x='type', y='count', title='ETF Types')
-  #change background color to white, add gridlines in grey, and change font size
-  fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
-  #set bar outlines to black
-  fig.update_traces(marker_line_color='black', marker_line_width=1)
-  #set bar colors to deepskyblueblue
-  fig.update_traces(marker_color='deepskyblue')
-  #remove "type" from x-axis
-  fig.update_xaxes(title_text='')
-  #center title
-  fig.update_layout(title_x=0.5)
-  fig.show()
-)
+fig = px.bar(type_counts, x='type', y='count', title='ETF Types')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#set bar outlines to black
+fig.update_traces(marker_line_color='black', marker_line_width=1)
+#set bar colors to deepskyblueblue
+fig.update_traces(marker_color='deepskyblue')
+#remove "type" from x-axis
+fig.update_xaxes(title_text='')
+#center title
+fig.update_layout(title_x=0.5)
+fig.show()
+
+st.plotly_chart(fig)
 
