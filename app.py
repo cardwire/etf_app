@@ -223,6 +223,7 @@ data['category_numeric'] = data['type'].map(category_mapping)
 # plot the 3D UMAP in plotly
 hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
 data_final_umap_with_hover = pd.concat([data_final_umap, hover_data.reset_index(drop=True)], axis=1)
+
 fig = px.scatter_3d(data_final_umap_with_hover, x='UMAP1', y='UMAP2', z='UMAP3', color = data['type'], color_discrete_sequence=px.colors.qualitative.Dark2, hover_data=hover_data.columns)
 fig.update_traces(marker=dict(size=1.5), opacity=0.8)
 # change background color to white, add gridlines in grey, and change font size
