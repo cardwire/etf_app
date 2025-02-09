@@ -10,5 +10,5 @@ BS4
 selenium
 yfinance
 openpyxl
-sklearn
+scikit_learn
 umap
