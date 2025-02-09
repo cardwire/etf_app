@@ -8,7 +8,7 @@ import plotly.express as px
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
-import umap
+import umap.umap_ as umap
 
 
 st.markdown("# ETF Finder")
