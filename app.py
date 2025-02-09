@@ -11,6 +11,14 @@ from sklearn.preprocessing import StandardScaler
 import umap
 from umap import UMAP
 
+st.set_page_config(
+    page_title="Mainpage",
+    page_icon="👋",
+)
+
+
+st.sidebar.success("Select a demo above.")
+
 
 st.markdown("# ETF Finder")
 
