@@ -1,4 +1,4 @@
-
+import yfinance as yf
 import streamlit as st
 import pandas as pd
 
@@ -11,35 +11,22 @@ st.dataframe(etf_df)
 
 st.divider()
 
-def top10_dividend(etf_df):
-    etf_df.sort_values("dividends", ascending=False).head(10)
+def get_tickers(etf_df):
+    for symbol in etf_df.symbol:
+        ticker = []
+        ticker = ticker.append(yf.Ticker("symbol"))
 
-st.button("Show Top 10 ETFs by Dividends", on_click=top10_dividend, args=(etf_df,))
+def top10_dividend(ticker):
+    for ticker in ticker:
+        dividends = ticker.info().dividend()
 
-# Initialize session state for selected ETFs
-if 'selected_etfs' not in st.session_state:
-    st.session_state.selected_etfs = []
+     return dividends.srt_values("ascending" = False).head(10)
 
-# Function to toggle selection
-def toggle_selection(symbol):
-    if symbol in st.session_state.selected_etfs:
-        st.session_state.selected_etfs.remove(symbol)
-    else:
-        st.session_state.selected_etfs.append(symbol)
+st.button("Show Top 10 ETFs by Dividends", on_click=top10_dividend, args=(ticker,))
 
-# Display the dataframe with checkboxes
-for i, row in etf_df.iterrows():
-    checkbox = st.checkbox(
-        label=f"{row['symbol']}",
-        key=row['symbol'],
-        value=row['symbol'] in st.session_state.selected_etfs
-    )
 
-    # Update session state based on the checkbox state
-    if checkbox and row['symbol'] not in st.session_state.selected_etfs:
-        toggle_selection(row['symbol'])
-    elif not checkbox and row['symbol'] in st.session_state.selected_etfs:
-        toggle_selection(row['symbol'])
+
+
 
 # Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
