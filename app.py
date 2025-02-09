@@ -28,10 +28,6 @@ elif page == "Page 2":
 elif page == "Page 3":
     switch_page("page3")
 
-st.sidebar.success("Exploratory Data Analysis","3D Cluster Analysis", "Funds Analizer")
-
-st.markdown("# Page 1")
-st.write("Welcome to the Main Page ")
 
 
 st.markdown("# ETF Finder")
