@@ -12,3 +12,4 @@ yfinance
 openpyxl
 scikit_learn
 umap
+umap-learn
