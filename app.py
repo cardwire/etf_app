@@ -1,3 +1,4 @@
+
 import yfinance as yf
 import streamlit as st
 import pandas as pd
@@ -12,22 +13,21 @@ st.dataframe(etf_df)
 st.divider()
 
 def get_tickers(etf_df):
+    tickers = []
     for symbol in etf_df.symbol:
-        ticker = []
-        ticker = ticker.append(yf.Ticker("symbol"))
+        tickers.append(yf.Ticker(symbol))
+    return tickers
 
-def top10_dividend(ticker):
-    for ticker in ticker:
-        dividends = ticker.info().dividend()
+def top10_dividend(tickers):
+    dividends = []
+    for ticker in tickers:
+        dividends.append(ticker.info.get('dividend', 0))
+        
+    return sorted(dividends, reverse=True)[:10]
 
-     return dividends.srt_values("ascending" = False).head(10)
+tickers = get_tickers(etf_df)
 
-st.button("Show Top 10 ETFs by Dividends", on_click=top10_dividend, args=(ticker,))
-
-
-
-
+st.button("Show Top 10 ETFs by Dividends", on_click=top10_dividend, args=(tickers,))
 
 # Display the selected ETFs
-st.write("Selected ETFs:", st.session_state.selected_etfs)
-
+st.write("Selected ETFs:", st.session_state.get('selected_etfs', []))
