@@ -174,27 +174,27 @@ st.divider()
 #drop currency
 data = data.drop(columns = ["currency"], axis = 1)
 # selcting only the numeric columns
-df_numeric = df.select_dtypes(include=[np.number])
+data_numeric = data.select_dtypes(include=[np.number])
 
 # Replace infinite values with NaN
-df_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
+data_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
 
 imputer = IterativeImputer()
-df_numeric_imputed = imputer.fit_transform(df_numeric)
-df_numeric_imputed = pd.DataFrame(df_numeric_imputed, columns=df_numeric.columns)
+data_numeric_imputed = imputer.fit_transform(data_numeric)
+data_numeric_imputed = pd.DataFrame(data_numeric_imputed, columns=data_numeric.columns)
 
 # scale the numeric columns
 scaler = StandardScaler()
-df_numeric_imputed_scaled = scaler.fit_transform(df_numeric_imputed)
-df_numeric_imputed_scaled = pd.DataFrame(df_numeric_imputed_scaled, columns=df_numeric_imputed.columns)
+data_numeric_imputed_scaled = scaler.fit_transform(data_numeric_imputed)
+data_numeric_imputed_scaled = pd.DataFrame(data_numeric_imputed_scaled, columns=data_numeric_imputed.columns)
 
 #selecting only the categorical columns
-df_categorical = df.select_dtypes(include=[object])
+data_categorical = data.select_dtypes(include=[object])
 #selecting only the categorical columns
-df_categorical = df.select_dtypes(include=[object])
-df_categorical.head()
+data_categorical = data.select_dtypes(include=[object])
+data_categorical.head()
 
-cats_to_add = df_categorical[["type", "category"]]
+cats_to_add = data_categorical[["type", "category"]]
 
 # one-hot encode the categorical columns
 cat_columns = pd.get_dummies(cats_to_add)
@@ -202,27 +202,27 @@ cat_columns = pd.get_dummies(cats_to_add)
 cat_columns = cat_columns.astype(int)
 
 # combine the one-hot encoded categorical columns with the scaled numeric columns
-df_final = pd.concat([df_numeric_imputed_scaled, cat_columns], axis=1)
+data_final = pd.concat([data_numeric_imputed_scaled, cat_columns], axis=1)
 
 #create a new column with the symbol of the ETF
-df_final['symbol'] = df['symbol']
+data_final['symbol'] = data['symbol']
 
 # calculate 3D umap clustering of the final dataframe
-if 'symbol' in df_final.columns:
-	df_final = df_final.drop(columns=["symbol"], axis=1)
+if 'symbol' in data_final.columns:
+	data_final = data_final.drop(columns=["symbol"], axis=1)
   
 reducer = umap.UMAP(n_components=3, metric='euclidean', n_neighbors=25, min_dist=0.5)
-df_final_umap = reducer.fit_transform(df_final)
-df_final_umap = pd.DataFrame(df_final_umap, columns=['UMAP1', 'UMAP2', 'UMAP3'])
+data_final_umap = reducer.fit_transform(data_final)
+data_final_umap = pd.DataFrame(data_final_umap, columns=['UMAP1', 'UMAP2', 'UMAP3'])
 
 # map categories to numeric values
-category_mapping = {category: idx for idx, category in enumerate(df['category'].unique())}
-df['category_numeric'] = df['type'].map(category_mapping)
+category_mapping = {category: idx for idx, category in enumerate(data['category'].unique())}
+data['category_numeric'] = data['type'].map(category_mapping)
 
 # plot the 3D UMAP in plotly
-hover_data = df[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
-df_final_umap_with_hover = pd.concat([df_final_umap, hover_data.reset_index(drop=True)], axis=1)
-fig = px.scatter_3d(df_final_umap_with_hover, x='UMAP1', y='UMAP2', z='UMAP3', color=df['type'], color_discrete_sequence=px.colors.qualitative.Dark2, hover_data=hover_data.columns)
+hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
+data_final_umap_with_hover = pd.concat([data_final_umap, hover_data.reset_index(drop=True)], axis=1)
+fig = px.scatter_3d(data_final_umap_with_hover, x='UMAP1', y='UMAP2', z='UMAP3', color=df['type'], color_discrete_sequence=px.colors.qualitative.Dark2, hover_data=hover_data.columns)
 fig.update_traces(marker=dict(size=1.5), opacity=0.8)
 # change background color to white, add gridlines in grey, and change font size
 fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
