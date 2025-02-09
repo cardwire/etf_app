@@ -8,8 +8,7 @@ etf_df = pd.read_csv("database/etf_df.csv")
 
 info_df = pd.read_csv("database/etf_info.csv)
 
-# Display dataframe
-st.dataframe(etf_df)
+
 
 st.divider()
 
