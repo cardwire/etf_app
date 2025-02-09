@@ -11,16 +11,12 @@ from sklearn.preprocessing import StandardScaler
 import umap
 from umap import UMAP
 
-create_page = st.Page("create.py", title="Create entry", icon=":material/add_circle:")
-
-pg = st.navigation([create_page])
-
-st.set_page_config(page_title="Data manager", page_icon=":material/edit:")
-
-pg.run()
-
+st.set_page_config(page_title="Page 1", page_icon=":page_facing_up:")
 
 st.sidebar.success("Select a demo above.")
+
+st.markdown("# Page 1")
+st.write("Welcome to Page 1!")
 
 
 st.markdown("# ETF Finder")
