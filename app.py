@@ -138,3 +138,27 @@ fig2.update_traces(histnorm='percent', xbins=dict(size=0.1))
 
 fig2.show()
 st.plotly_chart(fig2)
+
+########################################################################
+st.write("you selectdet SPY")
+
+symbol = 'SPY' #implement selct function
+
+ticker = yf.Ticker(f'{symbol}')
+hist = ticker.history(period='1d', interval='1m')
+
+# plot the price of SPY in plotly as candlestick chart
+fig = go.Figure(data=[go.Candlestick(x=hist.index,
+                open=hist['Open'],
+                high=hist['High'],
+                low=hist['Low'],
+                close=hist['Close'])])
+fig.update_layout(title=f'{symbol} Todays Price', xaxis_title='Date', yaxis_title='Price')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#center title
+fig.update_layout(title_x=0.5)
+
+fig.show()
+
+st.plotly_chart(fig)
