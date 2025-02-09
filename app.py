@@ -10,6 +10,5 @@ etf_data = pd.read_csv("database/etf_data.csv")
 
 st.dataframe(etf_data)
 
-st.divider()
 
 
