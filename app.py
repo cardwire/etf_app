@@ -8,7 +8,6 @@ st.markdown("# ETF Finder")
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 
-st.dataframe(df)
-
+st.dataframe(data)
 
 
