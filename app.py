@@ -13,17 +13,16 @@ import umap
 from umap import UMAP
 from streamlit_extras.switch_page_button import switch_page
 
-st.set_page_config(page_title="Main Page", page_icon=":page_facing_up:")
+st.set_page_config(page_title="Page 1", page_icon=":page_facing_up:")
 
 st.sidebar.title("Navigation")
 st.sidebar.success("Select a page below:")
-page = st.sidebar.radio("Go to", ["Main Page", "Page 1", "Page 2", "Page 3"])
+page = st.sidebar.radio("Go to", [ "Page 1", "Page 2", "Page 3"])
 
-if page == "app.py":
+if page == "Page 1":
     st.markdown("# Main Page")
     st.write("Welcome to the Main Page")
-elif page == "Page 1":
-    switch_page("Page 1.py")
+
 elif page == "Page 2":
     switch_page("Page 2.py")
 elif page == "Page 3":
