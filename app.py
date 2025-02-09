@@ -14,6 +14,11 @@ st.dataframe(etf_df)
 st.divider()
 
 
+def top10_dividend(etf_df):
+    etf_df.dividends().sort_values("ascending" = False)head(10)
+
+st.button("show Top10 ETFs by Dividends", "on_click" = top10_dividend())
+
 
 '''
 # Initialize session state for selected ETFs
