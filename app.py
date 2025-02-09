@@ -11,10 +11,13 @@ from sklearn.preprocessing import StandardScaler
 import umap
 from umap import UMAP
 
-st.set_page_config(
-    page_title="Mainpage",
-    page_icon="👋",
-)
+create_page = st.Page("create.py", title="Create entry", icon=":material/add_circle:")
+
+pg = st.navigation([create_page])
+
+st.set_page_config(page_title="Data manager", page_icon=":material/edit:")
+
+pg.run()
 
 
 st.sidebar.success("Select a demo above.")
