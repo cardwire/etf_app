@@ -1,3 +1,4 @@
+
 import numpy as np
 import yfinance as yf
 import streamlit as st
@@ -18,16 +19,18 @@ st.sidebar.title("Navigation")
 st.sidebar.success("Select a page below:")
 page = st.sidebar.radio("Go to", ["Main Page", "Page 1", "Page 2", "Page 3"])
 
-if page == "Main Page":
+if page == "app.py":
     st.markdown("# Main Page")
     st.write("Welcome to the Main Page")
 elif page == "Page 1":
-    switch_page("Page 1")
+    switch_page("Page 1.py")
 elif page == "Page 2":
-    switch_page("Page 2")
+    switch_page("Page 2.py")
 elif page == "Page 3":
-    switch_page("Page 3")
-
-
+    switch_page("Page 3.py")
 
 st.markdown("# ETF Finder")
+
+# Load the ETF data
+data = pd.read_excel("database/df.xlsx")
+st.dataframe(data)
