@@ -1,4 +1,16 @@
+import numpy as np
+import yfinance as yf
 import streamlit as st
+import pandas as pd
+import plotly as py
+import plotly.graph_objs as go
+import plotly.express as px
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.preprocessing import StandardScaler
+import umap
+from umap import UMAP
+from streamlit_extras.switch_page_button import switch_page
 
 st.markdown("# ETF Finder")
 
