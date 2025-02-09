@@ -12,7 +12,7 @@ info_df = pd.read_csv("database/etf_info.csv)
 
 st.divider()
 
-st.dataframe(info_df)
+
 
 '''' 
 # Initialize session state for selected ETFs
