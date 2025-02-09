@@ -6,9 +6,9 @@ import pandas as pd
 st.markdown("# ETF Finder")
 
 # Load the ETF data
-etf_data = pd.read_csv("database/etf_data.csv")
+data = pd.read_excel("database/df.xlsx")
 
-st.dataframe(etf_data)
+st.dataframe(df)
 
 
 
