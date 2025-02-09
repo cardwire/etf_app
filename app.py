@@ -1,7 +1,10 @@
-
+import numpy as np
 import yfinance as yf
 import streamlit as st
 import pandas as pd
+import plotly as py
+import plotly.graph_objs as go
+import plotly.express as px
 
 st.markdown("# ETF Finder")
 
