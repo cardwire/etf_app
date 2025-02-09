@@ -11,7 +11,9 @@ from sklearn.preprocessing import StandardScaler
 import umap
 from umap import UMAP
 
-st.set_page_config(page_title="Page 1", page_icon=":page_facing_up:")
+st.set_page_config(page_title="Page 1", page_icon=":page_facing_up:",
+		  page_title = "Page 2",  page_icon=":page_facing_up:", 
+		   page_title = "Page 3",  page_icon=":page_facing_up:")
 
 st.sidebar.success("Exploratory Data Analysis","3D Cluster Analysis", "Funds Analizer")
 
