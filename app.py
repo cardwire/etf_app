@@ -22,11 +22,11 @@ if page == "Main Page":
     st.markdown("# Main Page")
     st.write("Welcome to the Main Page")
 elif page == "Page 1":
-    switch_page("page1")
+    switch_page("Page 1")
 elif page == "Page 2":
-    switch_page("page2")
+    switch_page("Page 2")
 elif page == "Page 3":
-    switch_page("page3")
+    switch_page("Page 3")
 
 
 
