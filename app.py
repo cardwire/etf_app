@@ -15,7 +15,7 @@ st.divider()
 
 
 
-'''' 
+'''
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
     st.session_state.selected_etfs = []
@@ -45,4 +45,4 @@ for i, row in etf_df.iterrows():  # Fix: Correct way to iterate over DataFrame r
 # Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
 
-''''
+'''
