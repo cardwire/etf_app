@@ -6,9 +6,16 @@ st.markdown("# ETF Finder")
 # Load the ETF data
 etf_df = pd.read_csv("database/etf_df.csv")
 
+info_df = pd.read_csv("database/etf_info.csv)
+
 # Display dataframe
 st.dataframe(etf_df)
 
+st.divider()
+
+st.dataframe(info_df)
+
+'''' 
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
     st.session_state.selected_etfs = []
@@ -38,4 +45,4 @@ for i, row in etf_df.iterrows():  # Fix: Correct way to iterate over DataFrame r
 # Display the selected ETFs
 st.write("Selected ETFs:", st.session_state.selected_etfs)
 
-
+''''
