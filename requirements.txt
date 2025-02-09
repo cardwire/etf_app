@@ -10,3 +10,5 @@ BS4
 selenium
 yfinance
 openpyxl
+sklearn
+umap
