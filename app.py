@@ -76,3 +76,23 @@ fig.update_layout(title_x=0.5)
 fig.show()
 
 st.plotly_chart(fig)
+
+################################################################################
+st.divider()
+
+# plot distribution of total_assets in plotly
+x=np.log10(data['total_assets'])
+fig = px.histogram(data, x=x, title='Distribution of Total Assets')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#set bar outlines to black
+fig.update_traces(marker_line_color='black', marker_line_width=1)
+#set bar colors to deepskyblueblue
+fig.update_traces(marker_color='seagreen')
+#remove "type" from x-axis
+fig.update_xaxes(title_text='10exp(USD)')
+#center title
+fig.update_layout(title_x=0.5)
+fig.show()
+
+st.plotly_chart(fig)
