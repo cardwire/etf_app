@@ -9,6 +9,7 @@ from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
 import umap
+from umap import UMAP
 
 
 st.markdown("# ETF Finder")
