@@ -15,10 +15,28 @@ from streamlit_extras.switch_page_button import switch_page
 
 
 st.set_page_config(page_title="Homepage", page_icon=":page_facing_up:")
+st.sidebar.title("Navigation")
+st.sidebar.success("Select a Page")
+page = st.sidebar.radio("Go to", ["Page 1", "Page 2", "Page 3"])
+
+
+# Load the ETF data
+
+if page == "Homepage":
+    st.markdown("# Homepage")
+elif page == "Page 1":
+    switch_page("page_1.py")
+elif page == "Page 2":
+    switch_page("page_2.py")
+elif page == "Page 3":
+    switch_page("page_3.py")
+
 st.markdown("# ETF Finder")
-st.sidebar.success("Select a Page.")
+
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
+st.dataframe(data)
+
 
 st.dataframe(data)
 
