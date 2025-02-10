@@ -14,7 +14,7 @@ from umap import UMAP
 from streamlit_extras.switch_page_button import switch_page
 
 
-st.set_page_config(page_title="Page 1", page_icon=":page_facing_up:")
+st.set_page_config(page_title="Homepage", page_icon=":page_facing_up:")
 st.markdown("# ETF Finder")
 st.sidebar.success("Select a Page.")
 # Load the ETF data
