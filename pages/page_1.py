@@ -34,7 +34,7 @@ data = pd.read_excel("database/df.xlsx")
 # Add a column for checkbox selection
 data['Select'] = False
 
-# Display dataframe with checkboxes
+# Display dataframe with checkboxes for ETF selection
 edited_data = st.data_editor(data, column_config={
     "Select": st.column_config.CheckboxColumn("Select", help="Select up to 4 ETFs")
 }, hide_index=True)
@@ -50,34 +50,40 @@ if len(selected_etfs) > 4:
 # Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
-# Hide/Show different sections using checkboxes (Default to False, sections hidden)
-show_candlesticks = st.checkbox("Show Candlestick Charts", value=False)
-show_sector_weightings = st.checkbox("Show Sector Weightings", value=False)
-show_asset_classes = st.checkbox("Show Asset Classes", value=False)
-show_top_holdings = st.checkbox("Show Top Holdings", value=False)
-show_dividends = st.checkbox("Show Dividends", value=False)
+# Clear All Data button
+if st.button('Clear All Data'):
+    st.session_state.selected_etfs = []
+    st.session_state.fund_data = []
+    st.session_state.sector_weightings = []
+    st.session_state.asset_classes = []
+    st.session_state.top_holdings = []
+    st.session_state.dividends = []
+    st.experimental_rerun()
 
 # Fetch and store fund data in session state only if ETF is selected
 if selected_etfs:
     fund_data = []
+    sector_weightings = []
+    asset_classes = []
+    top_holdings = []
+    dividends = []
+
     for etf in selected_etfs:
         ticker = yf.Ticker(etf)
         fund_data.append(ticker.history(period="1d", interval="1m"))
+        sector_weightings.append(ticker.info.get('sectorWeightings', {}))
+        asset_classes.append(ticker.info.get('assetClasses', {}))
+        top_holdings.append(ticker.info.get('topHoldings', {}))
+        dividends.append(ticker.dividends)
+
     st.session_state.fund_data = fund_data
-
-    # Fetch additional data
-    sector_weightings = [data.sector_weightings for data in fund_data]
-    asset_classes = [data.asset_classes for data in fund_data]
-    top_holdings = [data.top_holdings for data in fund_data]
-    dividends = [yf.Ticker(etf).dividends for etf in selected_etfs]
-
     st.session_state.sector_weightings = sector_weightings
     st.session_state.asset_classes = asset_classes
     st.session_state.top_holdings = top_holdings
     st.session_state.dividends = dividends
 
-# Display Candlestick charts if selected
-if show_candlesticks and selected_etfs:
+# Display Candlestick charts if selected ETFs are available
+if selected_etfs:
     st.markdown("## Candlestick Charts")
     cols = 2 if len(selected_etfs) > 1 else 1  # Determine layout
     rows = -(-len(selected_etfs) // cols)  # Ceiling division for rows
@@ -95,32 +101,34 @@ if show_candlesticks and selected_etfs:
             name=etf
         )
         fig.add_trace(candlestick, row=(i // cols) + 1, col=(i % cols) + 1)
-    
+
     fig.update_layout(height=500 * rows, showlegend=False)
     st.plotly_chart(fig)
 
-# Display Sector Weightings if selected
-if show_sector_weightings and st.session_state.sector_weightings:
+# Display Sector Weightings if data is available
+if st.session_state.sector_weightings:
     st.markdown("## Sector Weightings")
     fig = go.Figure()
     for i, sector_weighting in enumerate(st.session_state.sector_weightings):
-        fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=selected_etfs[i]))
+        if sector_weighting:  # Check if data exists
+            fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=selected_etfs[i]))
 
     fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting")
     st.plotly_chart(fig)
 
-# Display Asset Classes if selected
-if show_asset_classes and st.session_state.asset_classes:
+# Display Asset Classes if data is available
+if st.session_state.asset_classes:
     st.markdown("## Asset Classes")
     fig = go.Figure()
     for i, asset_class in enumerate(st.session_state.asset_classes):
-        fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=selected_etfs[i]))
+        if asset_class:  # Check if data exists
+            fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=selected_etfs[i]))
 
     fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight")
     st.plotly_chart(fig)
 
-# Display Top Holdings if selected
-if show_top_holdings and st.session_state.top_holdings:
+# Display Top Holdings if data is available
+if st.session_state.top_holdings:
     st.markdown("## Top Holdings")
     fig = go.Figure()
     for i, top_holding in enumerate(st.session_state.top_holdings):
@@ -132,8 +140,8 @@ if show_top_holdings and st.session_state.top_holdings:
     fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent")
     st.plotly_chart(fig)
 
-# Display Dividends if selected
-if show_dividends and st.session_state.dividends:
+# Display Dividends if data is available
+if st.session_state.dividends:
     st.markdown("## Dividends")
     fig = go.Figure()
     for i, dividend in enumerate(st.session_state.dividends):
@@ -141,3 +149,4 @@ if show_dividends and st.session_state.dividends:
     
     fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
     st.plotly_chart(fig)
+
