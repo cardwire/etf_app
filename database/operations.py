@@ -5,7 +5,7 @@
 # Store Yahoo Finance data for SPY
 #store_yahoo_data(spy, server, database, username, password)
 
-
+import pandas as pd
 # All functions required in this app
 
 
@@ -60,6 +60,8 @@ def prophet_forecast(ticker, period):
 
 
 
+import pandas as pd  # Ensure pandas is imported
+
 def ada_forecast(ticker, period):
     history = ticker.history(period='max')
     history = history.reset_index()
@@ -81,7 +83,7 @@ def ada_forecast(ticker, period):
 
     # plot the forecast using plotly
     fig = go.Figure()
-        # Add the actual data
+    # Add the actual data
     fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
     # Add the forecast data
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
@@ -102,7 +104,6 @@ def ada_forecast(ticker, period):
                       yaxis_title='Price')
 
     st.plotly_chart(fig)
-
 
 
 
