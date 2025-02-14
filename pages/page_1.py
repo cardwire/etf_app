@@ -4,6 +4,9 @@ from plotly.subplots import make_subplots
 import pandas as pd
 import streamlit as st
 
+# Streamlit page config
+st.set_page_config(page_title="ETF Selector", page_icon=":chart_with_upwards_trend:")
+
 # Session state initialization
 if 'selected_etfs' not in st.session_state:
     st.session_state.selected_etfs = []
@@ -23,9 +26,6 @@ if 'top_holdings' not in st.session_state:
 if 'dividends' not in st.session_state:
     st.session_state.dividends = []
 
-# Streamlit page config
-st.set_page_config(page_title="ETF Selector", page_icon=":chart_with_upwards_trend:")
-
 st.markdown("# ETF Selection")
 
 # Load the ETF data
@@ -35,12 +35,10 @@ data = pd.read_excel("database/df.xlsx")
 data['Select'] = False
 
 # Display dataframe with checkboxes for ETF selection
-edited_data = st.data_editor(data, column_config={
-    "Select": st.column_config.CheckboxColumn("Select", help="Select up to 4 ETFs")
-}, hide_index=True)
+edited_data = st.dataframe(data)
 
 # Get selected ETFs
-selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
+selected_etfs = data[data['Select']]['symbol'].tolist()
 
 # Limit selection to 4 ETFs
 if len(selected_etfs) > 4:
@@ -73,9 +71,9 @@ if selected_etfs:
         fund_data.append(ticker.history(period="1d", interval="1m"))
         
         # Corrected attributes for sector weightings, top holdings, asset classes, and dividends
-        sector_weightings.append(ticker.get_funds_data('sector_weightings', {}))
-        asset_classes.append(ticker.get_funds_data('asset_classes', {}))
-        top_holdings.append(ticker.get_funds_data('top_holdings', {}))
+        sector_weightings.append(ticker.info.get('sectorWeightings', {}))
+        asset_classes.append(ticker.info.get('assetClass', {}))
+        top_holdings.append(ticker.info.get('topHoldings', {}))
         dividends.append(ticker.dividends)
 
     st.session_state.fund_data = fund_data
@@ -150,4 +148,4 @@ if st.session_state.dividends:
         fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=selected_etfs[i]))
     
     fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
-    st.plotly_chart(fig)
+    st.plotly_chart(fig)                                                 
