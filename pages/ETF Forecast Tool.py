@@ -80,14 +80,14 @@ if selected_etfs:
         elif algorithm == "xgb":
             xgb_forecast(ticker, period)
         elif algorithm == "lstm":
-            lstm_forecast(ticker, period)
+            lstm_forecast(ticker, period) '''
         elif algorithm == "deepar":
             deepar_forecast(ticker, period)
         elif algorithm == "nbeats":
             nbeats_forecast(ticker, period)
         elif algorithm == "tft":
             tft_forecast(ticker, period)
-
+'''
     if st.button("Click to forecast"):
         on_click_forecast()
 else:
