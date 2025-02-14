@@ -33,14 +33,7 @@ if selected_etfs:
     cols = 2 if len(selected_etfs) > 1 else 1  # Determine layout
     rows = -(-len(selected_etfs) // cols)  # Ceiling division for rows
     fig = make_subplots(rows=rows, cols=cols, subplot_titles=selected_etfs)
-    for i, etf in enumerate(selected_etfs):
-        ticker = yf.Ticker(etf)
-        hist = ticker.history(period='1d', interval='1m')
-        row = i // cols + 1
-        col = i % cols + 1
-        fig.add_trace(go.Candlestick(x=hist.index, open=hist['Open'], high=hist['High'], low=hist['Low'], close=hist['Close']), row=row, col=col)
-    fig.update_layout(height=rows*400, title_text="Candlestick Charts")
-    st.plotly_chart(fig)
+   
     
     for i, etf in enumerate(selected_etfs):
         ticker = yf.Ticker(etf)
