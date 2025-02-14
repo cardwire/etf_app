@@ -66,9 +66,9 @@ if selected_etfs:
     st.session_state.fund_data = fund_data
 
     # Fetch additional data
-    sector_weightings = [data.sector_weightings for data in fund_data]
-    asset_classes = [data.asset_classes for data in fund_data]
-    top_holdings = [data.top_holdings for data in fund_data]
+    sector_weightings = [fund_data.sector_weightings for data in fund_data]
+    asset_classes = [fund_data.asset_classes for data in fund_data]
+    top_holdings = [fund_data.top_holdings for data in fund_data]
     dividends = [yf.Ticker(etf).dividends for etf in selected_etfs]
 
     st.session_state.sector_weightings = sector_weightings
