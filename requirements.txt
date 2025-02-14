@@ -15,5 +15,6 @@ umap
 umap-learn
 streamlit-extras
 prophet
+statsmodels
 
 
