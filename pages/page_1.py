@@ -2,12 +2,17 @@ import streamlit as st
 import pandas as pd
 from plotly.subplots import make_subplots
 import yfinance as yf
-
 import plotly.graph_objects as go
 
 st.set_page_config(page_title="ETF Selector", page_icon=":chart_with_upwards_trend:")
 
 st.markdown("# ETF Selection")
+
+# Initialize session state variables
+if 'selected_etfs' not in st.session_state:
+    st.session_state.selected_etfs = []
+    st.session_state.show_fund_data = False
+    st.session_state.show_dividends = False
 
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
@@ -27,6 +32,9 @@ selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
 if len(selected_etfs) > 4:
     st.warning("You can select up to 4 ETFs only.")
     selected_etfs = selected_etfs[:4]
+
+# Update session state with the selected ETFs
+st.session_state.selected_etfs = selected_etfs
 
 # Display candlestick charts if ETFs are selected
 if selected_etfs:
@@ -54,69 +62,71 @@ if selected_etfs:
     st.plotly_chart(fig)
 
 st.divider()
-# Get selected ETFs
-selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
 
-# Limit selection to 4 ETFs
-if len(selected_etfs) > 4:
-    st.warning("You can select up to 4 ETFs only.")
-    selected_etfs = selected_etfs[:4]
+# If ETF selection has been made, show additional sections for fund data and dividends
+if selected_etfs:
+    st.session_state.show_fund_data = True
+    st.session_state.show_dividends = True
 
-# get fund data for selected ETFs
-fund_data = []
-for etf in selected_etfs:
-    ticker = yf.Ticker(etf)
-    fund_data.append(ticker.get_funds_data())
+# Show Fund Data section if selected
+if st.session_state.show_fund_data:
+    # Get fund data for selected ETFs
+    fund_data = []
+    for etf in selected_etfs:
+        ticker = yf.Ticker(etf)
+        fund_data.append(ticker.info)  # Fetch fund info
+    
+    # Extract relevant fund data (example placeholders)
+    sector_weightings = [data.get('sectorWeightings', {}) for data in fund_data]
+    asset_classes = [data.get('assetClasses', {}) for data in fund_data]
+    top_holdings = [data.get('topHoldings', {}) for data in fund_data]
 
-# get sector weightings for selected ETFs
-sector_weightings = [data.sector_weightings for data in fund_data]
+    # Display sector weightings of all selected ETFs in one bar chart
+    st.markdown("## Sector Weightings")
+    fig = go.Figure()
+    for i, sector_weighting in enumerate(sector_weightings):
+        fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=selected_etfs[i]))
 
-# get asset classes for selected ETFs
-asset_classes = [data.asset_classes for data in fund_data]
+    fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting")
+    st.plotly_chart(fig)
 
-# get top holdings for selected ETFs
-top_holdings = [data.top_holdings for data in fund_data]
+    # Display asset classes of all selected ETFs in one bar chart
+    st.markdown("## Asset Classes")
+    fig = go.Figure()
+    for i, asset_class in enumerate(asset_classes):
+        fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=selected_etfs[i]))
 
+    fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight")
+    st.plotly_chart(fig)
 
-# Display sector weightings of all selected ETFs in one bar chart
-st.markdown("## Sector Weightings")
-fig = go.Figure()
-for i, sector_weighting in enumerate(sector_weightings):
-    fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=selected_etfs[i]))
+    # Display top holdings of all selected ETFs in one bar chart
+    st.markdown("## Top Holdings")
+    fig = go.Figure()
+    for i, top_holding in enumerate(top_holdings):
+        fig.add_trace(go.Bar(x=top_holding['Name'], y=top_holding['Holding Percent'], name=selected_etfs[i]))
 
-fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting")
-st.plotly_chart(fig)
+    fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent")
+    st.plotly_chart(fig)
 
-# Display asset classes of all selected ETFs in one bar chart
-st.markdown("## Asset Classes")
-fig = go.Figure()
-for i, asset_class in enumerate(asset_classes):
-    fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=selected_etfs[i]))
+    st.divider()
 
-fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight")
+# Show Dividends section if selected
+if st.session_state.show_dividends:
+    # Get dividends for selected ETFs
+    dividends = [yf.Ticker(etf).dividends for etf in selected_etfs]
 
-st.plotly_chart(fig)
+    # Display dividends of all selected ETFs in one line chart
+    st.markdown("## Dividends")
+    fig = go.Figure()
+    for i, dividend in enumerate(dividends):
+        fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=selected_etfs[i]))
+    fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
 
-# Display top holdings of all selected ETFs in one bar chart
-st.markdown("## Top Holdings")
-fig = go.Figure()
-for i, top_holding in enumerate(top_holdings):
-    fig.add_trace(go.Bar(x=top_holding['Name'], y=top_holding['Holding Percent'], name=selected_etfs[i]))
+    st.plotly_chart(fig)
 
-fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent")
-
-st.plotly_chart(fig)
-
-st.divider()
-
-# Get dividends for selected ETFs
-dividends = [yf.Ticker(etf).dividends for etf in selected_etfs]
-
-# Display dividends of all selected ETFs in one line chart
-st.markdown("## Dividends")
-fig = go.Figure()
-for i, dividend in enumerate(dividends):
-    fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=selected_etfs[i]))
-fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
-
-st.plotly_chart(fig)
+# Option to reset the selected ETFs and hide the sections
+if st.button("Clear Selection"):
+    st.session_state.selected_etfs = []
+    st.session_state.show_fund_data = False
+    st.session_state.show_dividends = False
+    st.experimental_rerun()
