@@ -123,6 +123,64 @@ def ada_forecast(ticker, period):
 
 
 
+
+
+from sklearn.naive_bayes import GaussianNB
+
+def naive_bayes_forecast(ticker, period):
+    # Create the history data in a suitable format
+    history = ticker.history(period='max')
+    history = history.reset_index()
+    history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
+    history['ds'] = pd.to_datetime(history['ds'])
+    history["ds"] = history['ds'].dt.tz_localize(None)
+
+    # Prepare the data for Naive Bayes
+    X = np.array((history['ds'] - history['ds'].min()).dt.days).reshape(-1, 1)
+    y = history['y']
+
+    # Create and fit the Naive Bayes model
+    model = GaussianNB()
+    model.fit(X, y)
+
+    # Create future dates
+    future_dates = pd.date_range(start=history['ds'].max(), periods=period).to_frame(index=False, name='ds')
+    future_X = np.array((future_dates['ds'] - history['ds'].min()).dt.days).reshape(-1, 1)
+
+    # Make predictions
+    forecast = model.predict(future_X)
+
+    # Plot the forecast using plotly
+    fig = go.Figure()
+
+    # Add the actual data
+    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+
+    # Add the forecast data
+    fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
+
+    # Update layout
+    fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using Naive Bayes',
+                      xaxis_title='Date',
+                      yaxis_title='Price')
+
+    # Indicate the forecasted region with a vertical line at the last known date
+    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
+
+    # Add slider to the plot to zoom in and out
+    fig.update_layout(xaxis_rangeslider_visible=True)
+
+    st.plotly_chart(fig)
+
+
+
+
+
+
+
+
+
+
 def get_etf_data(server, database, username, password, table_name='etf_data'):
     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+18+for+SQL+Server'
     engine = create_engine(connection_string)
