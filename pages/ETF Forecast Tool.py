@@ -1,6 +1,18 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
+import gluonts
+#import xgboost
+from xgboost import XGBClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from prophet import Prophet
 import plotly.graph_objs as go
 from database.operations import (
