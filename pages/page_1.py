@@ -71,9 +71,11 @@ if selected_etfs:
     for etf in selected_etfs:
         ticker = yf.Ticker(etf)
         fund_data.append(ticker.history(period="1d", interval="1m"))
-        sector_weightings.append(ticker.info.get('sectorWeightings', {}))
-        asset_classes.append(ticker.info.get('assetClasses', {}))
-        top_holdings.append(ticker.info.get('topHoldings', {}))
+        
+        # Corrected attributes for sector weightings, top holdings, asset classes, and dividends
+        sector_weightings.append(ticker.funds_info.get('sector_weightings', {}))
+        asset_classes.append(ticker.funds_info.get('asset_classes', {}))
+        top_holdings.append(ticker.funds_info.get('top_holdings', {}))
         dividends.append(ticker.dividends)
 
     st.session_state.fund_data = fund_data
@@ -149,4 +151,3 @@ if st.session_state.dividends:
     
     fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
     st.plotly_chart(fig)
-
