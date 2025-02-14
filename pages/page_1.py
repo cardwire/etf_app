@@ -20,13 +20,13 @@ st.sidebar.success("Select a Page")
 page = st.sidebar.radio("Go to", ["Page 1", "Page 2", "Page 3"])
 
 
-
+st.markdown("## Check all ETF Data in the interactive table)
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 st.dataframe(data)
 
 
-st.dataframe(data)
+
 
 # change missing values to "other" in df.type
 data['type'] = data['type'].fillna('Other')
