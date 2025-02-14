@@ -3,8 +3,7 @@ import pandas as pd
 import yfinance as yf
 from prophet import Prophet
 import plotly.graph_objs as go
-from database/operations.py import prophet_forecast
-from database/operations.py import ada_forecast
+from database.operations import prophet_forecast, ada_forecast
 import numpy as np
 import sklearn
 from sklearn.ensemble import AdaBoostRegressor
