@@ -106,3 +106,17 @@ for i, top_holding in enumerate(top_holdings):
 fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent")
 
 st.plotly_chart(fig)
+
+st.divider()
+
+# Get dividends for selected ETFs
+dividends = [yf.Ticker(etf).dividends for etf in selected_etfs]
+
+# Display dividends of all selected ETFs in one line chart
+st.markdown("## Dividends")
+fig = go.Figure()
+for i, dividend in enumerate(dividends):
+    fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=selected_etfs[i]))
+fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
+
+st.plotly_chart(fig)
