@@ -16,7 +16,9 @@ def prophet_forecast(ticker, period):
     history = ticker.history(period='max')
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
+    history['ds'] = pd.to_datetime(history['ds'])
     history["ds"] = history['ds'].dt.tz_localize(None)
+
     #create a prophet model                 
     model = Prophet()
     model.fit(history)
@@ -59,7 +61,7 @@ def prophet_forecast(ticker, period):
 
 
 def ada_forecast(ticker, period):
-    history = ticker.history(period='max')
+   history = ticker.history(period='max')
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
     history['ds'] = pd.to_datetime(history['ds'])
