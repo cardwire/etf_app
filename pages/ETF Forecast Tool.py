@@ -79,7 +79,8 @@ if selected_etfs:
         elif algorithm == "xgb":
             xgb_forecast(ticker, period)
         elif algorithm == "lstm":
-            lstm_forecast(ticker, period) '''
+            lstm_forecast(ticker, period) 
+            '''
         elif algorithm == "deepar":
             deepar_forecast(ticker, period)
         elif algorithm == "nbeats":
