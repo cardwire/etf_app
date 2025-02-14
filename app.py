@@ -32,11 +32,11 @@ elif page == "ETF Inspector":
     fig.update_layout(title=f'{symbol} Price Chart', xaxis_title='Time', yaxis_title='Price')
     st.plotly_chart(fig)
     
-elif page == "Page 2":
-    st.markdown("# Page 2 - Content Placeholder")
-    st.write("This page will contain additional ETF insights.")
+elif page == "ETF Statistics":
+    st.markdown("# ETF Statistics - Content Placeholder")
+    st.write("This page provides an exploratory data analysis of our ETF-Database.")
 
-elif page == "Page 3":
-    st.markdown("# Page 3 - Content Placeholder")
-    st.write("This page will contain ETF risk analysis.")
+elif page == "ETF 3D-Visualizer":
+    st.markdown("# ETF 3D-Visualizer - Content Placeholder")
+    st.write("This page provides 3D-representation of our ETF Database based on UMAP dimension reduction technique.")
 
