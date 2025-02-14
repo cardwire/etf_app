@@ -6,8 +6,7 @@ import plotly.graph_objs as go
 from database.operations import (
     prophet_forecast, ar_forecast, arima_forecast,
     sarima_forecast, es_forecast, xgb_forecast,
-    lstm_forecast, deepar_forecast, nbeats_forecast,
-    tft_forecast
+    lstm_forecast
 )
 import numpy as np
 import sklearn
