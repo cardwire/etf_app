@@ -6,12 +6,13 @@ from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(page_title="ETF App", page_icon=":chart_with_upwards_trend:")
 
-st.sidebar.title("Navigation")
-st.sidebar.success("Select a page below:")
-page = st.sidebar.radio("Go to", ["Homepage", "ETF Inspector", "Page 2", "Page 3"])
 
-if page == "Homepage":
-    st.markdown("# Homepage")
+st.sidebar.success("Select a page below:")
+st.markdown(" ### Navigation Menu")
+page = st.sidebar.radio("Go to", ["ETF App", "ETF Statistics", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
+
+if page == "ETF App":
+    st.markdown("# Welcome to the ETF App")
     st.markdown("Welcome to the ETF Finder App. Navigate using the sidebar.")
     
     # Load ETF data
@@ -39,4 +40,11 @@ elif page == "ETF Statistics":
 elif page == "ETF 3D-Visualizer":
     st.markdown("# ETF 3D-Visualizer - Content Placeholder")
     st.write("This page provides 3D-representation of our ETF Database based on UMAP dimension reduction technique.")
+
+elif page == "ETF Forecast Tool":
+    st.markdown("# ETF Forecast Tool - Content Placeholder")
+    st.write("This page provides a set of tools to get predictions concerning future performance of ETFs.")
+
+
+
 
