@@ -1,5 +1,6 @@
 import streamlit as st
-
+import panas as pd 
+import yfinance as yf
 ########################################################################
 st.write("you selectdet SPY")
 
