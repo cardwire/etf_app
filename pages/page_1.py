@@ -97,7 +97,7 @@ if st.session_state.selected_etfs:
         fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=st.session_state.selected_etfs[i]))
         
     fig.update_traces(marker_line_color='black',  marker_line_width=1.5, opacity=0.6)
-    fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight",  backgroundcolor='white', gridcolor='lightgrey')
+    fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight",  backgroundcolor='white', gridcolor='lightgrey',)
     st.plotly_chart(fig)
 
     # Display top holdings of all selected ETFs in one bar chart
@@ -107,7 +107,7 @@ if st.session_state.selected_etfs:
         fig.add_trace(go.Bar(x=top_holding['Name'], y=top_holding['Holding Percent'], name=st.session_state.selected_etfs[i]))
     
     fig.update_traces(marker_line_color='black',  marker_line_width=1.5, opacity=0.6)
-    fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent", backgroundcolor='white', gridcolor='lightgrey')
+    fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent", backgroundcolor='white', gridcolor='lightgrey',)
     st.plotly_chart(fig)
 
     st.divider()
@@ -120,7 +120,7 @@ if st.session_state.selected_etfs:
     fig = go.Figure()
     for i, dividend in enumerate(dividends):
         fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=st.session_state.selected_etfs[i]))
-    fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend", backgroundcolor='white', gridcolor='lightgrey')
+    fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend", backgroundcolor='white', gridcolor='lightgrey',)
     
     st.plotly_chart(fig)
 
