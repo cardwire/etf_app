@@ -3,7 +3,7 @@ import pandas as pd
 import yfinance as yf
 from prophet import Prophet
 import plotly.graph_objs as go
-from database.operations import prophet_forecast, ada_forecast
+from database.operations import prophet_forecast, ada_forecast, rf_forecast, naiveb_forecast
 import numpy as np
 import sklearn
 import datetime as dt
