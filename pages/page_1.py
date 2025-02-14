@@ -15,8 +15,8 @@ st.markdown("## Select up to 4 ETFs")
 selected_etfs = []
 
 for index, row in data.iterrows():
-    if st.checkbox(row['Symbol'], key=row['Symbol']):
-        selected_etfs.append(row['Symbol'])
+    if st.checkbox(row['symbol'], key=row['symbol']):
+        selected_etfs.append(row['symbol'])
     
     # Limit selection to 4 ETFs
     if len(selected_etfs) > 4:
