@@ -1,7 +1,7 @@
-import plotly.graph_objects as go
-import yfinance as yf
-from plotly.subplots import make_subplots
 import pandas as pd
+import yfinance as yf
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import streamlit as st
 
 # Streamlit page config
@@ -31,21 +31,23 @@ st.markdown("# ETF Selection")
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 
-# Add a column for checkbox selection
-data['Select'] = False
+# Display ETF options with checkboxes inside the table
+st.markdown("## Select ETFs")
 
-# Display dataframe with checkboxes for ETF selection
-edited_data = st.dataframe(data)
+# Create a DataFrame for display with checkboxes
+checkbox_column = []
+for index, row in data.iterrows():
+    checkbox = st.checkbox(f"Select {row['name']}", key=row['symbol'], value=False)
+    checkbox_column.append(checkbox)
 
-# Get selected ETFs
-selected_etfs = data[data['Select']]['symbol'].tolist()
+# Store selected ETFs
+selected_etfs = [data['symbol'][i] for i, checked in enumerate(checkbox_column) if checked]
 
 # Limit selection to 4 ETFs
 if len(selected_etfs) > 4:
     st.warning("You can select up to 4 ETFs only.")
     selected_etfs = selected_etfs[:4]
 
-# Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
 # Clear All Data button
@@ -57,6 +59,9 @@ if st.button('Clear All Data'):
     st.session_state.top_holdings = []
     st.session_state.dividends = []
     st.experimental_rerun()
+
+# Display the table again with checkboxes (after selection)
+st.dataframe(data)
 
 # Fetch and store fund data in session state only if ETF is selected
 if selected_etfs:
@@ -91,7 +96,7 @@ if selected_etfs:
 
     # Add the candlestick charts to the grid
     for i, etf in enumerate(selected_etfs):
-        etf_data = st.session_state.fund_data[i]
+        etf_data = fund_data[i]
         if 'Open' in etf_data.columns and 'High' in etf_data.columns:
             candlestick = go.Candlestick(
                 x=etf_data.index,
@@ -159,4 +164,3 @@ if st.session_state.dividends:
 
     fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
     st.plotly_chart(fig)
-                                     
