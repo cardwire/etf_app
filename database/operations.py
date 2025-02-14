@@ -56,26 +56,26 @@ def prophet_forecast(ticker, period):
 #from sklearn.ensemble import AdaBoostRegressor
 #from sklearn.tree import DecisionTreeRegressor
 
+
+
 def ada_forecast(ticker, period):
-    #create the history data in prophet style
     history = ticker.history(period='max')
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
+    history['ds'] = pd.to_datetime(history['ds'])
     history["ds"] = history['ds'].dt.tz_localize(None)
-    #create a prophet model                 
+    
     X = np.array((history['ds'] - history['ds'].min()).dt.days).reshape(-1, 1)
-    y = history['y']
-    # create a future dataframe for the next 365 days
-    # Create and fit the AdaBoost model
-    model = AdaBoostRegressor(DecisionTreeRegressor(max_depth=4), n_estimators=100, random_state=42)
+    y = history['y'].values
+    
+    model = AdaBoostRegressor(DecisionTreeRegressor(), n_estimators=100)
     model.fit(X, y)
-
-    # Create future dates
-    future_dates = pd.date_range(start=history['ds'].max(), periods=period).to_frame(index=False, name='ds')
-    future_X = np.array((future_dates['ds'] - history['ds'].min()).dt.days).reshape(-1, 1)
-
-    # Make predictions
+    
+    future_dates = pd.date_range(start=history['ds'].max(), periods=period)
+    future_X = np.array((future_dates - history['ds'].min()).days).reshape(-1, 1)
     forecast = model.predict(future_X)
+    
+    # Plotting code here...
 
     # plot the forecast using plotly
     fig = go.Figure()
