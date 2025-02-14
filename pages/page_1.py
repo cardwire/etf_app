@@ -86,7 +86,7 @@ if st.session_state.selected_etfs:
     for i, sector_weighting in enumerate(sector_weightings):
         fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=st.session_state.selected_etfs[i]))
 
-    fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting",  backgroundcolor='white', gridcolor='lightgrey' )
+    fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting",  backgroundcolor='white', gridcolor='lightgrey' ,)
     fig.update_traces(marker_line_color='black',  marker_line_width=1.5, opacity=0.6)
     st.plotly_chart(fig)
 
