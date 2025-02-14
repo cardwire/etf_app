@@ -95,7 +95,7 @@ st.plotly_chart(fig_neg)
 st.write("You selected SPY")
 
 symbol = 'SPY'  # Implement select function
-ticker = yf.TTicker(f'{symbol}')
+ticker = yf.Ticker(f'{symbol}')
 hist = ticker.history(period='1d', interval='1m')
 
 # Plot the price of SPY in plotly as candlestick chart
