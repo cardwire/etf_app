@@ -10,7 +10,6 @@ import datetime as dt
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
 
-
 # Set page configuration
 st.set_page_config(page_title="ETF Forecast Tool", page_icon=":chart_with_upwards_trend:")
 
