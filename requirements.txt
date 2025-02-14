@@ -18,5 +18,7 @@ prophet
 statsmodels
 tensorflow
 keras
-gluonts==0.16.0
+gluonts[mxnet]
+gluonts[torch]
+pytorch
 xgboost
