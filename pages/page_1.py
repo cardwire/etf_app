@@ -52,3 +52,57 @@ if selected_etfs:
     
     fig.update_layout(height=500 * rows, showlegend=False)
     st.plotly_chart(fig)
+
+st.divider()
+# Get selected ETFs
+selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
+
+# Limit selection to 4 ETFs
+if len(selected_etfs) > 4:
+    st.warning("You can select up to 4 ETFs only.")
+    selected_etfs = selected_etfs[:4]
+
+# get fund data for selected ETFs
+fund_data = []
+for etf in selected_etfs:
+    ticker = yf.Ticker(etf)
+    fund_data.append(ticker.get_funds_data())
+
+# get sector weightings for selected ETFs
+sector_weightings = [data.sector_weightings for data in fund_data]
+
+# get asset classes for selected ETFs
+asset_classes = [data.asset_classes for data in fund_data]
+
+# get top holdings for selected ETFs
+top_holdings = [data.top_holdings for data in fund_data]
+
+
+# Display sector weightings of all selected ETFs in one bar chart
+st.markdown("## Sector Weightings")
+fig = go.Figure()
+for i, sector_weighting in enumerate(sector_weightings):
+    fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=selected_etfs[i]))
+
+fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting")
+st.plotly_chart(fig)
+
+# Display asset classes of all selected ETFs in one bar chart
+st.markdown("## Asset Classes")
+fig = go.Figure()
+for i, asset_class in enumerate(asset_classes):
+    fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=selected_etfs[i]))
+
+fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight")
+
+st.plotly_chart(fig)
+
+# Display top holdings of all selected ETFs in one bar chart
+st.markdown("## Top Holdings")
+fig = go.Figure()
+for i, top_holding in enumerate(top_holdings):
+    fig.add_trace(go.Bar(x=top_holding['Name'], y=top_holding['Holding Percent'], name=selected_etfs[i]))
+
+fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent")
+
+st.plotly_chart(fig)
