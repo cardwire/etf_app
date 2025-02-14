@@ -27,6 +27,9 @@ def prophet_forecast(ticker, period):
   fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
   return fig  
 
+
+
+
 # Set page configuration
 st.set_page_config(page_title="ETF Forecast Tool", page_icon=":chart_with_upwards_trend:")
 
@@ -75,11 +78,21 @@ st.divider()
 
 st.markdown(" ### select your forecast period and a forecast algorithm of choice here")
 
-st.select_slider("select your forecast algorithm", options = ["prophet", "adaboost", "random forest", "naive bayes"])
-st.slider("chose a forecast period in days", min_value= 1, max_value = 365)  
-ticker 
-st.button("click to forecast", on_click = prophet_forecast(ticker, period)) 
 
+algorithm = st.select_slider("select your forecast algorithm", options=["prophet", "adaboost", "random forest", "naive bayes"])
+period = st.slider("chose a forecast period in days", min_value=1, max_value=365)
+
+def on_click_forecast():
+    if algorithm == "prophet":
+        prophet_forecast(ticker, period)
+    elif algorithm == "adaboost":
+        ada_forecast(ticker, period)
+    elif algorithm == "random forest":
+        rf_forecast(ticker, period)
+    elif algorithm == "naive bayes":
+        naiveb_forecast(ticker, period)
+
+st.button("click to forecast", on_click=on_click_forecast)
 
 
 # Add the forecast data
