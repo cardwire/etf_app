@@ -125,6 +125,53 @@ def ada_forecast(ticker, period):
 
 
 
+from sklearn.ensemble import RandomForestRegressor
+
+def rf_forecast(ticker, period):
+    history = ticker.history(period='max')
+    history = history.reset_index()
+    history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
+    history['ds'] = pd.to_datetime(history['ds'])
+    history["ds"] = history['ds'].dt.tz_localize(None)
+    
+    X = np.array((history['ds'] - history['ds'].min()).dt.days).reshape(-1, 1)
+    y = history['y'].values
+    
+    model = RandomForestRegressor(n_estimators=100)
+    model.fit(X, y)
+    
+    future_dates = pd.date_range(start=history['ds'].max(), periods=period)
+    future_X = np.array((future_dates - history['ds'].min()).days).reshape(-1, 1)
+    forecast = model.predict(future_X)
+    
+    forecast_df = pd.DataFrame({'ds': future_dates, 'yhat': forecast})
+    
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+    fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat'], mode='lines', name='Forecast'))
+    
+    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
+    fig.update_layout(xaxis_rangeslider_visible=True)
+    fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days',
+                      xaxis_title='Date',
+                      yaxis_title='Price')
+    
+    st.plotly_chart(fig)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 from sklearn.naive_bayes import GaussianNB
 
 def naiveb_forecast(ticker, period):
