@@ -122,9 +122,12 @@ def ar_forecast(ticker, period):
 
     # Add the upper and lower bounds
     # (assuming upper and lower bounds are calculated elsewhere)
-    # fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
-    # fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
-
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+        
     # indicate the forecasted region with a vertical line at the last known date
     fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
 
@@ -174,6 +177,13 @@ def arima_forecast(ticker, period):
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
 
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+
+    
     # Update layout
     fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using ARIMA',
                       xaxis_title='Date',
@@ -235,6 +245,12 @@ def sarima_forecast(ticker, period):
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
 
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+    
     # Update layout
     fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using SARIMA',
                       xaxis_title='Date',
@@ -285,6 +301,14 @@ def es_forecast(ticker, period):
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
 
+
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+
+    
     # Update layout
     fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using Exponential Smoothing',
                       xaxis_title='Date',
@@ -338,6 +362,13 @@ def xgb_forecast(ticker, period):
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
 
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+
+    
     # Update layout
     fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using XGBoost',
                       xaxis_title='Date',
@@ -420,6 +451,14 @@ def lstm_forecast(ticker, period):
     # Add the actual data
     fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
 
+
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+
+    
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast.flatten(), mode='lines', name='Forecast'))
 
@@ -506,6 +545,12 @@ def deepar_forecast(ticker, period):
         name='Forecast'
     ))
 
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+
     # Update layout
     fig.update_layout(
         title=f'Forecast for {ticker.ticker} for the next {period} days using DeepAR',
@@ -577,6 +622,14 @@ def nbeats_forecast(ticker, period):
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
 
+
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
+
+
     # Update layout
     fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using N-BEATS',
                       xaxis_title='Date',
@@ -637,6 +690,12 @@ def tft_forecast(ticker, period):
 
     # Add the actual data
     fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+
+    try:
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    except Exception as e:
+        st.error(f"Error adding traces: {e}")
 
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
