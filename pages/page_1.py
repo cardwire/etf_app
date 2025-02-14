@@ -47,11 +47,11 @@ for i, symbol in enumerate(symbols):
 fig.update_layout(title_text='ETF Candlestick Charts', height=800, width=800)
 
     
-    for i, etf in enumerate(selected_etfs):
-        ticker = yf.Ticker(etf)
-        etf_data = ticker.history(period="1d", interval="1m")
+for i, etf in enumerate(selected_etfs):
+    ticker = yf.Ticker(etf)
+    etf_data = ticker.history(period="1d", interval="1m")
         
-        candlestick = go.Candlestick(
+    candlestick = go.Candlestick(
             x=etf_data.index,
             open=etf_data['Open'],
             high=etf_data['High'],
@@ -59,7 +59,7 @@ fig.update_layout(title_text='ETF Candlestick Charts', height=800, width=800)
             close=etf_data['Close'],
             name=etf
         )
-        fig.add_trace(candlestick, row=(i // cols) + 1, col=(i % cols) + 1)
+    fig.add_trace(candlestick, row=(i // cols) + 1, col=(i % cols) + 1)
     
     fig.update_layout(height=500 * rows, showlegend=False)
     st.plotly_chart(fig)
