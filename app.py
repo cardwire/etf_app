@@ -8,7 +8,7 @@ st.set_page_config(page_title="ETF App", page_icon=":chart_with_upwards_trend:")
 
 st.sidebar.title("Navigation")
 st.sidebar.success("Select a page below:")
-page = st.sidebar.radio("Go to", ["Homepage", "Page 1", "Page 2", "Page 3"])
+page = st.sidebar.radio("Go to", ["Homepage", "ETF Inspector", "Page 2", "Page 3"])
 
 if page == "Homepage":
     st.markdown("# Homepage")
@@ -18,7 +18,7 @@ if page == "Homepage":
     data = pd.read_excel("database/df.xlsx")
     st.dataframe(data)
 
-elif page == "Page 1":
+elif page == "ETF Inspector":
     st.markdown("# ETF Selection and Candlestick Chart")
     symbol = st.selectbox("Choose an ETF symbol:", data['symbol'].unique())
     ticker = yf.Ticker(symbol)
