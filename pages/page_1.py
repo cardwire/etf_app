@@ -73,9 +73,9 @@ if selected_etfs:
         fund_data.append(ticker.history(period="1d", interval="1m"))
         
         # Corrected attributes for sector weightings, top holdings, asset classes, and dividends
-        sector_weightings.append(ticker.get_funds_data.get('sector_weightings', {}))
-        asset_classes.append(ticker.get_funds_data.get('asset_classes', {}))
-        top_holdings.append(ticker.get_funds_data.get('top_holdings', {}))
+        sector_weightings.append(ticker.get_funds_data().('sector_weightings', {}))
+        asset_classes.append(ticker.get_funds_data().('asset_classes', {}))
+        top_holdings.append(ticker.get_funds_data().('top_holdings', {}))
         dividends.append(ticker.dividends)
 
     st.session_state.fund_data = fund_data
