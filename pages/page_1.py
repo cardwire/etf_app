@@ -10,18 +10,21 @@ st.markdown("# ETF Selection")
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 
-# Add a column with checkboxes to allow selection
-st.markdown("## Select up to 4 ETFs")
-selected_etfs = []
+# Add a column for checkbox selection
+data['Select'] = False
 
-for index, row in data.iterrows():
-    if st.checkbox(row['symbol'], key=row['symbol']):
-        selected_etfs.append(row['symbol'])
-    
-    # Limit selection to 4 ETFs
-    if len(selected_etfs) > 4:
-        st.warning("You can select up to 4 ETFs only.")
-        break
+# Display dataframe with checkboxes
+edited_data = st.data_editor(data, column_config={
+    "Select": st.column_config.CheckboxColumn("Select", help="Select up to 4 ETFs")
+}, hide_index=True)
+
+# Get selected ETFs
+selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
+
+# Limit selection to 4 ETFs
+if len(selected_etfs) > 4:
+    st.warning("You can select up to 4 ETFs only.")
+    selected_etfs = selected_etfs[:4]
 
 # Display candlestick charts if ETFs are selected
 if selected_etfs:
