@@ -13,7 +13,6 @@ import umap
 from umap import UMAP
 
 
-st.set_page_config(page_title="app", page_icon=":page_facing_up:")
 
 st.sidebar.title("Navigation")
 st.sidebar.success("Select a page below:")
@@ -28,6 +27,7 @@ elif page == "Page 2":
 elif page == "Page 3":
     switch_page("page_3.py")
 
+st.set_page_config(page_title="app", page_icon=":page_facing_up:")
 st.markdown("# ETF Finder")
 
 # Load the ETF data
