@@ -8,8 +8,8 @@ st.set_page_config(page_title="ETF App", page_icon=":chart_with_upwards_trend:")
 
 
 st.sidebar.success("Select a page below:")
-st.markdown(" ### Navigation Menu")
-page = st.sidebar.radio("Go to", ["ETF App", "ETF Statistics", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
+
+page = st.sidebar.selectbox("Go to", ["ETF App", "ETF Statistics", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
 
 if page == "ETF App":
     st.markdown("# Welcome to the ETF App")
