@@ -92,16 +92,19 @@ if selected_etfs:
     # Add the candlestick charts to the grid
     for i, etf in enumerate(selected_etfs):
         etf_data = st.session_state.fund_data[i]
-        candlestick = go.Candlestick(
-            x=etf_data.index,
-            open=etf_data['Open'],
-            high=etf_data['High'],
-            low=etf_data['Low'],
-            close=etf_data['Close'],
-            name=etf
-        )
-        fig.add_trace(candlestick, row=(i // cols) + 1, col=(i % cols) + 1)
-
+        if 'Open' in etf_data.columns and 'High' in etf_data.columns:
+            candlestick = go.Candlestick(
+                x=etf_data.index,
+                open=etf_data['Open'],
+                high=etf_data['High'],
+                low=etf_data['Low'],
+                close=etf_data['Close'],
+                name=etf
+            )
+            fig.add_trace(candlestick, row=(i // cols) + 1, col=(i % cols) + 1)
+        else:
+            st.warning(f"Missing required data for {etf} candlestick chart.")
+    
     fig.update_layout(height=500 * rows, showlegend=False)
     st.plotly_chart(fig)
 
@@ -112,6 +115,8 @@ if st.session_state.sector_weightings:
     for i, sector_weighting in enumerate(st.session_state.sector_weightings):
         if sector_weighting:  # Check if data exists
             fig.add_trace(go.Bar(x=list(sector_weighting.keys()), y=list(sector_weighting.values()), name=selected_etfs[i]))
+        else:
+            st.warning(f"No sector weighting data available for {selected_etfs[i]}")
 
     fig.update_layout(barmode='group', title="Sector Weightings of Selected ETFs", xaxis_title="Sector", yaxis_title="Weighting")
     st.plotly_chart(fig)
@@ -123,6 +128,8 @@ if st.session_state.asset_classes:
     for i, asset_class in enumerate(st.session_state.asset_classes):
         if asset_class:  # Check if data exists
             fig.add_trace(go.Bar(x=list(asset_class.keys()), y=list(asset_class.values()), name=selected_etfs[i]))
+        else:
+            st.warning(f"No asset class data available for {selected_etfs[i]}")
 
     fig.update_layout(barmode='group', title="Asset Classes of Selected ETFs", xaxis_title="Asset Class", yaxis_title="Weight")
     st.plotly_chart(fig)
@@ -132,11 +139,11 @@ if st.session_state.top_holdings:
     st.markdown("## Top Holdings")
     fig = go.Figure()
     for i, top_holding in enumerate(st.session_state.top_holdings):
-        if 'symbol' in top_holding.columns:  # Ensure correct column exists
+        if isinstance(top_holding, pd.DataFrame) and 'symbol' in top_holding.columns:  # Ensure correct column exists
             fig.add_trace(go.Bar(x=top_holding['symbol'], y=top_holding['Holding Percent'], name=selected_etfs[i]))
         else:
-            st.error(f"Top holdings for {selected_etfs[i]} do not have the expected 'symbol' column.")
-    
+            st.warning(f"Top holdings for {selected_etfs[i]} do not have the expected 'symbol' column or data.")
+
     fig.update_layout(barmode='group', title="Top Holdings of Selected ETFs", xaxis_title="Holding", yaxis_title="Percent")
     st.plotly_chart(fig)
 
@@ -145,7 +152,11 @@ if st.session_state.dividends:
     st.markdown("## Dividends")
     fig = go.Figure()
     for i, dividend in enumerate(st.session_state.dividends):
-        fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=selected_etfs[i]))
-    
+        if not dividend.empty:
+            fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=selected_etfs[i]))
+        else:
+            st.warning(f"No dividend data available for {selected_etfs[i]}")
+
     fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
-    st.plotly_chart(fig)                                                 
+    st.plotly_chart(fig)
+                                     
