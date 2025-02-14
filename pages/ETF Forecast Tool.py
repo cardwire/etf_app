@@ -50,7 +50,7 @@ st.divider()
 
 st.markdown(" ### select your forecast period and a forecast algorithm of choice here")
 
-st.select_slider("select your forecast algorithm", options = ["prophet", "adaboost", "random forest", "naive bayes"]
+st.select_slider("select your forecast algorithm", options = ["prophet", "adaboost", "random forest", "naive bayes"])
 st.slider("chose a forecast period in days", min_value= 1, max_value = 365)  
 
 def prophet_forecast(ticker, period):
