@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import yfinance as yf
 
 st.set_page_config(page_title="ETF Selector", page_icon=":chart_with_upwards_trend:")
 
@@ -35,9 +36,11 @@ if selected_etfs:
     fig = make_subplots(rows=rows, cols=cols, subplot_titles=selected_etfs)
     
     for i, etf in enumerate(selected_etfs):
-        etf_data = pd.read_excel(f"database/{etf}.xlsx")  # Assuming each ETF has its own file
+        ticker = yf.Ticker(etf)
+        etf_data = ticker.history(period="1d", interval="1m")
+        
         candlestick = go.Candlestick(
-            x=etf_data['Date'],
+            x=etf_data.index,
             open=etf_data['Open'],
             high=etf_data['High'],
             low=etf_data['Low'],
