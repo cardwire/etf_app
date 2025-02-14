@@ -19,3 +19,4 @@ statsmodels
 tensorflow
 keras
 gluonts
+xgboost
