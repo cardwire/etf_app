@@ -1,3 +1,5 @@
+import streamlit as st
+import yfinance as yf
 from prophet import Prophet
 
 # Set page configuration
