@@ -53,6 +53,7 @@ if selected_etfs:
     st.plotly_chart(fig)
 
 st.divider()
+
 # Get selected ETFs
 selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
 
@@ -75,7 +76,6 @@ asset_classes = [data.asset_classes for data in fund_data]
 
 # get top holdings for selected ETFs
 top_holdings = [data.top_holdings for data in fund_data]
-
 
 # Display sector weightings of all selected ETFs in one bar chart
 st.markdown("## Sector Weightings")
