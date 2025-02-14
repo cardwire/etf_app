@@ -3,6 +3,30 @@ import pandas as pd
 import yfinance as yf
 from prophet import Prophet
 
+
+#define the forcast function
+def prophet_forecast(ticker, period):
+  #create the history data in prophet style
+  history = ticker.history(period='max')
+  history = history.reset_index()
+  history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
+  history["ds"] = history['ds'].dt.tz_localize(None)
+  #create a prophet model                 
+  model = Prophet()
+  model.fit(history)
+  # create a future dataframe for the next 365 days
+  future = model.make_future_dataframe(periods=period)
+
+  # make predictions
+  forecast = model.predict(future)
+
+  # plot the forecast using plotly
+  fig = go.Figure()
+
+  # Add the actual data
+  fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+  return fig  
+
 # Set page configuration
 st.set_page_config(page_title="ETF Forecast Tool", page_icon=":chart_with_upwards_trend:")
 
@@ -37,7 +61,7 @@ st.session_state.selected_etfs = selected_etfs
 
 
 # get symbol and ticker from selected ETF
-symbol = selected_etfs["symbol"]
+symbol = selected_etfs[0]
 ticker = yf.Ticker(symbol)
 
 # get long business summary
@@ -53,27 +77,10 @@ st.markdown(" ### select your forecast period and a forecast algorithm of choice
 
 st.select_slider("select your forecast algorithm", options = ["prophet", "adaboost", "random forest", "naive bayes"])
 st.slider("chose a forecast period in days", min_value= 1, max_value = 365)  
+ticker 
+st.button("click to forecast", on_click = prophet_forecast(ticker, period)) 
 
-def prophet_forecast(ticker, period):
-  #create the history data in prophet style
-  history = ticker.history(period='max')
-  history = history.reset_index()
-  history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
-  history["ds"] = history['ds'].dt.tz_localize(None)
-  #create a prophet model                 
-  model = Prophet()
-  model.fit(history)
-  # create a future dataframe for the next 365 days
-  future = model.make_future_dataframe(periods=period)
 
-  # make predictions
-  forecast = model.predict(future)
-
-  # plot the forecast using plotly
-  fig = go.Figure()
-
-  # Add the actual data
-  fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
 
 # Add the forecast data
 fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
@@ -95,6 +102,11 @@ fig.update_layout(xaxis_rangeslider_visible=True)
 
 
 st.plotly_plot(fig)
+
+
+
+
+
 
 
 
