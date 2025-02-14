@@ -13,7 +13,7 @@ import umap
 from umap import UMAP
 
 
-st.set_page_config(page_title="Homepage", page_icon=":page_facing_up:")
+st.set_page_config(page_title="app", page_icon=":page_facing_up:")
 
 st.sidebar.title("Navigation")
 st.sidebar.success("Select a page below:")
