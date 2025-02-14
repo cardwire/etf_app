@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 st.set_page_config(page_title="ETF Selector", page_icon=":chart_with_upwards_trend:")
 
@@ -14,8 +15,8 @@ st.markdown("## Select up to 4 ETFs")
 selected_etfs = []
 
 for index, row in data.iterrows():
-    if st.checkbox(row['ETF Name'], key=row['ETF Name']):
-        selected_etfs.append(row['ETF Name'])
+    if st.checkbox(row['Symbol'], key=row['Symbol']):
+        selected_etfs.append(row['Symbol'])
     
     # Limit selection to 4 ETFs
     if len(selected_etfs) > 4:
