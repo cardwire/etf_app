@@ -437,11 +437,71 @@ def lstm_forecast(ticker, period):
 
     st.plotly_chart(fig)
 
+########################################################################################################################
+
+import gluonts
+from gluonts.dataset.common import ListDataset
+from gluonts.model.deepar import DeepAREstimator
+from gluonts.mx.trainer import Trainer
+from gluonts.evaluation import Evaluator
+from gluonts.evaluation.backtest import make_evaluation_predictions
+
+def deepar_forecast(ticker, period):
+    # Create the history data in a suitable format
+    history = ticker.history(period='max')
+    history = history.reset_index()
+    history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
+    history['ds'] = pd.to_datetime(history['ds'])
+    history["ds"] = history['ds'].dt.tz_localize(None)
+
+    # Prepare the data for DeepAR model
+    training_data = ListDataset(
+        [{"start": history['ds'].iloc[0], "target": history['y'].values}],
+        freq="D"
+    )
+
+    # Create and train the DeepAR model
+    estimator = DeepAREstimator(freq="D", prediction_length=period, trainer=Trainer(epochs=25))
+    predictor = estimator.train(training_data)
+
+    # Make predictions
+    forecast_it, ts_it = make_evaluation_predictions(training_data, predictor=predictor, num_samples=100)
+    forecasts = list(forecast_it)
+    tss = list(ts_it)
+
+    # Extract forecast values
+    forecast = forecasts[0].mean
+
+    # Create future dates
+    future_dates = pd.date_range(start=history['ds'].max(), periods=period).to_frame(index=False, name='ds')
+
+    # Plot the forecast using plotly
+    fig = go.Figure()
+
+    # Add the actual data
+    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+
+    # Add the forecast data
+    fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
+
+    # Update layout
+    fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using DeepAR',
+                      xaxis_title='Date',
+                      yaxis_title='Price')
+
+    # Indicate the forecasted region with a vertical line at the last known date
+    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
+
+    # Add slider to the plot to zoom in and out
+    fig.update_layout(xaxis_rangeslider_visible=True)
+
+    fig.show()
 
 
+    st.plotly_chart(fig)
 
 
-########################################################################################
+####################################################################################################################################
 def get_etf_data(server, database, username, password, table_name='etf_data'):
     connection_string = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+18+for+SQL+Server'
     engine = create_engine(connection_string)
