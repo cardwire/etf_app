@@ -18,4 +18,4 @@ prophet
 statsmodels
 tensorflow
 keras
-
+gluonts
