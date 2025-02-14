@@ -42,32 +42,36 @@ if len(selected_etfs) > 1:
 # Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
-# get symbol and ticker from selected ETF
-symbol = selected_etfs[0]
-ticker = yf.Ticker(symbol)
+# Check if an ETF is selected
+if selected_etfs:
+    # get symbol and ticker from selected ETF
+    symbol = selected_etfs[0]
+    ticker = yf.Ticker(symbol)
 
-# get long business summary
-long_sum = ticker.info['longBusinessSummary']
+    # get long business summary
+    long_sum = ticker.info['longBusinessSummary']
 
-st.markdown(f" ## you selected {symbol}")
-st.markdown(f" ###read this general information on your chosen ETF: {long_sum}")
+    st.markdown(f"## You selected {symbol}")
+    st.markdown(f"### Read this general information on your chosen ETF: {long_sum}")
 
-st.divider()
+    st.divider()
 
-st.markdown(" ### select your forecast period and a forecast algorithm of choice here")
+    st.markdown("### Select your forecast period and a forecast algorithm of choice here")
 
-algorithm = st.select_slider("select your forecast algorithm", options=["prophet", "adaboost", "random forest", "naive bayes"])
-period = st.slider("chose a forecast period in days", min_value=1, max_value=365)
+    algorithm = st.select_slider("Select your forecast algorithm", options=["prophet", "adaboost", "random forest", "naive bayes"])
+    period = st.slider("Choose a forecast period in days", min_value=1, max_value=365)
 
-def on_click_forecast():
-    if algorithm == "prophet":
-        prophet_forecast(ticker, period)
-    elif algorithm == "adaboost":
-        ada_forecast(ticker, period)
-    elif algorithm == "random forest":
-        rf_forecast(ticker, period)
-    elif algorithm == "naive bayes":
-        naiveb_forecast(ticker, period)
+    def on_click_forecast():
+        if algorithm == "prophet":
+            prophet_forecast(ticker, period)
+        elif algorithm == "adaboost":
+            ada_forecast(ticker, period)
+        elif algorithm == "random forest":
+            rf_forecast(ticker, period)
+        elif algorithm == "naive bayes":
+            naiveb_forecast(ticker, period)
 
-if st.button("click to forecast"):
-    on_click_forecast()
+    if st.button("Click to forecast"):
+        on_click_forecast()
+else:
+    st.warning("Please select an ETF to forecast.")
