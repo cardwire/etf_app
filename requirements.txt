@@ -16,5 +16,6 @@ umap-learn
 streamlit-extras
 prophet
 statsmodels
-
+tensorflow
+keras
 
