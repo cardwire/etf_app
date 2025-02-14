@@ -127,7 +127,7 @@ def ada_forecast(ticker, period):
 
 from sklearn.naive_bayes import GaussianNB
 
-def naive_bayes_forecast(ticker, period):
+def naiveb_forecast(ticker, period):
     # Create the history data in a suitable format
     history = ticker.history(period='max')
     history = history.reset_index()
