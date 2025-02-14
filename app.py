@@ -16,7 +16,7 @@ st.sidebar.title("Navigation")
 st.sidebar.success("Select a page below:")
 page = st.sidebar.radio("Go to", ["Page 1", "Page 2", "Page 3"])
 
-if page == "app":
+if page =="Homepage":
     st.markdown("# Homepage")
 elif page == "Page 1":
     switch_page("page_1")
