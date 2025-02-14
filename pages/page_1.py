@@ -22,7 +22,7 @@ page = st.sidebar.radio("Go to", ["Page 1", "Page 2", "Page 3"])
 
 # Load the ETF data
 
-if page == "Homepage":
+if page == "app":
     st.markdown("# Homepage")
 elif page == "Page 1":
     switch_page("page_1.py")
