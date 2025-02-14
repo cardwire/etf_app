@@ -104,4 +104,5 @@ def on_click_forecast():
     elif algorithm == "naive bayes":
         naiveb_forecast(ticker, period)
 
-st.button("click to forecast", on_click=on_click_forecast)
+if st.button("click to forecast"):
+    on_click_forecast()
