@@ -13,3 +13,4 @@ openpyxl
 scikit_learn
 umap
 umap-learn
+streamlit-extras
