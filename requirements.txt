@@ -19,5 +19,5 @@ statsmodels
 tensorflow
 keras
 mxnet
-gluonts[mxnet]
+gluonts
 xgboost
