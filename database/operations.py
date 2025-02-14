@@ -8,7 +8,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import datetime
-import plotly.graph_objects as go
+import plotly.graph_objs as go
 import plotly.express as px
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
@@ -84,8 +84,6 @@ def ada_forecast(ticker, period):
     future_dates = pd.date_range(start=history['ds'].max(), periods=period)
     future_X = np.array((future_dates - history['ds'].min()).days).reshape(-1, 1)
     forecast = model.predict(future_X)
-    
-    # Plotting code here...
 
     # plot the forecast using plotly
     fig = go.Figure()
