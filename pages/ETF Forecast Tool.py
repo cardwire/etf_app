@@ -3,13 +3,15 @@ import pandas as pd
 import yfinance as yf
 from prophet import Prophet
 import plotly.graph_objs as go
-from database.operations import prophet_forecast, ada_forecast, rf_forecast, naiveb_forecast
+from database.operations import (
+    prophet_forecast, ar_forecast, arima_forecast,
+    sarima_forecast, es_forecast, xgb_forecast,
+    lstm_forecast, deepar_forecast, nbeats_forecast,
+    tft_forecast
+)
 import numpy as np
 import sklearn
 import datetime as dt
-from sklearn.ensemble import AdaBoostRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.naive_bayes import GaussianNB
 
 # Set page configuration
 st.set_page_config(page_title="ETF Forecast Tool", page_icon=":chart_with_upwards_trend:")
@@ -59,18 +61,32 @@ if selected_etfs:
 
     st.markdown("### Select your forecast period and a forecast algorithm of choice here")
 
-    algorithm = st.select_slider("Select your forecast algorithm", options=["prophet", "adaboost", "random forest", "naive bayes"])
+    algorithm = st.selectbox("Select your forecast algorithm", options=[
+        "prophet", "ar", "arima", "sarima", "es", "xgb", "lstm", "deepar", "nbeats", "tft"
+    ])
     period = st.slider("Choose a forecast period in days", min_value=1, max_value=365)
 
     def on_click_forecast():
         if algorithm == "prophet":
             prophet_forecast(ticker, period)
-        elif algorithm == "adaboost":
-            ada_forecast(ticker, period)
-        elif algorithm == "random forest":
-            rf_forecast(ticker, period)
-        elif algorithm == "naive bayes":
-            naiveb_forecast(ticker, period)
+        elif algorithm == "ar":
+            ar_forecast(ticker, period)
+        elif algorithm == "arima":
+            arima_forecast(ticker, period)
+        elif algorithm == "sarima":
+            sarima_forecast(ticker, period)
+        elif algorithm == "es":
+            es_forecast(ticker, period)
+        elif algorithm == "xgb":
+            xgb_forecast(ticker, period)
+        elif algorithm == "lstm":
+            lstm_forecast(ticker, period)
+        elif algorithm == "deepar":
+            deepar_forecast(ticker, period)
+        elif algorithm == "nbeats":
+            nbeats_forecast(ticker, period)
+        elif algorithm == "tft":
+            tft_forecast(ticker, period)
 
     if st.button("Click to forecast"):
         on_click_forecast()
