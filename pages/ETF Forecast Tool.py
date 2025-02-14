@@ -9,6 +9,7 @@ import sklearn
 import datetime as dt
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.naive_bayes import GaussianNB
 
 # Set page configuration
 st.set_page_config(page_title="ETF Forecast Tool", page_icon=":chart_with_upwards_trend:")
