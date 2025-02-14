@@ -11,7 +11,7 @@ from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
 import umap
 from umap import UMAP
-from streamlit import switch_page
+from streamlit_extras import switch_page_button
 
 
 st.sidebar.title("Navigation")
