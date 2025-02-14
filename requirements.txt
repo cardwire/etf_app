@@ -19,6 +19,4 @@ statsmodels
 tensorflow
 keras
 gluonts[mxnet]
-gluonts[torch]
-pytorch
 xgboost
