@@ -11,7 +11,7 @@ from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
 import umap
 from umap import UMAP
-from streamlit_extras.switch_page_button import switch_page
+
 
 st.set_page_config(page_title="Homepage", page_icon=":page_facing_up:")
 
