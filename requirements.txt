@@ -18,5 +18,6 @@ prophet
 statsmodels
 tensorflow
 keras
+mxnet
 gluonts[mxnet]
 xgboost
