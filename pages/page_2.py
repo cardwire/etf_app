@@ -1,57 +1,42 @@
 import streamlit as st
-import panas as pd 
-import yfinance as yf
-########################################################################
-st.write("you selectdet SPY")
+import pandas as pd
+import plotly.express as px
 
-symbol = 'SPY' #implement selct function
+st.set_page_config(page_title="ETF Visualizations", page_icon="📊")
 
-ticker = yf.Ticker(f'{symbol}')
-hist = ticker.history(period='1d', interval='1m')
+st.markdown("# ETF Visualizations")
 
+# Load the ETF data
+data = pd.read_excel("database/df.xlsx")
 
+# Preprocess missing values
+data['type'] = data['type'].fillna('Other').replace('-', 'Other')
+data['category'] = data['category'].fillna('Other').replace('-', 'Other')
 
+# Count occurrences of each type and category
+type_counts = data['type'].value_counts().reset_index()
+type_counts.columns = ['type', 'count']
+category_counts = data['category'].value_counts().reset_index()
+category_counts.columns = ['category', 'count']
 
-# plot the price of SPY in plotly as candlestick chart
-fig = go.Figure(data=[go.Candlestick(x=hist.index,
-                open=hist['Open'],
-                high=hist['High'],
-                low=hist['Low'],
-                close=hist['Close'])])
-fig.update_layout(title=f'{symbol} Todays Price', xaxis_title='Date', yaxis_title='Price')
-#change background color to white, add gridlines in grey, and change font size
-fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
-#center title
-fig.update_layout(title_x=0.5)
+# Bar plot for ETF types
+fig_type = px.bar(type_counts, x='type', y='count', title='ETF Types')
+fig_type.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+st.plotly_chart(fig_type)
 
-fig.show()
-
-st.plotly_chart(fig)
-
-###############################################################################
 st.divider()
 
-#drop currency
-data = data.drop(columns = ["currency"], axis = 1)
-# selcting only the numeric columns
-data_numeric = data.select_dtypes(include=[np.number])
+# Bar plot for ETF categories
+fig_category = px.bar(category_counts, x='count', y='category', title='ETF Categories', orientation='h')
+fig_category.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+fig_category.update_yaxes(categoryorder='total ascending')
+fig_category.update_layout(height=1000)
+st.plotly_chart(fig_category)
 
-# Replace infinite values with NaN
-data_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
+st.divider()
 
-imputer = IterativeImputer()
-data_numeric_imputed = imputer.fit_transform(data_numeric)
-data_numeric_imputed = pd.DataFrame(data_numeric_imputed, columns=data_numeric.columns)
+# Plot distribution of total assets
+fig_assets = px.histogram(data, x="total_assets", title="Distribution of Total Assets")
+fig_assets.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+st.plotly_chart(fig_assets)
 
-# scale the numeric columns
-scaler = StandardScaler()
-data_numeric_imputed_scaled = scaler.fit_transform(data_numeric_imputed)
-data_numeric_imputed_scaled = pd.DataFrame(data_numeric_imputed_scaled, columns=data_numeric_imputed.columns)
-
-#selecting only the categorical columns
-data_categorical = data.select_dtypes(include=[object])
-#selecting only the categorical columns
-data_categorical = data.select_dtypes(include=[object])
-data_categorical.head()
-
-cats_to_add = data_categorical[["type", "category"]]
