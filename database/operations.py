@@ -8,8 +8,8 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import datetime
-import plotly graphix objects as go
-import plotly express as px
+import plotly.graph_objects as go
+import plotly.express as px
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
 # All functions required in this app
