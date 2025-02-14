@@ -32,6 +32,26 @@ st.markdown("# ETF Finder")
 data = pd.read_excel("database/df.xlsx")
 st.dataframe(data)
 
+st.sidebar.title("Navigation")
+st.sidebar.success("Select a page below:")
+page = st.sidebar.radio("Go to", ["Page 1", "Page 2", "Page 3"])
+
+if page == "app":
+    st.markdown("# Homepage")
+elif page == "Page 1":
+    switch_page("page_1")
+elif page == "Page 2":
+    switch_page("page_2")
+elif page == "Page 3":
+    switch_page("page_3")
+
+st.set_page_config(page_title="app", page_icon=":page_facing_up:")
+st.markdown("# ETF Finder")
+
+# Load the ETF data
+data = pd.read_excel("database/df.xlsx")
+st.dataframe(data)
+
 
 st.markdown("# ETF Finder")
 
