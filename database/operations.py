@@ -12,6 +12,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
+from prophet import Prophet
 # All functions required in this app
 
 
