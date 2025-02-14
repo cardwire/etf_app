@@ -68,6 +68,14 @@ def prophet_forecast(ticker, period):
 
 import pandas as pd  # Ensure pandas is imported
 
+import streamlit as st
+import numpy as np
+import pandas as pd
+import datetime
+import plotly.graph_objs as go
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.tree import DecisionTreeRegressor
+
 def ada_forecast(ticker, period):
     history = ticker.history(period='max')
     history = history.reset_index()
@@ -84,17 +92,21 @@ def ada_forecast(ticker, period):
     future_dates = pd.date_range(start=history['ds'].max(), periods=period)
     future_X = np.array((future_dates - history['ds'].min()).days).reshape(-1, 1)
     forecast = model.predict(future_X)
-
+    
+    # Ensure forecast data is structured correctly
+    forecast_df = pd.DataFrame({'ds': future_dates, 'yhat': forecast})
+    
     # plot the forecast using plotly
     fig = go.Figure()
     # Add the actual data
     fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
     # Add the forecast data
-    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+    fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat'], mode='lines', name='Forecast'))
 
     # Add the upper and lower bounds
-    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
-    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+    # (assuming upper and lower bounds are calculated elsewhere)
+    # fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+    # fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
 
     # indicate the forecasted region with a vertical line at the last known date
     fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
@@ -108,7 +120,6 @@ def ada_forecast(ticker, period):
                       yaxis_title='Price')
 
     st.plotly_chart(fig)
-
 
 
 
