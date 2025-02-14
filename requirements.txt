@@ -18,5 +18,5 @@ prophet
 statsmodels
 tensorflow
 keras
-gluonts==0.8.0
+gluonts==0.16.0
 xgboost
