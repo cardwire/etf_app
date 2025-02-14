@@ -50,14 +50,14 @@ if len(selected_etfs) > 4:
 # Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
-# Hide/Show different sections using checkboxes
-show_candlesticks = st.checkbox("Show Candlestick Charts", value=True)
-show_sector_weightings = st.checkbox("Show Sector Weightings", value=True)
-show_asset_classes = st.checkbox("Show Asset Classes", value=True)
-show_top_holdings = st.checkbox("Show Top Holdings", value=True)
-show_dividends = st.checkbox("Show Dividends", value=True)
+# Hide/Show different sections using checkboxes (Default to False, sections hidden)
+show_candlesticks = st.checkbox("Show Candlestick Charts", value=False)
+show_sector_weightings = st.checkbox("Show Sector Weightings", value=False)
+show_asset_classes = st.checkbox("Show Asset Classes", value=False)
+show_top_holdings = st.checkbox("Show Top Holdings", value=False)
+show_dividends = st.checkbox("Show Dividends", value=False)
 
-# Fetch and store fund data in session state
+# Fetch and store fund data in session state only if ETF is selected
 if selected_etfs:
     fund_data = []
     for etf in selected_etfs:
@@ -66,9 +66,9 @@ if selected_etfs:
     st.session_state.fund_data = fund_data
 
     # Fetch additional data
-    sector_weightings = [fund_data.sector_weightings for data in fund_data]
-    asset_classes = [fund_data.asset_classes for data in fund_data]
-    top_holdings = [fund_data.top_holdings for data in fund_data]
+    sector_weightings = [data.sector_weightings for data in fund_data]
+    asset_classes = [data.asset_classes for data in fund_data]
+    top_holdings = [data.top_holdings for data in fund_data]
     dividends = [yf.Ticker(etf).dividends for etf in selected_etfs]
 
     st.session_state.sector_weightings = sector_weightings
