@@ -32,8 +32,20 @@ if selected_etfs:
     st.markdown("## Candlestick Charts")
     cols = 2 if len(selected_etfs) > 1 else 1  # Determine layout
     rows = -(-len(selected_etfs) // cols)  # Ceiling division for rows
-    fig = make_subplots(rows=rows, cols=cols, subplot_titles=selected_etfs)
-   
+    fig = make_subplots(rows=2, cols=2, subplot_titles=symbols)
+from plotly.subplots import make_subplots
+
+
+
+# Add the candlestick charts to the grid
+for i, symbol in enumerate(symbols):
+    ticker = yf.Ticker(symbol)
+    hist = ticker.history(period='1d', interval='1m')
+    fig.add_trace(go.Candlestick(x=hist.index, open=hist['Open'], high=hist['High'], low=hist['Low'], close=hist['Close']), row=(i // 2) + 1, col=(i % 2) + 1)
+
+# Update the layout of the grid
+fig.update_layout(title_text='ETF Candlestick Charts', height=800, width=800)
+
     
     for i, etf in enumerate(selected_etfs):
         ticker = yf.Ticker(etf)
