@@ -119,7 +119,15 @@ data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1
 
 # Dropdown for selecting dimensionality reduction method
 methods = [
-    "UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", "MVR"]
+    "Uniform Manifold Approximisation and Projection - UMAP", 
+    "Principle Component Analysis - PCA", 
+    "t-distributed Stochastic Neighbor Embedding - t-SNE", 
+    "Non-negative Matrix Factorization - NMF", 
+    "Linear Discriminant Analysis - LDA", 
+    "Independent Component Analysis - ICA", 
+    "Generalized Discriminant - GDA", 
+    "Missing Values Ratio - MVR"
+]
 
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=methods)
 
