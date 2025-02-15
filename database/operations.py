@@ -461,12 +461,11 @@ def lstm_forecast(ticker, period):
 
 ########################################################################################################################
 
-'''
+
 
 import gluonts
 from gluonts.dataset.common import ListDataset
-from gluonts.model.deepar import DeepAREstimator
-from gluonts.mx.trainer import Trainer
+from gluonts.torch.model.deepar import DeepAREstimator
 from gluonts.evaluation import Evaluator
 from gluonts.evaluation.backtest import make_evaluation_predictions
 
@@ -557,6 +556,8 @@ def deepar_forecast(ticker, period):
     st.plotly_chart(fig)
 
     st.plotly_chart(fig)
+
+    '''
 ################################################################################################################################
 
 
