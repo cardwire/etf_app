@@ -172,6 +172,13 @@ def ar_forecast(ticker, period):
     st.plotly_chart(fig)
 
 
+from statsmodels.graphics.tsaplots import plot_acf
+import matplotlib.pyplot as plt
+
+plot_acf(y, lags=50)  # Plot autocorrelation for the first 50 lags
+plt.show()
+
+
 #########################################################################################################
 
 from statsmodels.tsa.arima.model import ARIMA
