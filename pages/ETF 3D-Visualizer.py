@@ -12,7 +12,6 @@ from sklearn.decomposition import NMF
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
 
-
 def get_umap_embeddings(data_final, n_components=3):
     reducer = umap.UMAP(n_components=n_components, metric='euclidean', n_neighbors=25, min_dist=0.5)
     embeddings = reducer.fit_transform(data_final)
@@ -41,13 +40,11 @@ def get_lda_components(data_final, labels, n_components=3):
     return pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
 
 
-
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
 
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
-data["type"] = data["type"].replace("unknown", np.nan)
 
 # Drop non-numeric columns and preprocess data
 data = data.drop(columns=["currency"], errors='ignore')
@@ -66,16 +63,12 @@ data_scaled = pd.DataFrame(data_scaled, columns=data_numeric.columns)
 
 # One-hot encode categorical variables
 data_categorical = data.select_dtypes(include=[object])
-cats_to_add = data_categorical[["type", "category"]]
+cats_to_add = data_categorical[["type", "category"]].copy()
+cats_to_add['type'] = cats_to_add['type'].fillna('Unknown')  # Handle missing values in 'type'
 cat_columns = pd.get_dummies(cats_to_add).astype(int)
 
 # Combine processed numeric and categorical data
 data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1)
-
-# get labels for LDA
-lda = LDA(n_components =3)
-labels = data['type']
-lda_components = lda.fit_transform(data_final, labels)
 
 # Find the minimum value in the dataframe
 min_value = data_final.min().min()
@@ -100,7 +93,8 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "NMF":
         return get_nmf_components(data_final_pos, n_components=3)   
     elif method == "LDA":
-        return get_lda_components(data_final_pos, labels = data['type'], n_components=3)   
+        labels = cats_to_add['type']  # Use the filled 'type' column for LDA
+        return get_lda_components(data_final_pos, labels, n_components=3)   
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
@@ -109,7 +103,7 @@ if st.button("Launch 3D Visualizer"):
     data_with_hover = pd.concat([data_embeddings, hover_data.reset_index(drop=True)], axis=1)
     
     # 3D Scatter plot
-    fig = px.scatter_3d(data_with_hover, x=data_embeddings.columns[0], y=data_embeddings.columns[1], z=data_embeddings.columns[2], color=data['type'],
+    fig = px.scatter_3d(data_with_hover, x=data_embeddings.columns[0], y=data_embeddings.columns[1], z=data_embeddings.columns[2], color=cats_to_add['type'],
                         hover_data=hover_data.columns, title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
     fig.update_traces(marker=dict(size=1.5), opacity=0.8)
     st.plotly_chart(fig)
