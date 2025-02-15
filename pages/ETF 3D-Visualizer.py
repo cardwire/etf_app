@@ -74,7 +74,7 @@ data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1
 # get labels for LDA
 lda = LDA(n_components =3)
 labels = data['type']
-lda_components = lda.fit_transform(df_numeric_imputed_scaled, labels)
+lda_components = lda.fit_transform(data_final, labels)
 
 # Find the minimum value in the dataframe
 min_value = data_final.min().min()
