@@ -101,54 +101,63 @@ import pandas as pd  # Ensure pandas is imported
 
 from statsmodels.tsa.ar_model import AutoReg
 
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+from statsmodels.tsa.ar_model import AutoReg
+from datetime import datetime, timedelta
+
 def ar_forecast(ticker, period):
-    # Create the history data in a suitable format
+    # Create the history data
     history = ticker.history(period='max')
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
     history['ds'] = pd.to_datetime(history['ds'])
     history["ds"] = history['ds'].dt.tz_localize(None)
 
-    # Prepare the data for AR model
-    y = history['y']
+    # Prepare data for AR model
+    y = history['y'].values
+    dates = history['ds'].values
 
-    # Create and fit the AR model
-    model = AutoReg(y, lags=5)
+    # Fit the AR model
+    model = AutoReg(y, lags=30)  # Adjust lags as needed
     model_fit = model.fit()
-
-    # Create future dates
-    future_dates = pd.date_range(start=history['ds'].max(), periods=period).to_frame(index=False, name='ds')
 
     # Make predictions
     forecast = model_fit.predict(start=len(y), end=len(y) + period - 1)
+    forecast_dates = pd.date_range(start=dates[-1] + timedelta(days=1), periods=period)
+
+    # Combine historical and forecasted data
+    combined_dates = np.concatenate([dates, forecast_dates])
+    combined_values = np.concatenate([y, forecast])
 
     # Plot the forecast using plotly
     fig = go.Figure()
 
+    # Limit the time period to the same as the forecast
+    past = datetime.today() - timedelta(days=period)
+    future = datetime.today() + timedelta(days=period)
+
+    # Filter historical data to the desired time window
+    history_filtered = history[history['ds'] >= past]
+
     # Add the actual data
-    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+    fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
 
     # Add the forecast data
-    fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
-
-    # Add the upper and lower bounds
-    # (assuming upper and lower bounds are calculated elsewhere)
-    try:
-        fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
-        fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
-    except Exception as e:
-        st.error(f"Error adding traces: {e}")
-
-    # Update layout
-    fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using AR',
-                      xaxis_title='Date',
-                      yaxis_title='Price')
+    fig.add_trace(go.Scatter(x=forecast_dates, y=forecast, mode='lines', name='Forecast'))
 
     # Indicate the forecasted region with a vertical line at the last known date
-    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
+    fig.add_vline(x=dates[-1], line_width=2, line_dash="dash", line_color="black")
 
-    # Add slider to the plot to zoom in and out
-    fig.update_layout(xaxis_rangeslider_visible=True)
+    # Update layout to limit the x-axis range and set titles
+    fig.update_layout(
+        xaxis_range=[past, future],  # Limit the x-axis to the desired time window
+        title=f'AR Forecast for {ticker.ticker} for the next {period} days',
+        xaxis_title='Date',
+        yaxis_title='Price'
+    )
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
