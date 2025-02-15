@@ -66,6 +66,7 @@ def apply_mvr(data_final, threshold=0.5):
     missing_values_ratio = data_final.isnull().mean()
     return data_final.loc[:, missing_values_ratio < threshold]
 
+'''
 # Low Variance Filter
 def apply_low_variance_filter(data_final, threshold=0.1):
     selector = VarianceThreshold(threshold=threshold)
@@ -94,6 +95,7 @@ def apply_backward_feature_elimination(data_final, labels, n_features_to_select=
     return data_final.iloc[:, sfs.get_support()]
 
 # Autoencoder
+
 def get_autoencoder_components(data_final, n_components=3, epochs=50):
     input_dim = data_final.shape[1]
     encoding_dim = n_components
@@ -112,6 +114,7 @@ def get_autoencoder_components(data_final, n_components=3, epochs=50):
     encoder_model = Model(inputs=input_layer, outputs=encoder)
     encoded_data = encoder_model.predict(data_final)
     return pd.DataFrame(encoded_data, columns=[f'AE{i+1}' for i in range(n_components)])
+'''
 
 # Main function to call dimensionality reduction methods
 def call_dimensionality_reduction(method, data_final, labels=None, n_components=3):
@@ -129,18 +132,18 @@ def call_dimensionality_reduction(method, data_final, labels=None, n_components=
         return get_ica_components(data_final, n_components)
     elif method == "GDA":
         return get_gda_components(data_final, labels, n_components)
-    elif method == "Autoencoder":
-        return get_autoencoder_components(data_final, n_components)
+   # elif method == "Autoencoder":
+        #return get_autoencoder_components(data_final, n_components)
     elif method == "MVR":
         return apply_mvr(data_final)
-    elif method == "Low Variance Filter":
-        return apply_low_variance_filter(data_final)
-    elif method == "High Correlation Filter":
-        return apply_high_correlation_filter(data_final)
-    elif method == "Forward Feature Construction":
-        return apply_forward_feature_construction(data_final, labels)
-    elif method == "Backward Feature Elimination":
-        return apply_backward_feature_elimination(data_final, labels)
+   # elif method == "Low Variance Filter":
+    #    return apply_low_variance_filter(data_final)
+    #elif method == "High Correlation Filter":
+     #   return apply_high_correlation_filter(data_final)
+    #elif method == "Forward Feature Construction":
+     #   return apply_forward_feature_construction(data_final, labels)
+    #elif method == "Backward Feature Elimination":
+     #   return apply_backward_feature_elimination(data_final, labels)
     else:
         raise ValueError("Invalid method selected.")
 
@@ -179,9 +182,10 @@ data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1
 
 # Dropdown for selecting dimensionality reduction method
 methods = [
-    "UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", "Autoencoder",
-    "MVR", "Low Variance Filter", "High Correlation Filter",
-    "Forward Feature Construction", "Backward Feature Elimination"
+    "UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", #"Autoencoder",
+    "MVR", 
+   # "Low Variance Filter", "High Correlation Filter",
+    #"Forward Feature Construction", "Backward Feature Elimination"
 ]
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=methods)
 
