@@ -104,7 +104,7 @@ def ar_forecast(ticker, period):
     dates = history['ds'].values  # Historical dates as a NumPy array
 
     # Fit the AR model
-    model = AutoReg(y, lags=30)  # Adjust lags as needed
+    model = AutoReg(y, lags=60)  # Adjust lags as needed
     model_fit = model.fit()
 
     # Make predictions
