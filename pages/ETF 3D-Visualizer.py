@@ -12,6 +12,7 @@ from sklearn.decomposition import NMF
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
 
+
 def get_umap_embeddings(data_final, n_components=3):
     reducer = umap.UMAP(n_components=n_components, metric='euclidean', n_neighbors=25, min_dist=0.5)
     embeddings = reducer.fit_transform(data_final)
@@ -69,6 +70,10 @@ cat_columns = pd.get_dummies(cats_to_add).astype(int)
 
 # Combine processed numeric and categorical data
 data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1)
+
+# get labels for LDA
+labels = df['type']
+lda_components = lda.fit_transform(df_numeric_imputed_scaled, labels)
 
 # Find the minimum value in the dataframe
 min_value = data_final.min().min()
