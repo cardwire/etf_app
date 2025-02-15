@@ -12,11 +12,8 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 from sklearn.feature_selection import VarianceThreshold, SelectKBest, f_classif, mutual_info_classif
 from sklearn.feature_selection import SequentialFeatureSelector
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-
-
 
 # UMAP
 def get_umap_embeddings(data_final, n_components=3):
@@ -67,56 +64,6 @@ def apply_mvr(data_final, threshold=0.5):
     missing_values_ratio = data_final.isnull().mean()
     return data_final.loc[:, missing_values_ratio < threshold]
 
-'''
-# Low Variance Filter
-def apply_low_variance_filter(data_final, threshold=0.1):
-    selector = VarianceThreshold(threshold=threshold)
-    low_variance_data = selector.fit_transform(data_final)
-    return pd.DataFrame(low_variance_data, columns=data_final.columns[selector.get_support()])
-
-# High Correlation Filter
-def apply_high_correlation_filter(data_final, threshold=0.9):
-    corr_matrix = data_final.corr().abs()
-    upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-    to_drop = [column for column in upper.columns if any(upper[column] > threshold)]
-    return data_final.drop(columns=to_drop)
-
-# Forward Feature Construction
-def apply_forward_feature_construction(data_final, labels, n_features_to_select=10):
-    model = RandomForestClassifier(random_state=0)
-    sfs = SequentialFeatureSelector(model, n_features_to_select=n_features_to_select, direction='forward')
-    sfs.fit(data_final, labels)
-    return data_final.iloc[:, sfs.get_support()]
-
-# Backward Feature Elimination
-def apply_backward_feature_elimination(data_final, labels, n_features_to_select=10):
-    model = RandomForestClassifier(random_state=0)
-    sfs = SequentialFeatureSelector(model, n_features_to_select=n_features_to_select, direction='backward')
-    sfs.fit(data_final, labels)
-    return data_final.iloc[:, sfs.get_support()]
-
-# Autoencoder
-
-def get_autoencoder_components(data_final, n_components=3, epochs=50):
-    input_dim = data_final.shape[1]
-    encoding_dim = n_components
-
-    # Define autoencoder
-    input_layer = Input(shape=(input_dim,))
-    encoder = Dense(encoding_dim, activation="relu")(input_layer)
-    decoder = Dense(input_dim, activation="sigmoid")(encoder)
-    autoencoder = Model(inputs=input_layer, outputs=decoder)
-
-    # Compile and train
-    autoencoder.compile(optimizer='adam', loss='mean_squared_error')
-    autoencoder.fit(data_final, data_final, epochs=epochs, batch_size=256, shuffle=True, verbose=0)
-
-    # Extract encoded features
-    encoder_model = Model(inputs=input_layer, outputs=encoder)
-    encoded_data = encoder_model.predict(data_final)
-    return pd.DataFrame(encoded_data, columns=[f'AE{i+1}' for i in range(n_components)])
-'''
-
 # Main function to call dimensionality reduction methods
 def call_dimensionality_reduction(method, data_final, labels=None, n_components=3):
     if method == "UMAP":
@@ -133,20 +80,9 @@ def call_dimensionality_reduction(method, data_final, labels=None, n_components=
         return get_ica_components(data_final, n_components)
     elif method == "GDA":
         return get_gda_components(data_final, labels, n_components)
-   # elif method == "Autoencoder":
-        #return get_autoencoder_components(data_final, n_components)
     elif method == "MVR":
         return apply_mvr(data_final)
-   # elif method == "Low Variance Filter":
-    #    return apply_low_variance_filter(data_final)
-    #elif method == "High Correlation Filter":
-     #   return apply_high_correlation_filter(data_final)
-    #elif method == "Forward Feature Construction":
-     #   return apply_forward_feature_construction(data_final, labels)
-    #elif method == "Backward Feature Elimination":
-     #   return apply_backward_feature_elimination(data_final, labels)
-    else:
-        raise ValueError("Invalid method selected.")
+
 
 # Streamlit App
 st.set_page_config(page_title="ETF Dimensionality Reduction", page_icon="📈")
@@ -183,11 +119,8 @@ data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1
 
 # Dropdown for selecting dimensionality reduction method
 methods = [
-    "UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", #"Autoencoder",
-    "MVR", 
-   # "Low Variance Filter", "High Correlation Filter",
-    #"Forward Feature Construction", "Backward Feature Elimination"
-]
+    "UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", "MVR"]
+
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=methods)
 
 # Button to launch 3D visualizer
