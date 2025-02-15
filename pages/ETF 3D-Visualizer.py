@@ -38,7 +38,21 @@ def get_lda_components(data_final, labels, n_components=3):
     lda = LDA(n_components=3)
     lda_components = lda.fit_transform(data_final, labels)
     return lda_components
-   
+
+
+def call_dimensionality_reduction(method, data_final, data_final_pos):
+    if method == "UMAP":
+        return get_umap_embeddings(data_final)
+    elif method == "PCA":
+        return get_principle_components(data_final)
+    elif method == "t-SNE":
+        return get_t_sne(data_final)
+    elif method == "NMF":
+        return get_nmf_components(data_final_pos, n_components=3)   
+    elif method == "LDA":
+        return get_lda_components(data_final_pos, labels, n_components=3)
+
+
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
 
