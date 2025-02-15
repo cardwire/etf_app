@@ -90,7 +90,8 @@ st.markdown("# ETF Dimensionality Reduction")
 
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
-data["type"] = data['type'].fillna("unknown")
+data["type"] = data['type'].fillna("not provided")
+data["type"] = data['type'].replace("-", "typeless")
 labels = data["type"]
 
 # Drop non-numeric columns and preprocess data
