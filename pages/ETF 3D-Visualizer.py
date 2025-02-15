@@ -15,8 +15,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-from stqdm import stqdm
-from time import sleep
+
 
 # UMAP
 def get_umap_embeddings(data_final, n_components=3):
@@ -188,12 +187,6 @@ dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction 
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    try:
-        for _ in stqdm(range(50)):
-            sleep(0.5)
-    except Exception as e:
-        print(e)
-        
     data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
     hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
     data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
@@ -202,7 +195,7 @@ if st.button("Launch 3D Visualizer"):
     if data_embeddings.shape[1] >= 3:
         fig = px.scatter_3d(data_with_hover, x=data_embeddings.columns[0], y=data_embeddings.columns[1], z=data_embeddings.columns[2], color=labels,
                             hover_data=hover_data.columns, title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
-        fig.update_traces(marker=dict(size=1.5), opacity=0.8)
+        fig.update_traces(marker=dict(size=2.5), opacity=0.8)
         st.plotly_chart(fig)
     else:
         st.error("Selected method does not produce enough components for 3D visualization.")
