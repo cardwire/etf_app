@@ -54,7 +54,89 @@ st.markdown("### Distribution of Total Assets")
 x = np.log10(data['total_assets'])
 fig_assets = px.histogram(data, x=x, title='Distribution of Total Assets')
 fig_assets.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
-fig_assets.update_traces(marker_line_color='black', marker_line_width=1, marker_color='seagreen')
+fig_assets.update_traces(marker_line_color='black', marker_line_width=1, marker_color='deepskyblue')
 fig_assets.update_xaxes(title_text='10exp(USD)')
 fig_assets.update_layout(title_x=0.5)
 st.plotly_chart(fig_assets)
+
+
+st.divider()
+
+st.markdown("### Distribution of positive returns this year")
+# plot distribution of ytd_return in plotly for positive values and negative values as separate plots in np.log10 scale
+x=np.log10(data['ytd_return'][data['ytd_return']>0])
+fig = px.histogram(data[data['ytd_return']>0], x=x, title='Distribution of YTD Return (Positive)')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#set bar outlines to black
+fig.update_traces(marker_line_color='black', marker_line_width=1)
+#set bar colors to deepskyblueblue
+fig.update_traces(marker_color='seagreen')
+#remove "type" from x-axis
+fig.update_xaxes(title_text='10exp(USD)')
+#center title
+fig.update_layout(title_x=0.5)
+st.plotly_chart(fig)
+
+
+st.divider()
+
+st.markdown("### Distribution of negative returns this year")
+x=np.log10(-data['ytd_return'][data['ytd_return']<0])
+fig = px.histogram(data[data['ytd_return']<0], x=x, title='Distribution of YTD Return (Negative)')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#set bar outlines to black
+fig.update_traces(marker_line_color='black', marker_line_width=1)
+#set bar colors to deepskyblueblue
+fig.update_traces(marker_color='red')
+#remove "type" from x-axis
+fig.update_xaxes(title_text='10exp(USD)')
+#center title
+fig.update_layout(title_x=0.5)
+#set y-axis to range from 0 to 350
+fig.update_yaxes(range=[0, 5])
+#reduce binsize to 0.1
+fig.update_traces(histnorm='percent', xbins=dict(size=0.1))
+st.plotly_chart(fig)
+
+
+st.divider()
+
+
+st.markdown("### Distribution of returns for bids") 
+x=np.log10(data['bid'])
+fig = px.histogram(data, x=x, title='Distribution of Bid')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#set bar outlines to black
+fig.update_traces(marker_line_color='black', marker_line_width=1)
+#set bar colors to deepskyblueblue
+fig.update_traces(marker_color='seagreen')
+#remove "type" from x-axis
+fig.update_xaxes(title_text='10exp(USD)')
+#center title
+fig.update_layout(title_x=0.5)
+st.plotly_chart(fig)
+
+
+st.divider()
+
+st.markdown("### Distribution of returns for asks") 
+x=np.log10(df['ask'])
+fig = px.histogram(data, x=x, title='Distribution of Ask')
+#change background color to white, add gridlines in grey, and change font size
+fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
+#set bar outlines to black
+fig.update_traces(marker_line_color='black', marker_line_width=1)
+#set bar colors to deepskyblueblue
+fig.update_traces(marker_color='seagreen')
+#remove "type" from x-axis
+fig.update_xaxes(title_text='10exp(USD)')
+#center title
+fig.update_layout(title_x=0.5)
+st.plotly_chart(fig)
+
+
+
+
