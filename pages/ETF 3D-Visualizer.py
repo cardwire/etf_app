@@ -37,9 +37,9 @@ def get_nmf_components(data_final_pos, n_components=3):
 def get_lda_components(data_final, labels, n_components=3):
     lda = LDA(n_components=3)
     lda_components = lda.fit_transform(data_final, labels)
-    return pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
-    print(pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)]))
-
+    df_lda = pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
+    return df_lda
+   
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
 
@@ -93,8 +93,7 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "NMF":
         return get_nmf_components(data_final_pos, n_components=3)   
     elif method == "LDA":
-        labels = cats_to_add['type']  # Use the filled 'type' column for LDA
-        return get_lda_components(data_final_pos, labels, n_components=3)   
+        return get_lda_components(data_final, labels, n_components=3)   
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
