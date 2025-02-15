@@ -41,7 +41,7 @@ def get_lda_components(data_final, labels, n_components=3):
     return lda_components
 
 
-def call_dimensionality_reduction(method, data_final, data_final_pos):
+def call_dimensionality_reduction(method, data_final):
     if method == "UMAP":
         return get_umap_embeddings(data_final)
     elif method == "PCA":
