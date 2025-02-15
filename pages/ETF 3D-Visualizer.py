@@ -149,13 +149,6 @@ if st.button("Launch 3D Visualizer"):
 
 
 
-st.markdown("## Infobox")
-
-# Define the DataFrame directly in the script
-df_dr = pd.read_csv(database/df_dr.csv)
-
-st.table(df_dr)
-
 
 
 
