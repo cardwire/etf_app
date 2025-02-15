@@ -170,34 +170,36 @@ def arima_forecast(ticker, period):
 
     # Plot the forecast using plotly
     fig = go.Figure()
+    # Create future dates
+    future_dates = pd.date_range(start=history['ds'].max() + timedelta(days=1), periods=period)
+
+    # Plot the forecast using plotly
+    fig = go.Figure()
+
+    # Limit the time period to the same as the forecast
+    past = datetime.today() - timedelta(days=period)
+    future = datetime.today() + timedelta(days=period)
+
+    # Filter historical data to the desired time window
+    history_filtered = history[history['ds'] >= past]
 
     # Add the actual data
-    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+    fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
 
     # Add the forecast data
-    fig.add_trace(go.Scatter(x=future_dates['ds'], y=forecast, mode='lines', name='Forecast'))
+    fig.add_trace(go.Scatter(x=future_dates, y=forecast, mode='lines', name='Forecast'))
 
-    try:
-        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
-        fig.add_trace(go.Scatter(x=forecast_df['ds'], y=forecast_df['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
-    except Exception as e:
-        st.error(f"Error adding traces: {e}")
+    # Update layout to limit the x-axis range and set titles
+    fig.update_layout(
+        xaxis_range=[past, future],  # Limit the x-axis to the desired time window
+        title=f'AR Forecast for {ticker.ticker} for the next {period} days',
+        xaxis_title='Date',
+        yaxis_title='Price'
+    )
 
-    
-    # Update layout
-    fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days using ARIMA',
-                      xaxis_title='Date',
-                      yaxis_title='Price')
-
-    # Indicate the forecasted region with a vertical line at the last known date
-    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
-
-    # Add slider to the plot to zoom in and out
-    fig.update_layout(xaxis_rangeslider_visible=True)
-
-    fig.show()
-
+    # Display the plot in Streamlit
     st.plotly_chart(fig)
+  
 
 
 
