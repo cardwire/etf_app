@@ -146,3 +146,18 @@ if st.button("Launch 3D Visualizer"):
         st.plotly_chart(fig)
     else:
         st.error("Selected method does not produce enough components for 3D visualization.")
+
+
+
+st.markdown("## Infobox")
+df_dr = pd.read_csv("database/df_dr.csv")
+st.table(df_dr)
+
+
+
+
+
+
+
+
+
