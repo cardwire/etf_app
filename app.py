@@ -3,7 +3,7 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
 from streamlit_extras.switch_page_button import switch_page
-from database.esg import get_esg
+
 
 st.set_page_config(page_title="ETF App", page_icon=":chart_with_upwards_trend:")
 
@@ -18,7 +18,6 @@ if page == "ETF App":
     
     # Load ETF data
     data = pd.read_excel("database/df.xlsx")
-    get_esg(data, esg)
     st.dataframe(data)
 
 elif page == "ETF Inspector":
