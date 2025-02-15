@@ -64,7 +64,7 @@ if selected_etfs:
     st.markdown("### Select your forecast period and a forecast algorithm of choice here")
 
     algorithm = st.selectbox("Select your forecast algorithm", options=[
-        "prophet", "ar", "arima", "sarima", "es", "xgb", #"lstm", "deepar", "nbeats", "tft"
+        "prophet", "ar", "arima", "sarima", "es", "xgb"
     ])
     period = st.slider("Choose a forecast period in days", min_value=30, max_value=1825)
 
