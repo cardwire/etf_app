@@ -63,7 +63,7 @@ if selected_etfs:
     algorithm = st.selectbox("Select your forecast algorithm", options=[
         "prophet", "ar", "arima", "sarima", "es", "xgb", #"lstm", "deepar", "nbeats", "tft"
     ])
-    period = st.slider("Choose a forecast period in days", min_value=1, max_value=365)
+    period = st.slider("Choose a forecast period in days", min_value=30, max_value=1825)
 
     def on_click_forecast():
         if algorithm == "prophet":
