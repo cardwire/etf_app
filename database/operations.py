@@ -193,12 +193,6 @@ def arima_forecast(ticker, period):
 
 
 
-import gluonts
-from gluonts.model.deepar import DeepAREstimator
-from gluonts.trainer import Trainer
-
-
-
 
 
 from statsmodels.tsa.statespace.sarimax import SARIMAX
@@ -466,7 +460,7 @@ def lstm_forecast(ticker, period):
     st.plotly_chart(fig)
 
 ########################################################################################################################
-'''
+
 import gluonts
 from gluonts.dataset.common import ListDataset
 from gluonts.model.deepar import DeepAREstimator
@@ -563,7 +557,7 @@ def deepar_forecast(ticker, period):
     st.plotly_chart(fig)
 ################################################################################################################################
 
-
+'''
 
 import gluonts
 from gluonts.dataset.common import ListDataset
