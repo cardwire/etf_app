@@ -22,3 +22,6 @@ mxnet
 gluonts
 xgboost
 missingno
+pytorch
+torchvision
+optuna
