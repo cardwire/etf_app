@@ -171,12 +171,15 @@ def ar_forecast(ticker, period):
     # Display the plot in Streamlit
     st.plotly_chart(fig)
 
-
 from statsmodels.graphics.tsaplots import plot_acf
 import matplotlib.pyplot as plt
 
-plot_acf(y, lags=50)  # Plot autocorrelation for the first 50 lags
+import plotly.express as px
+
+fig_acf = px.line(x=range(len(y)), y=plot_acf(y, lags=50).values, title='Autocorrelation')
+fig_acf.show() # Plot autocorrelation for the first 50 lags
 plt.show()
+
 
 
 #########################################################################################################
