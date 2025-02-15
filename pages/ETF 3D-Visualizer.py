@@ -30,9 +30,8 @@ def get_t_sne(data_final, n_components=3):
 
 def get_nmf_components(data_final_pos, n_components=3):
     nmf = NMF(n_components=n_components, init='random', random_state=0)
-    nmf_components = nmf.fit_transform(data_final)
+    nmf_components = nmf.fit_transform(data_final_pos)
     return pd.DataFrame(nmf_components, columns=[f'NMF{i+1}' for i in range(n_components)])
-
 
 
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
