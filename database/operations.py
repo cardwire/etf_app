@@ -189,7 +189,9 @@ def arima_forecast(ticker, period):
 
 
 
-
+import gluonts
+from gluonts.model.deepar import DeepAREstimator
+from gluonts.trainer import Trainer
 
 
 
