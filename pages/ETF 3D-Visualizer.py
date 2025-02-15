@@ -8,6 +8,9 @@ from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+from sklearn.decomposition import NMF
+import pandas as pd
+
 
 def get_umap_embeddings(data_final, n_components=3):
     reducer = umap.UMAP(n_components=n_components, metric='euclidean', n_neighbors=25, min_dist=0.5)
@@ -23,6 +26,14 @@ def get_t_sne(data_final, n_components=3):
     tsne = TSNE(n_components=n_components, metric='euclidean')
     tsne_components = tsne.fit_transform(data_final)
     return pd.DataFrame(tsne_components, columns=[f'TSNE{i+1}' for i in range(n_components)])
+
+
+def get_nmf_components(data_final, n_components=3):
+    nmf = NMF(n_components=n_components, init='random', random_state=0)
+    nmf_components = nmf.fit_transform(data_final)
+    return pd.DataFrame(nmf_components, columns=[f'NMF{i+1}' for i in range(n_components)])
+
+
 
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
@@ -62,8 +73,10 @@ def call_dimensionality_reduction(method, data_final):
         return get_umap_embeddings(data_final)
     elif method == "PCA":
         return get_principle_components(data_final)
-    else:
+    elif:
         return get_t_sne(data_final)
+    else:
+        return get_nmf_components(data_final, n_components=3)
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
