@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
+import plotly.express as px
 from streamlit_extras.switch_page_button import switch_page
 
 
