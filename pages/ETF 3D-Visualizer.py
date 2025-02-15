@@ -38,7 +38,8 @@ def get_lda_components(data_final, labels, n_components=3):
     lda = LDA(n_components=3)
     labels = data["type"]
     lda_components = lda.fit_transform(data_final, labels)
-    return lda_components
+    return pd.DataFrame(lda_components, columns=[f'NMF{i+1}' for i in range(n_components)])
+
 
 
 def call_dimensionality_reduction(method, data_final):
@@ -61,6 +62,7 @@ st.markdown("# ETF Dimensionality Reduction")
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
 data["type"] = data['type'].fillna("unknown", inplace=True)
+
 
 
 # Drop non-numeric columns and preprocess data
