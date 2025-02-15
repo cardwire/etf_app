@@ -30,10 +30,10 @@ import plotly.graph_objects as go
 import streamlit as st
 import pandas as pd
 
-def prophet_forecast(ticker, period, history_window):
+def prophet_forecast(ticker, period):
 
   # Create the history data in prophet style
-    history = ticker.history(period='max')
+    history = ticker.history(["Close"] = 'max')
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
     history['ds'] = pd.to_datetime(history['ds'])
@@ -49,14 +49,11 @@ def prophet_forecast(ticker, period, history_window):
     # Make predictions
     forecast = model.predict(future)
     
-     # Limit the historical data to the last `history_window` days for plotting
-    history_filtered = history[history['ds'] >= (history['ds'].max() - pd.Timedelta(days=history_window))]
-    
     # Plot the forecast using plotly
     fig = go.Figure()
 
     # Add the actual data (filtered to the last `history_window` days)
-    fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
+    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
 
     # Add the forecast data
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
