@@ -47,6 +47,7 @@ st.markdown("# ETF Dimensionality Reduction")
 
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
+data["type"] = data["type"].replace("unknown", np.nan)
 
 # Drop non-numeric columns and preprocess data
 data = data.drop(columns=["currency"], errors='ignore')
