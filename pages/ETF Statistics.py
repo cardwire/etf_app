@@ -16,8 +16,12 @@ data = pd.read_excel("database/df.xlsx")
 data['type'] = data['type'].fillna('Other').replace('-', 'Other')
 data['category'] = data['category'].fillna('Other').replace('-', 'Other')
 
-# visualize data completenes
-st.plot(msno.bar(data))
+import matplotlib.pyplot as plt
+
+# visualize data completeness
+fig, ax = plt.subplots()
+msno.bar(data, ax=ax)
+st.pyplot(fig)
 
 
 
