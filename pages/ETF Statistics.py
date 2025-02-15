@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 # visualize data completeness
 fig, ax = plt.subplots()
-msno.bar(data, ax=ax)
+msno.matrix(data, ax=ax)
 st.pyplot(fig)
 
 
