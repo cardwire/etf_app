@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import missingno as msno
+
+
 
 st.set_page_config(page_title="ETF Visualizations", page_icon="📊")
 
@@ -12,6 +15,11 @@ data = pd.read_excel("database/df.xlsx")
 # Preprocess missing values
 data['type'] = data['type'].fillna('Other').replace('-', 'Other')
 data['category'] = data['category'].fillna('Other').replace('-', 'Other')
+
+# visualize data completenes
+st.write(msno.matrix(data))
+
+
 
 # Count occurrences of each type and category
 type_counts = data['type'].value_counts().reset_index()
