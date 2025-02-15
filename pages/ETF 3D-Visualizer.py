@@ -30,19 +30,17 @@ def get_t_sne(data_final, n_components=3):
 
 def get_nmf_components(data_final, n_components=3):
     nmf = NMF(n_components=n_components, init='random', random_state=0)
-    nmf_components = nmf.fit_transform(data_final_pos)
+    nmf_components = nmf.fit_transform(data_final)
     return pd.DataFrame(nmf_components, columns=[f'NMF{i+1}' for i in range(n_components)])
 
 
 def get_lda_components(data_final, labels, n_components=3):
-    lda = LDA(n_components=3)
-    labels = data["type"]
+    lda = LDA(n_components=n_components)
     lda_components = lda.fit_transform(data_final, labels)
-    return pd.DataFrame(lda_components, columns=[f'NMF{i+1}' for i in range(n_components)])
+    return pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
 
 
-
-def call_dimensionality_reduction(method, data_final):
+def call_dimensionality_reduction(method, data_final, labels=None):
     if method == "UMAP":
         return get_umap_embeddings(data_final)
     elif method == "PCA":
@@ -50,7 +48,6 @@ def call_dimensionality_reduction(method, data_final):
     elif method == "t-SNE":
         return get_t_sne(data_final)
     elif method == "NMF":
-        data_final = data_final_pos
         return get_nmf_components(data_final, n_components=3)   
     elif method == "LDA":
         return get_lda_components(data_final, labels, n_components=3)
@@ -61,9 +58,8 @@ st.markdown("# ETF Dimensionality Reduction")
 
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
-data["type"] = data['type'].fillna("unknown", inplace=True)
-labels = cats_to_add['type']  # Use the filled 'type' column for LDA
-
+data["type"] = data['type'].fillna("unknown")
+labels = data["type"]  # Use the filled 'type' column for LDA
 
 # Drop non-numeric columns and preprocess data
 data = data.drop(columns=["currency"], errors='ignore')
@@ -101,27 +97,14 @@ else:
 # Dropdown for selecting dimensionality reduction method
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF", "LDA"])
 
-# Function to call the appropriate dimensionality reduction method
-def call_dimensionality_reduction(method, data_final, data_final_pos):
-    if method == "UMAP":
-        return get_umap_embeddings(data_final)
-    elif method == "PCA":
-        return get_principle_components(data_final)
-    elif method == "t-SNE":
-        return get_t_sne(data_final)
-    elif method == "NMF":
-        return get_nmf_components(data_final_pos, n_components=3)   
-    elif method == "LDA":
-        return get_lda_components(data_final_pos, labels, n_components=3)
-
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final)
-    hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
-    data_with_hover = pd.concat([data_embeddings, hover_data.reset_index(drop=True)], axis=1)
+    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
+    hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
+    data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
     
     # 3D Scatter plot
-    fig = px.scatter_3d(data_with_hover, x=data_embeddings.columns[0], y=data_embeddings.columns[1], z=data_embeddings.columns[2], color=cats_to_add['type'],
+    fig = px.scatter_3d(data_with_hover, x=data_embeddings.columns[0], y=data_embeddings.columns[1], z=data_embeddings.columns[2], color=labels,
                         hover_data=hover_data.columns, title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
     fig.update_traces(marker=dict(size=1.5), opacity=0.8)
     st.plotly_chart(fig)
