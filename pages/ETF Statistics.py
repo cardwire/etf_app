@@ -112,7 +112,7 @@ fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yax
 #set bar outlines to black
 fig.update_traces(marker_line_color='black', marker_line_width=1)
 #set bar colors to deepskyblueblue
-fig.update_traces(marker_color='lightorange')
+fig.update_traces(marker_color='orange')
 #remove "type" from x-axis
 fig.update_xaxes(title_text='10exp(USD)')
 #center title
@@ -130,7 +130,7 @@ fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yax
 #set bar outlines to black
 fig.update_traces(marker_line_color='black', marker_line_width=1)
 #set bar colors to deepskyblueblue
-fig.update_traces(marker_color='lightorange')
+fig.update_traces(marker_color='orange')
 #remove "type" from x-axis
 fig.update_xaxes(title_text='10exp(USD)')
 #center title
