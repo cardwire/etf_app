@@ -192,7 +192,7 @@ def arima_forecast(ticker, period):
     # Update layout to limit the x-axis range and set titles
     fig.update_layout(
         xaxis_range=[past, future],  # Limit the x-axis to the desired time window
-        title=f'AR Forecast for {ticker.ticker} for the next {period} days',
+        title=f'ARIMA Forecast for {ticker.ticker} for the next {period} days',
         xaxis_title='Date',
         yaxis_title='Price'
     )
@@ -251,12 +251,11 @@ def sarima_forecast(ticker, period):
     fig.add_trace(go.Scatter(x=future_dates, y=forecast, mode='lines', name='Forecast'))
 
     # Update layout to limit the x-axis range and set titles
-    fig.update_layout(
-        xaxis_range=[past, future],  # Limit the x-axis to the desired time window
-        title=f'AR Forecast for {ticker.ticker} for the next {period} days',
-        xaxis_title='Date',
-        yaxis_title='Price'
-    )
+    fig.update_layout(xaxis_range=[past, future], 
+                      title=f'SARIMA Forecast for {ticker.ticker} for the next {period} days', 
+                      xaxis_title='Date', 
+                      yaxis_title='Price'
+                     )
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
