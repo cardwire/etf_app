@@ -17,7 +17,7 @@ data['type'] = data['type'].fillna('Other').replace('-', 'Other')
 data['category'] = data['category'].fillna('Other').replace('-', 'Other')
 
 # visualize data completenes
-st.write(msno.matrix(data))
+st.write(msno.bar(data))
 
 
 
