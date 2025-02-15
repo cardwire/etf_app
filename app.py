@@ -54,9 +54,9 @@ data['category'] = data['category'].fillna('Other').replace('-', 'Other')
 
 # Visualize data completeness
 st.markdown("### Data Completeness at a glance! Here you see the distribution of missing values in the ETF-Database")
-fig, ax = plt.subplots()
-msno.matrix(data, ax=ax, color= (0.2549019607843137, 0.4117647058823529, 0.8823529411764706), fontsize = 8)
-st.plotly_chart
+st.image("msno.matrix(data, ax=ax, color= (0.2549019607843137, 0.4117647058823529, 0.8823529411764706), fontsize = 8)")
+
+
 
 # Count occurrences of each type and category
 type_counts = data['type'].value_counts().reset_index()
