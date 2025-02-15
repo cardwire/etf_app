@@ -13,9 +13,7 @@ import plotly.express as px
 from sklearn.ensemble import AdaBoostRegressor
 from sklearn.tree import DecisionTreeRegressor
 from prophet import Prophet
-import gluonts
-from gluonts.model.deepar import DeepAREstimator
-from gluonts.trainer import Trainer
+
 
 # All functions required in this app
 
