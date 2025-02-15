@@ -112,7 +112,7 @@ fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yax
 #set bar outlines to black
 fig.update_traces(marker_line_color='black', marker_line_width=1)
 #set bar colors to deepskyblueblue
-fig.update_traces(marker_color='seagreen')
+fig.update_traces(marker_color='lightorange')
 #remove "type" from x-axis
 fig.update_xaxes(title_text='10exp(USD)')
 #center title
@@ -123,14 +123,14 @@ st.plotly_chart(fig)
 st.divider()
 
 st.markdown("### Distribution of returns for asks") 
-x=np.log10(df['ask'])
+x=np.log10(data['ask'])
 fig = px.histogram(data, x=x, title='Distribution of Ask')
 #change background color to white, add gridlines in grey, and change font size
 fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
 #set bar outlines to black
 fig.update_traces(marker_line_color='black', marker_line_width=1)
 #set bar colors to deepskyblueblue
-fig.update_traces(marker_color='seagreen')
+fig.update_traces(marker_color='lightorange')
 #remove "type" from x-axis
 fig.update_xaxes(title_text='10exp(USD)')
 #center title
