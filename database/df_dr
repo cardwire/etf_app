@@ -1,18 +1,23 @@
 import pandas as pd
 
-df_dr = pd.Dataframe("columns = ["Abbreviation", "Full Name", "Methodology", "Good to know", "More Info"])
+# Corrected DataFrame definition
+df_dr = pd.DataFrame(columns=["Abbreviation", "Full Name", "Methodology", "Good to know", "More Info"])
 df_dr["Abbreviation"] = ["UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", "MVR"]
-df_dr["Full Name"] = ["uniform manifold approximation and projection", 
-                      "principle component analysis",
-                      "t-distributed stochastic neighbor embedding",
-                      "non-negative matrix factorisation",
-                      "linear discriminant analysis",
-                      "indedendant component analysis",
-                      "genralized discriminant analysis",
-                      "missing values ratio"]
+df_dr["Full Name"] = [
+    "uniform manifold approximation and projection", 
+    "principle component analysis",
+    "t-distributed stochastic neighbor embedding",
+    "non-negative matrix factorisation",
+    "linear discriminant analysis",
+    "indedendant component analysis",
+    "genralized discriminant analysis",
+    "missing values ratio"
+]
 
-df_dr["Methodology"] = []
-df_dr["Good to know"] = []
-df_dr["More Info"] = []
+# Filling other columns with empty strings for initialization
+df_dr["Methodology"] = [""] * len(df_dr)
+df_dr["Good to know"] = [""] * len(df_dr)
+df_dr["More Info"] = [""] * len(df_dr)
 
-df_dr = df_dr.to_csv("header = False")
+# Save DataFrame to CSV without header
+df_dr.to_csv("database/df_dr.csv", index=False, header=False)
