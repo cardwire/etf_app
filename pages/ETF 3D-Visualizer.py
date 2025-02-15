@@ -65,8 +65,6 @@ data_scaled = pd.DataFrame(data_scaled, columns=data_numeric.columns)
 
 
 
-
-
 # One-hot encode categorical variables
 data_categorical = data.select_dtypes(include=[object])
 cats_to_add = data_categorical[["type", "category"]]
@@ -84,9 +82,7 @@ if min_value < 0:
 else:
     data_final_pos = data_final
 
-if dimensionality_reduction_method == "LDA":
-    data_final_pos = data_final_pos.dropna(subset=['type'])  # Ensure 'type' has no NaNs
-    get_lda_components(data_final_pos, labels=data_final_pos['type'], n_components=3)
+
 
 
 # Dropdown for selecting dimensionality reduction method
@@ -103,8 +99,8 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "NMF":
         return get_nmf_components(data_final_pos, n_components=3)   
     elif method == "LDA":
-        return get_lda_components(data_final_pos, labels = data['type'].dropna( inplace = True), n_components=3)   
-
+        return get_lda_components(data_final_pos, labels = data['type'], n_components=3)   
+  
 
 
 # Button to launch 3D visualizer
