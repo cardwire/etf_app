@@ -44,7 +44,9 @@ def prophet_forecast(ticker, period):
 
     # plot the forecast using plotly
     fig = go.Figure()
-        # Add the actual data
+    #limit the timeperiod to the same as the forecast
+    history = data[data['ds'] <= forecast['ds'].max()]
+    # Add the actual data
     fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
     # Add the forecast data
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
