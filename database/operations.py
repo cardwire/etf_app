@@ -139,15 +139,14 @@ def ar_forecast(ticker, period):
     model_fit = model.fit()
 
     # Make predictions
-    forecast = model_fit.predict(start=len(y), end=len(y) + period - 1)
-    forecast_dates = pd.date_range(start=dates[-1] + timedelta(days=1), periods=period)
+    forecast = model_fit.predict(period='max')
 
     # Ensure `forecast` is a NumPy array
     forecast = np.array(forecast)
 
     # Combine historical and forecasted data
-    combined_dates = np.concatenate([dates, forecast_dates])
-    combined_values = np.concatenate([y, forecast])
+    #combined_dates = np.concatenate([dates, forecast_dates])
+    #combined_values = np.concatenate([y, forecast])
 
     # Plot the forecast using plotly
     fig = go.Figure()
