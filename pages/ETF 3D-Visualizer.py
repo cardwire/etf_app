@@ -28,7 +28,7 @@ def get_t_sne(data_final, n_components=3):
     return pd.DataFrame(tsne_components, columns=[f'TSNE{i+1}' for i in range(n_components)])
 
 
-def get_nmf_components(data_final_pos, n_components=3):
+def get_nmf_components(data_final, n_components=3):
     nmf = NMF(n_components=n_components, init='random', random_state=0)
     nmf_components = nmf.fit_transform(data_final_pos)
     return pd.DataFrame(nmf_components, columns=[f'NMF{i+1}' for i in range(n_components)])
@@ -48,9 +48,10 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "t-SNE":
         return get_t_sne(data_final)
     elif method == "NMF":
-        return get_nmf_components(data_final_pos, n_components=3)   
+        data_final = data_final_pos
+        return get_nmf_components(data_final, n_components=3)   
     elif method == "LDA":
-        return get_lda_components(data_final_pos, labels, n_components=3)
+        return get_lda_components(data_final, labels, n_components=3)
 
 
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
@@ -98,7 +99,7 @@ else:
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF", "LDA"])
 
 # Function to call the appropriate dimensionality reduction method
-def call_dimensionality_reduction(method, data_final, data_final_pos):
+def call_dimensionality_reduction(method, data_final, data_final):
     if method == "UMAP":
         return get_umap_embeddings(data_final)
     elif method == "PCA":
@@ -106,7 +107,7 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "t-SNE":
         return get_t_sne(data_final)
     elif method == "NMF":
-        data_final = data_final_pos
+        data_final = data_final
         return get_nmf_components(data_final, n_components=3)   
     elif method == "LDA":
         return get_lda_components(data_final, labels, n_components=3)   
