@@ -93,7 +93,7 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "NMF":
         return get_nmf_components(data_final_pos, n_components=3)   
     elif method == "LDA":
-        return get_lda_components(data_final_pos, labels = data['type'], n_components=3)   
+        return get_lda_components(data_final_pos, labels = data['type'].dropna( inplace = True), n_components=3)   
 
 
 
