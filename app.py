@@ -6,11 +6,9 @@ from streamlit_extras.switch_page_button import switch_page
 
 
 st.set_page_config(page_title="ETF Check", page_icon=":chart_with_upwards_trend:")
-
-
 st.sidebar.success("Select a page below:")
 
-page = st.sidebar.selectbox("Go to", ["ETF Check", "ETF Statistics", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
+page = st.sidebar.selectbox("Go to", ["ETF Check", "Latest Actions and current Performance", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
 
 if page == "ETF App":
     st.markdown("## Disclaimer")
@@ -20,7 +18,7 @@ if page == "ETF App":
     st.markdown("Data provided")
     
     # Load ETF data
-    data = pd.read_excel("database/df.xlsx")
+    data = pd.read_csv("etf_df.csv")
     st.dataframe(data)
 
 elif page == "ETF Inspector":
@@ -37,7 +35,7 @@ elif page == "ETF Inspector":
     fig.update_layout(title=f'{symbol} Price Chart', xaxis_title='Time', yaxis_title='Price')
     st.plotly_chart(fig)
     
-elif page == "ETF Statistics":
+elif page == "Latest Actions and current Performance":
     st.markdown("# ETF Statistics - Content Placeholder")
     st.write("This page provides an exploratory data analysis of our ETF-Database.")
 
@@ -61,7 +59,7 @@ data['category'] = data['category'].fillna('Other').replace('-', 'Other')
 st.markdown("### Data Completeness at a glance! Here you see the distribution of missing values in the ETF-Database")
 fig, ax = plt.subplots()
 msno.matrix(data, ax=ax, color= (0.2549019607843137, 0.4117647058823529, 0.8823529411764706), fontsize = 8)
-st.pyplot(fig)
+st.plotly_chart
 
 # Count occurrences of each type and category
 type_counts = data['type'].value_counts().reset_index()
