@@ -28,7 +28,7 @@ def get_t_sne(data_final, n_components=3):
     return pd.DataFrame(tsne_components, columns=[f'TSNE{i+1}' for i in range(n_components)])
 
 
-def get_nmf_components(data_final, n_components=3):
+def get_nmf_components(data_final_pos, n_components=3):
     nmf = NMF(n_components=n_components, init='random', random_state=0)
     nmf_components = nmf.fit_transform(data_final)
     return pd.DataFrame(nmf_components, columns=[f'NMF{i+1}' for i in range(n_components)])
@@ -63,6 +63,17 @@ cat_columns = pd.get_dummies(cats_to_add).astype(int)
 
 # Combine processed numeric and categorical data
 data_final = pd.concat([data_scaled, cat_columns], axis=1)
+
+# Find the minimum value in the dataframe
+min_value = df_final.min().min()
+
+# If the minimum value is negative, shift all values to be positive
+if min_value < 0:
+    df_final_pos = df_final - min_value
+else:
+    df_final_pos = df_final
+
+ 
 
 # Dropdown for selecting dimensionality reduction method
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF"])
