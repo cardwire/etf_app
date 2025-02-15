@@ -18,7 +18,7 @@ prophet
 statsmodels
 tensorflow
 keras
-stqdm
+
 #mxnet==1.6.0
 #gluonts
 xgboost
