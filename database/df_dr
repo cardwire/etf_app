@@ -1,0 +1,16 @@
+import pandas as pd
+
+df_dr = pd.Dataframe("columns = ["Abbreviation", "Full Name", "Methodology", "Good to know", "More Info"])
+df_dr["Abbreviation"] = ["UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", "MVR"]
+df_dr["Full Name"] = ["uniform manifold approximation and projection", 
+                      "principle component analysis",
+                      "t-distributed stochastic neighbor embedding",
+                      "non-negative matrix factorisation",
+                      "linear discriminant analysis",
+                      "indedendant component analysis",
+                      "genralized discriminant analysis",
+                      "missing values ratio"]
+
+df_dr["Methodology"] = []
+df_dr["Good to know"] = []
+df_dr["More Info"] = []
