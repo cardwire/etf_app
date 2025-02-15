@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.decomposition import NMF
-import pandas as pd
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
 
 def get_umap_embeddings(data_final, n_components=3):
@@ -32,6 +32,13 @@ def get_nmf_components(data_final_pos, n_components=3):
     nmf = NMF(n_components=n_components, init='random', random_state=0)
     nmf_components = nmf.fit_transform(data_final_pos)
     return pd.DataFrame(nmf_components, columns=[f'NMF{i+1}' for i in range(n_components)])
+
+
+def get_lda_components(data_final, labels, n_components=3):
+    lda = LDA(n_components=n_components)
+    lda_components = lda.fit_transform(data_final, labels)
+    return pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
+
 
 
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
@@ -73,7 +80,7 @@ else:
     data_final_pos = data_final
 
 # Dropdown for selecting dimensionality reduction method
-dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF"])
+dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF", "LDA"])
 
 # Function to call the appropriate dimensionality reduction method
 def call_dimensionality_reduction(method, data_final, data_final_pos):
@@ -85,6 +92,10 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
         return get_t_sne(data_final)
     elif method == "NMF":
         return get_nmf_components(data_final_pos, n_components=3)   
+    elif method == "LDA":
+        return get_lda_components(data_final_pos, labels = data['type'], n_components=3)   
+
+
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
