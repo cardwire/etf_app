@@ -71,7 +71,9 @@ def prophet_forecast(ticker, period, history_window):
     fig = go.Figure()
 
     # Limit the time period to the same as the forecast
-    history = history[history['ds'] <= forecast['ds'].max()]
+    past = dt.today() - timedelta(days=period)
+    future = dt.today() + timedelta(days=period)
+    fig.uptdate.layout(yaxis_range=[past, future])
  
     # Add the actual data
     fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
@@ -87,18 +89,20 @@ def prophet_forecast(ticker, period, history_window):
     # Indicate the forecasted region with a vertical line at the last known date
     fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
   
-   # Add slider to the plot to zoom in and out
-    fig.update_layout(xaxis_rangeslider_visible=True)
 
-    # Update layout
-    fig.update_layout(
-        title=f'Forecast for {ticker.ticker} for the next {period} days',
-        xaxis_title='Date',
-        yaxis_title='Price'
-    )
+  
+    # Limit the time period to the same as the forecast
+    past = dt.today() - timedelta(days=period)
+    future = dt.today() + timedelta(days=period)
+    fig.uptdate.layout(yaxis_range=[past, future], 
+                       title=f'Forecast for {ticker.ticker} for the next {period} days', 
+                       xaxis_title='Date', 
+                       yaxis_title='Price'
+                      )
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
+
 
 #define the adaboost forecast function
 #import numpy as np
