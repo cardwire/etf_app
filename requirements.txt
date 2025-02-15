@@ -18,11 +18,11 @@ prophet
 statsmodels
 tensorflow
 keras
+xgboost
+missingno
 
 #mxnet==1.6.0
 #gluonts
-xgboost
-missingno
 #pytorch
 #torchvision
 #pytorch-lightning
