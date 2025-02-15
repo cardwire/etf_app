@@ -92,13 +92,14 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
     elif method == "t-SNE":
         return get_t_sne(data_final)
     elif method == "NMF":
-        return get_nmf_components(data_final_pos, n_components=3)   
+        data_final = data_final_pos
+        return get_nmf_components(data_final, n_components=3)   
     elif method == "LDA":
         return get_lda_components(data_final, labels, n_components=3)   
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, data_final_pos)
+    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final)
     hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
     data_with_hover = pd.concat([data_embeddings, hover_data.reset_index(drop=True)], axis=1)
     
