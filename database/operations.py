@@ -90,39 +90,8 @@ def prophet_forecast(ticker, period):
     st.plotly_chart(fig)
 
 ###################################################################################
-#define the adaboost forecast function
-#import numpy as np
-#from sklearn.ensemble import AdaBoostRegressor
-#from sklearn.tree import DecisionTreeRegressor
 
-
-
-import pandas as pd  # Ensure pandas is imported
-
-from statsmodels.tsa.ar_model import AutoReg
-
-import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-import streamlit as st
-from statsmodels.tsa.ar_model import AutoReg
-from datetime import datetime, timedelta
-
-import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-import streamlit as st
-from statsmodels.tsa.ar_model import AutoReg
-from datetime import datetime, timedelta
-
-def ar_forecast(ticker, period):
-    """
-    Forecast using AutoReg (AR) model and plot the results with a limited time window.
-
-    Parameters:
-    - ticker: The ticker object containing historical data.
-    - period: The number of days to forecast.
-    """
+def ar_forecast:
     # Create the history data
     history = ticker.history(period='max')
     history = history.reset_index()
