@@ -36,6 +36,7 @@ def get_nmf_components(data_final, n_components=3):
 
 def get_lda_components(data_final, labels, n_components=3):
     lda = LDA(n_components=3)
+    labels = data["type"]
     lda_components = lda.fit_transform(data_final, labels)
     return lda_components
 
