@@ -6,6 +6,10 @@ import plotly.express as px
 from streamlit_extras.switch_page_button import switch_page
 
 
+#####################################################################################################
+
+# INIT SECTION TO START THE MULTIPAGE APP
+
 st.set_page_config(page_title="ETF Check", page_icon=":chart_with_upwards_trend:")
 st.sidebar.success("Select a page below:")
 
@@ -48,6 +52,11 @@ elif page == "ETF Forecast Tool":
 st.divider()
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
+
+
+######################################################################################
+
+#EDA OF ENTIRE DATABASE SECTION
 
 # Preprocess missing values
 data['type'] = data['type'].fillna('Other').replace('-', 'Other')
