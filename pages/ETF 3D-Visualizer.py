@@ -72,7 +72,7 @@ cat_columns = pd.get_dummies(cats_to_add).astype(int)
 data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1)
 
 # get labels for LDA
-labels = data_final['type']
+labels = data['type']
 lda_components = lda.fit_transform(df_numeric_imputed_scaled, labels)
 
 # Find the minimum value in the dataframe
