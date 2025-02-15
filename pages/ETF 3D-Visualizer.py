@@ -62,7 +62,7 @@ st.markdown("# ETF Dimensionality Reduction")
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
 data["type"] = data['type'].fillna("unknown", inplace=True)
-
+labels = cats_to_add['type']  # Use the filled 'type' column for LDA
 
 
 # Drop non-numeric columns and preprocess data
@@ -102,7 +102,7 @@ else:
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF", "LDA"])
 
 # Function to call the appropriate dimensionality reduction method
-def call_dimensionality_reduction(method, data_final):
+def call_dimensionality_reduction(method, data_final, data_final_pos):
     if method == "UMAP":
         return get_umap_embeddings(data_final)
     elif method == "PCA":
@@ -110,10 +110,9 @@ def call_dimensionality_reduction(method, data_final):
     elif method == "t-SNE":
         return get_t_sne(data_final)
     elif method == "NMF":
-        data_final = data_final
-        return get_nmf_components(data_final, n_components=3)   
+        return get_nmf_components(data_final_pos, n_components=3)   
     elif method == "LDA":
-        return get_lda_components(data_final, labels, n_components=3)   
+        return get_lda_components(data_final_pos, labels, n_components=3)
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
