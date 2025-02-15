@@ -45,6 +45,8 @@ st.markdown("# ETF Dimensionality Reduction")
 
 # Load ETF data
 data = pd.read_excel("database/df.xlsx")
+data["type"] = data['type'].fillna("unknown", inplace=True)
+
 
 # Drop non-numeric columns and preprocess data
 data = data.drop(columns=["currency"], errors='ignore')
@@ -97,7 +99,7 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, data_final_pos)
+    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, data_final_pos, df_lda)
     hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
     data_with_hover = pd.concat([data_embeddings, hover_data.reset_index(drop=True)], axis=1)
     
