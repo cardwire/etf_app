@@ -18,10 +18,10 @@ prophet
 statsmodels
 tensorflow
 keras
-mxnet==1.6.0
-gluonts
+#mxnet==1.6.0
+#gluonts
 xgboost
 missingno
-pytorch
-torchvision
-pytorch-lightning
+#pytorch
+#torchvision
+#pytorch-lightning
