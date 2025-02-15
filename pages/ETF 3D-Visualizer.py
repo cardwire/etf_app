@@ -56,8 +56,6 @@ data_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
 imputer = IterativeImputer()
 data_imputed = imputer.fit_transform(data_numeric)
 data_imputed = pd.DataFrame(data_imputed, columns=data_numeric.columns)
-data['type'] = data['type'].fillna('Unknown')  # Fill NaNs in 'type' with a placeholder
-data_imputed['type'] = data['type']  # Ensure 'type' column is included
 
 # Scale the data
 scaler = StandardScaler()
@@ -70,7 +68,7 @@ cats_to_add = data_categorical[["type", "category"]]
 cat_columns = pd.get_dummies(cats_to_add).astype(int)
 
 # Combine processed numeric and categorical data
-data_final = pd.concat([data_scaled, cat_columns], axis=1)
+data_final = pd.concat([data_scaled, cat_columns.reset_index(drop=True)], axis=1)
 
 # Find the minimum value in the dataframe
 min_value = data_final.min().min()
