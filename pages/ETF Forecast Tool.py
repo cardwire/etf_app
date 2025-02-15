@@ -3,11 +3,14 @@ import pandas as pd
 import yfinance as yf
 from prophet import Prophet
 import plotly.graph_objs as go
-from database.operations import (
-    prophet_forecast, ar_forecast, arima_forecast,
-    sarima_forecast, es_forecast, xgb_forecast,
-    lstm_forecast
-)
+from database.operations import prophet_forecast
+from database.operations importar_forecast, 
+from database.operations importarima_forecast,
+from database.operations import sarima_forecast, 
+from database.operations importes_forecast, 
+from database.operations import xgb_forecast,
+from database.operations import lstm_forecast
+
 import numpy as np
 import sklearn
 import datetime as dt
