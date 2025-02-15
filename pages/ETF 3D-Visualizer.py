@@ -86,7 +86,7 @@ else:
 
 if dimensionality_reduction_method == "LDA":
     data_final = data_final.dropna(subset=['type'])  # Ensure 'type' has no NaNs
-    return get_lda_components(data_final, labels=data_final['type'], n_components=3)
+    get_lda_components(data_final, labels=data_final['type'], n_components=3)
 
 
 # Dropdown for selecting dimensionality reduction method
