@@ -10,16 +10,13 @@ st.sidebar.success("Select a page below:")
 
 page = st.sidebar.selectbox("Go to", ["ETF Check", "Latest Actions and current Performance", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
 
-if page == "ETF App":
+if page == "Latest Actions and current Performance":
     st.markdown("## Disclaimer")
     st.divider()
     st.markdown("Modules")
     st.divider()
     st.markdown("Data provided")
     
-    # Load ETF data
-    data = pd.read_csv("etf_df.csv")
-    st.dataframe(data)
 
 elif page == "ETF Inspector":
     st.markdown("# ETF Selection and Candlestick Chart")
