@@ -108,7 +108,21 @@ import streamlit as st
 from statsmodels.tsa.ar_model import AutoReg
 from datetime import datetime, timedelta
 
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+from statsmodels.tsa.ar_model import AutoReg
+from datetime import datetime, timedelta
+
 def ar_forecast(ticker, period):
+    """
+    Forecast using AutoReg (AR) model and plot the results with a limited time window.
+
+    Parameters:
+    - ticker: The ticker object containing historical data.
+    - period: The number of days to forecast.
+    """
     # Create the history data
     history = ticker.history(period='max')
     history = history.reset_index()
@@ -117,8 +131,8 @@ def ar_forecast(ticker, period):
     history["ds"] = history['ds'].dt.tz_localize(None)
 
     # Prepare data for AR model
-    y = history['y'].values
-    dates = history['ds'].values
+    y = history['y'].values  # Historical closing prices as a NumPy array
+    dates = history['ds'].values  # Historical dates as a NumPy array
 
     # Fit the AR model
     model = AutoReg(y, lags=30)  # Adjust lags as needed
@@ -127,6 +141,9 @@ def ar_forecast(ticker, period):
     # Make predictions
     forecast = model_fit.predict(start=len(y), end=len(y) + period - 1)
     forecast_dates = pd.date_range(start=dates[-1] + timedelta(days=1), periods=period)
+
+    # Ensure `forecast` is a NumPy array
+    forecast = np.array(forecast)
 
     # Combine historical and forecasted data
     combined_dates = np.concatenate([dates, forecast_dates])
@@ -161,7 +178,6 @@ def ar_forecast(ticker, period):
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
-
 
 
 #########################################################################################################
