@@ -144,9 +144,11 @@ def ar_forecast(ticker, period):
     # Ensure `forecast` is a NumPy array
     forecast = np.array(forecast)
 
-    # Combine historical and forecasted data
-    #combined_dates = np.concatenate([dates, forecast_dates])
-    #combined_values = np.concatenate([y, forecast])
+    # Create a future dataframe for the next `period` days
+    future = model.make_future_dataframe(periods=period)
+
+    # Make predictions
+    forecast = model.predict(future)
 
     # Plot the forecast using plotly
     fig = go.Figure()
@@ -162,10 +164,12 @@ def ar_forecast(ticker, period):
     fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
 
     # Add the forecast data
-    fig.add_trace(go.Scatter(x=forecast_dates, y=forecast, mode='lines', name='Forecast'))
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
 
-    # Indicate the forecasted region with a vertical line at the last known date
-    fig.add_vline(x=dates[-1], line_width=2, line_dash="dash", line_color="black")
+    # Add the upper and lower bounds
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+
 
     # Update layout to limit the x-axis range and set titles
     fig.update_layout(
