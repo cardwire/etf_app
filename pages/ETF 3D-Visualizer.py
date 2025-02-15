@@ -65,7 +65,7 @@ cat_columns = pd.get_dummies(cats_to_add).astype(int)
 data_final = pd.concat([data_scaled, cat_columns], axis=1)
 
 # Dropdown for selecting dimensionality reduction method
-dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE"])
+dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF"])
 
 # Function to call the appropriate dimensionality reduction method
 def call_dimensionality_reduction(method, data_final):
@@ -73,9 +73,9 @@ def call_dimensionality_reduction(method, data_final):
         return get_umap_embeddings(data_final)
     elif method == "PCA":
         return get_principle_components(data_final)
-    elif:
+    elif method == "t-SNE":
         return get_t_sne(data_final)
-    else:
+    else method == "NMF"
         return get_nmf_components(data_final, n_components=3)
 
 # Button to launch 3D visualizer
