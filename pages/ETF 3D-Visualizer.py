@@ -56,11 +56,16 @@ data_numeric.replace([np.inf, -np.inf], np.nan, inplace=True)
 imputer = IterativeImputer()
 data_imputed = imputer.fit_transform(data_numeric)
 data_imputed = pd.DataFrame(data_imputed, columns=data_numeric.columns)
+data_imputed.dropna(subset=['type'], inplace=True)  # Ensure 'type' has no NaNs
 
 # Scale the data
 scaler = StandardScaler()
 data_scaled = scaler.fit_transform(data_imputed)
 data_scaled = pd.DataFrame(data_scaled, columns=data_numeric.columns)
+
+
+
+
 
 # One-hot encode categorical variables
 data_categorical = data.select_dtypes(include=[object])
@@ -78,6 +83,11 @@ if min_value < 0:
     data_final_pos = data_final - min_value
 else:
     data_final_pos = data_final
+
+if dimensionality_reduction_method == "LDA":
+    data_final = data_final.dropna(subset=['type'])  # Ensure 'type' has no NaNs
+    return get_lda_components(data_final, labels=data_final['type'], n_components=3)
+
 
 # Dropdown for selecting dimensionality reduction method
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF", "LDA"])
