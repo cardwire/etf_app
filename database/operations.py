@@ -92,8 +92,9 @@ def prophet_forecast(ticker, period):
 ###################################################################################
 
 from statsmodels.tsa.ar_model import AutoReg
+from datetime import datetime, timedelta
+
 def prophet_forecast(ticker, period):
-    
     # Create the history data
     history = ticker.history(period='max')
     history = history.reset_index()
@@ -141,6 +142,8 @@ def prophet_forecast(ticker, period):
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
+
+st.divider()
 
 from statsmodels.graphics.tsaplots import plot_acf
 import matplotlib.pyplot as plt
