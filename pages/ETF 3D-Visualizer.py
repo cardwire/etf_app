@@ -37,8 +37,7 @@ def get_nmf_components(data_final_pos, n_components=3):
 def get_lda_components(data_final, labels, n_components=3):
     lda = LDA(n_components=3)
     lda_components = lda.fit_transform(data_final, labels)
-    df_lda = pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
-    return df_lda
+    return lda_components
    
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
@@ -99,7 +98,7 @@ def call_dimensionality_reduction(method, data_final, data_final_pos):
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, data_final_pos, df_lda)
+    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, data_final_pos)
     hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
     data_with_hover = pd.concat([data_embeddings, hover_data.reset_index(drop=True)], axis=1)
     
