@@ -150,12 +150,26 @@ if st.button("Launch 3D Visualizer"):
 
 
 st.markdown("## Infobox")
-df_dr = pd.read_csv("database/df_dr.csv")
+
+# Define the DataFrame directly in the script
+df_dr = pd.DataFrame({
+    "Abbreviation": ["UMAP", "PCA", "t-SNE", "NMF", "LDA", "ICA", "GDA", "MVR"],
+    "Full Name": [
+        "uniform manifold approximation and projection",
+        "principle component analysis",
+        "t-distributed stochastic neighbor embedding",
+        "non-negative matrix factorisation",
+        "linear discriminant analysis",
+        "indedendant component analysis",
+        "genralized discriminant analysis",
+        "missing values ratio"
+    ],
+    "Methodology": [],
+    "Good to know": [],
+    "More Info": []
+})
+
 st.table(df_dr)
-
-
-
-
 
 
 
