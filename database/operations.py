@@ -91,7 +91,7 @@ def prophet_forecast(ticker, period):
 from statsmodels.tsa.ar_model import AutoReg
 from datetime import datetime, timedelta
 
-def prophet_forecast(ticker, period):
+def ar_forecast(ticker, period):
     # Create the history data
     history = ticker.history(period='max')
     history = history.reset_index()
