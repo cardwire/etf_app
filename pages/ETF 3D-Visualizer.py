@@ -15,6 +15,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+from stqdm import stqdm
+from time import sleep
 
 # UMAP
 def get_umap_embeddings(data_final, n_components=3):
@@ -186,6 +188,12 @@ dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction 
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
+    try:
+        for _ in stqdm(range(50)):
+            sleep(0.5)
+    except Exception as e:
+        print(e)
+        
     data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
     hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
     data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
