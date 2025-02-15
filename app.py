@@ -5,16 +5,19 @@ import plotly.graph_objects as go
 from streamlit_extras.switch_page_button import switch_page
 
 
-st.set_page_config(page_title="ETF App", page_icon=":chart_with_upwards_trend:")
+st.set_page_config(page_title="ETF Check", page_icon=":chart_with_upwards_trend:")
 
 
 st.sidebar.success("Select a page below:")
 
-page = st.sidebar.selectbox("Go to", ["ETF App", "ETF Statistics", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
+page = st.sidebar.selectbox("Go to", ["ETF Check", "ETF Statistics", "ETF Inspector", "ETF 3D Visualizer", "ETF Forecast Tool"])
 
 if page == "ETF App":
-    st.markdown("# Welcome to the ETF App")
-    st.markdown("Welcome to the ETF Finder App. Navigate using the sidebar.")
+    st.markdown("## Disclaimer")
+    st.divider()
+    st.markdown("Modules")
+    st.divider()
+    st.markdown("Data provided")
     
     # Load ETF data
     data = pd.read_excel("database/df.xlsx")
