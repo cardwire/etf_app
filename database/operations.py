@@ -264,9 +264,21 @@ def sarima_forecast(ticker, period):
 
 ###################################################################
 
+import pandas as pd
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from datetime import datetime, timedelta
 
 def es_forecast(ticker, period):
+    """
+    Forecast using Exponential Smoothing (Holt-Winters) and plot the results with a limited time window.
+
+    Parameters:
+    - ticker: The ticker object containing historical data.
+    - period: The number of days to forecast.
+    """
     # Create the history data in a suitable format
     history = ticker.history(period='max')
     history = history.reset_index()
@@ -278,21 +290,25 @@ def es_forecast(ticker, period):
     y = history['y']
 
     # Create and fit the Exponential Smoothing model
-    model = ExponentialSmoothing(y, trend='add', seasonal='add', seasonal_periods=12)
+    # Adjust `seasonal_periods` based on your data frequency (e.g., 7 for weekly seasonality in daily data)
+    model = ExponentialSmoothing(y, trend='add', seasonal='add', seasonal_periods=7)
     model_fit = model.fit()
 
     # Create future dates
-    future_dates = pd.date_range(start=history['ds'].max(), periods=period).to_frame(index=False, name='ds')
+    future_dates = pd.date_range(start=history['ds'].max() + timedelta(days=1), periods=period)
 
     # Make predictions
     forecast = model_fit.forecast(steps=period)
 
-     # Limit the time period to the same as the forecast
+    # Limit the time period to the same as the forecast
     past = datetime.today() - timedelta(days=period)
     future = datetime.today() + timedelta(days=period)
 
     # Filter historical data to the desired time window
     history_filtered = history[history['ds'] >= past]
+
+    # Initialize the plotly figure
+    fig = go.Figure()
 
     # Add the actual data
     fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
@@ -300,15 +316,20 @@ def es_forecast(ticker, period):
     # Add the forecast data
     fig.add_trace(go.Scatter(x=future_dates, y=forecast, mode='lines', name='Forecast'))
 
+    # Indicate the forecasted region with a vertical line at the last known date
+    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
+
     # Update layout to limit the x-axis range and set titles
-    fig.update_layout(xaxis_range=[past, future], 
-                      title=f'SARIMA Forecast for {ticker.ticker} for the next {period} days', 
-                      xaxis_title='Date', 
-                      yaxis_title='Price'
-                     )
+    fig.update_layout(
+        xaxis_range=[past, future],  # Limit the x-axis to the desired time window
+        title=f'Exponential Smoothing Forecast for {ticker.ticker} for the next {period} days',
+        xaxis_title='Date',
+        yaxis_title='Price'
+    )
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
+
 
 
 ################################################################################################
