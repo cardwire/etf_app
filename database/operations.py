@@ -30,45 +30,75 @@ import plotly.graph_objects as go
 import streamlit as st
 import pandas as pd
 
-def prophet_forecast(ticker, period):
-    # Create the history data in prophet style
+def prophet_forecast(ticker, period, history_window):
+
+  # Create the history data in prophet style
     history = ticker.history(period='max')
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
     history['ds'] = pd.to_datetime(history['ds'])
     history["ds"] = history['ds'].dt.tz_localize(None)
 
-    # Create a prophet model                 
+    # Create a prophet model
     model = Prophet()
     model.fit(history)
-    # Create a future dataframe for the next 365 days
+    
+    # Create a future dataframe for the next `period` days
     future = model.make_future_dataframe(periods=period)
 
     # Make predictions
     forecast = model.predict(future)
-
+    
+     # Limit the historical data to the last `history_window` days for plotting
+    history_filtered = history[history['ds'] >= (history['ds'].max() - pd.Timedelta(days=history_window))]
+    
     # Plot the forecast using plotly
     fig = go.Figure()
-    # Limit the time period to the same as the forecast
-    history = history[history['ds'] <= forecast['ds'].max()]
-    # Add the actual data
-    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+
+    # Add the actual data (filtered to the last `history_window` days)
+    fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
+
     # Add the forecast data
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+
     # Add the upper and lower bounds
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+
     # Indicate the forecasted region with a vertical line at the last known date
     fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
-    # Add slider to the plot to zoom in and out
+    # Plot the forecast using plotly
+    fig = go.Figure()
+
+    # Limit the time period to the same as the forecast
+    history = history[history['ds'] <= forecast['ds'].max()]
+ 
+    # Add the actual data
+    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
+  
+    # Add the forecast data
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
+ 
+    # Add the upper and lower bounds
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
+    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
+   
+    
+    # Indicate the forecasted region with a vertical line at the last known date
+    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
+  
+   # Add slider to the plot to zoom in and out
     fig.update_layout(xaxis_rangeslider_visible=True)
+
     # Update layout
-    fig.update_layout(title=f'Forecast for {ticker.ticker} for the next {period} days',
-                      xaxis_title='Date',
-                      yaxis_title='Price')
+    fig.update_layout(
+        title=f'Forecast for {ticker.ticker} for the next {period} days',
+        xaxis_title='Date',
+        yaxis_title='Price'
+    )
 
+    # Display the plot in Streamlit
     st.plotly_chart(fig)
-
 
 #define the adaboost forecast function
 #import numpy as np
