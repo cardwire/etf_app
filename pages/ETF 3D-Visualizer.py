@@ -99,7 +99,7 @@ else:
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF", "LDA"])
 
 # Function to call the appropriate dimensionality reduction method
-def call_dimensionality_reduction(method, data_final, data_final):
+def call_dimensionality_reduction(method, data_final):
     if method == "UMAP":
         return get_umap_embeddings(data_final)
     elif method == "PCA":
