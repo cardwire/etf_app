@@ -35,10 +35,10 @@ def get_nmf_components(data_final_pos, n_components=3):
 
 
 def get_lda_components(data_final, labels, n_components=3):
-    lda = LDA(n_components=n_components)
+    lda = LDA(n_components=3)
     lda_components = lda.fit_transform(data_final, labels)
     return pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)])
-
+    print(pd.DataFrame(lda_components, columns=[f'LDA{i+1}' for i in range(n_components)]))
 
 st.set_page_config(page_title="ETF UMAP", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
