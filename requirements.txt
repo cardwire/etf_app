@@ -1,6 +1,6 @@
 streamlit
 pandas
-numpy==1.19.5
+numpy<2.0
 sqlalchemy
 psycopg2-binary
 plotly
@@ -24,4 +24,4 @@ xgboost
 missingno
 pytorch
 torchvision
-optuna
+lightning
