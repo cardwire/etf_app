@@ -148,8 +148,8 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 fig_acf = px.line(x=range(len(y)), y=plot_acf(y, lags=50).values, title='Autocorrelation')
-fig_acf.show() # Plot autocorrelation for the first 50 lags
-plt.show()
+
+st.plotly_chart(fig_acf)
 
 
 
