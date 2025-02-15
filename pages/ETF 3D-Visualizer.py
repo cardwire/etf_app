@@ -75,8 +75,8 @@ def call_dimensionality_reduction(method, data_final):
         return get_principle_components(data_final)
     elif method == "t-SNE":
         return get_t_sne(data_final)
-    else method == "NMF":
-        return get_nmf_components(data_final, n_components=3)
+    elif method == "NMF":
+        return get_nmf_components(data_final, n_components=3)   
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
