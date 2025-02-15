@@ -19,7 +19,8 @@ data['category'] = data['category'].fillna('Other').replace('-', 'Other')
 # Visualize data completeness
 st.markdown("### Data Completeness at a glance! Here you see the distribution of missing values in the ETF-Database")
 fig, ax = plt.subplots()
-msno.matrix(data, ax=ax)
+msno.matrix(data, ax=ax, color="deepskyblue")
+ax.set_xlabel("X Label", fontsize=12)
 st.pyplot(fig)
 
 # Count occurrences of each type and category
