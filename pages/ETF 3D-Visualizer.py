@@ -65,21 +65,19 @@ cat_columns = pd.get_dummies(cats_to_add).astype(int)
 data_final = pd.concat([data_scaled, cat_columns], axis=1)
 
 # Find the minimum value in the dataframe
-min_value = df_final.min().min()
+min_value = data_final.min().min()
 
 # If the minimum value is negative, shift all values to be positive
 if min_value < 0:
-    df_final_pos = df_final - min_value
+    data_final_pos = data_final - min_value
 else:
-    df_final_pos = df_final
-
- 
+    data_final_pos = data_final
 
 # Dropdown for selecting dimensionality reduction method
 dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction Method", options=["UMAP", "PCA", "t-SNE", "NMF"])
 
 # Function to call the appropriate dimensionality reduction method
-def call_dimensionality_reduction(method, data_final):
+def call_dimensionality_reduction(method, data_final, data_final_pos):
     if method == "UMAP":
         return get_umap_embeddings(data_final)
     elif method == "PCA":
@@ -87,11 +85,11 @@ def call_dimensionality_reduction(method, data_final):
     elif method == "t-SNE":
         return get_t_sne(data_final)
     elif method == "NMF":
-        return get_nmf_components(data_final, n_components=3)   
+        return get_nmf_components(data_final_pos, n_components=3)   
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final)
+    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, data_final_pos)
     hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']]
     data_with_hover = pd.concat([data_embeddings, hover_data.reset_index(drop=True)], axis=1)
     
