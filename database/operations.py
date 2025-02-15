@@ -30,10 +30,16 @@ import plotly.graph_objects as go
 import streamlit as st
 import pandas as pd
 
+from prophet import Prophet
+import plotly.graph_objects as go
+import streamlit as st
+import pandas as pd
+from datetime import datetime, timedelta
+
 def prophet_forecast(ticker, period):
 
-  # Create the history data in prophet style
-    history = ticker.history(["Close"] = 'max')
+    # Create the history data in prophet style
+    history = ticker.history(period='max')  # Corrected syntax
     history = history.reset_index()
     history = history.rename(columns={'Date': 'ds', 'Close': 'y'})
     history['ds'] = pd.to_datetime(history['ds'])
@@ -42,65 +48,48 @@ def prophet_forecast(ticker, period):
     # Create a prophet model
     model = Prophet()
     model.fit(history)
-    
+
     # Create a future dataframe for the next `period` days
     future = model.make_future_dataframe(periods=period)
 
     # Make predictions
     forecast = model.predict(future)
-    
-    # Plot the forecast using plotly
-    fig = go.Figure()
 
-    # Add the actual data (filtered to the last `history_window` days)
-    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
-
-    # Add the forecast data
-    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
-
-    # Add the upper and lower bounds
-    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
-    fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
-
-    # Indicate the forecasted region with a vertical line at the last known date
-    fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
     # Plot the forecast using plotly
     fig = go.Figure()
 
     # Limit the time period to the same as the forecast
-    past = dt.today() - timedelta(days=period)
-    future = dt.today() + timedelta(days=period)
-    fig.uptdate.layout(yaxis_range=[past, future])
- 
+    past = datetime.today() - timedelta(days=period)
+    future = datetime.today() + timedelta(days=period)
+
+    # Filter historical data to the desired time window
+    history_filtered = history[history['ds'] >= past]
+
     # Add the actual data
-    fig.add_trace(go.Scatter(x=history['ds'], y=history['y'], mode='lines', name='Actual'))
-  
+    fig.add_trace(go.Scatter(x=history_filtered['ds'], y=history_filtered['y'], mode='lines', name='Actual'))
+
     # Add the forecast data
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Forecast'))
- 
+
     # Add the upper and lower bounds
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_upper'], mode='lines', name='Upper Bound', line=dict(dash='dash')))
     fig.add_trace(go.Scatter(x=forecast['ds'], y=forecast['yhat_lower'], mode='lines', name='Lower Bound', line=dict(dash='dash')))
-   
-    
+
     # Indicate the forecasted region with a vertical line at the last known date
     fig.add_vline(x=history['ds'].max(), line_width=2, line_dash="dash", line_color="black")
-  
 
-  
-    # Limit the time period to the same as the forecast
-    past = dt.today() - timedelta(days=period)
-    future = dt.today() + timedelta(days=period)
-    fig.uptdate.layout(yaxis_range=[past, future], 
-                       title=f'Forecast for {ticker.ticker} for the next {period} days', 
-                       xaxis_title='Date', 
-                       yaxis_title='Price'
-                      )
+    # Update layout to limit the x-axis range and set titles
+    fig.update_layout(
+        xaxis_range=[past, future],  # Limit the x-axis to the desired time window
+        title=f'Forecast for {ticker.ticker} for the next {period} days',
+        xaxis_title='Date',
+        yaxis_title='Price'
+    )
 
     # Display the plot in Streamlit
     st.plotly_chart(fig)
 
-
+###################################################################################
 #define the adaboost forecast function
 #import numpy as np
 #from sklearn.ensemble import AdaBoostRegressor
