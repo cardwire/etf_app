@@ -24,4 +24,4 @@ xgboost
 missingno
 pytorch
 torchvision
-lightning
+pytorch-lightning
