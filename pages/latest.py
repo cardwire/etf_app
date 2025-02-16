@@ -51,7 +51,61 @@ if selected_etfs:
     # get long business summary
     long_sum = ticker.info['longBusinessSummary']
 
-    st.markdown(f"## {symbol}:")
-    st.markdown(f"### {long_sum}")
+   
 
-    st.divider()
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.header("A cat")
+        st.markdown(f"## {symbol}:")
+        st.markdown(f"### {long_sum}")
+
+    with col2:
+        st.header("A dog")
+        ticker_hist = ticker.history(period='5d', interval='1m')
+        ticker_hist['Date'] = ticker_hist.index
+        ticker_hist.reset_index(drop=True, inplace=True)
+        ticker_hist['Date'] = pd.to_datetime(ticker_hist['Date'])
+        ticker_hist['Date'] = ticker_hist['Date'].dt.strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Plotting the data as a candlestick chart using Plotly
+        fig = go.Figure(data=[go.Candlestick(x=ticker_hist.index,
+                                             open=ticker_hist['Open'],
+                                             high=ticker_hist['High'],
+                                             low=ticker_hist['Low'],
+                                             close=ticker_hist['Close'])])
+
+        fig.update_layout(title='5 day performance of GGG',
+                          xaxis_title='Date',
+                          yaxis_title='Price',
+                          xaxis_rangeslider_visible=False)
+        
+        # shift titel to center
+        fig.update_layout(title_x=0.5)
+        #reshape x-axis to range(1, 5 days)
+        fig.update_xaxes(tickvals=np.arange(0, len(ggg_hist), step=78), ticktext=np.arange(0, 6))
+        fig.update_xaxes(tickangle=45)
+        fig.update_yaxes(tickprefix='$')
+        fig.update_layout(showlegend=False)
+        fig.update_layout(width=800, height=600)
+        fig.update_layout(autosize=False)
+        fig.update_layout(margin=dict(l=50, r=50, t=50, b=50))
+        fig.update_layout(plot_bgcolor='white')
+        fig.update_layout(paper_bgcolor='white')
+        fig.update_layout(xaxis=dict(showgrid=True, gridwidth=1, gridcolor='lightgrey'))
+        fig.update_layout(yaxis=dict(showgrid=True, gridwidth=1, gridcolor='lightgrey'))       
+        fig.update_layout(font=dict(family='Arial', size=12, color='black'))
+        fig.update_layout(title_font=dict(size=20))
+        fig.update_layout(title_font_size=20)
+        fig.update_layout(title_font_family='Arial')
+        fig.update_layout(title_font_color='black')
+        
+        st.plotly_chart(fig)
+
+    with col3:
+        st.header("An owl")
+        st.image("https://static.streamlit.io/examples/owl.jpg")
+        st.markdown(f"## {symbol}:")
+        st.markdown(f"### {long_sum}")
+
+st.divider()
