@@ -17,7 +17,7 @@ data['select'] = False
 checkboxes = []
 
 for i in range(len(data)):
-    checkboxes.append(st.checkbox(f'Select {data.iloc[i]["Ticker"]}', key=i))
+    checkboxes.append(st.checkbox(f'Select {data.iloc[i]["symbol"]}', key=i))
 
 data['select'] = checkboxes
 
