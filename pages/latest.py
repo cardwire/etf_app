@@ -84,7 +84,7 @@ if selected_etfs:
         # shift titel to center
         fig.update_layout(title_x=0.5)
         #reshape x-axis to range(1, 5 days)
-        fig.update_xaxes(tickvals=np.arange(0, len(ggg_hist), step=78), ticktext=np.arange(0, 6))
+        fig.update_xaxes(tickvals=np.arange(0, len(ticker_hist), step=78), ticktext=np.arange(0, 6))
         fig.update_xaxes(tickangle=45)
         fig.update_yaxes(tickprefix='$')
         fig.update_layout(showlegend=False)
