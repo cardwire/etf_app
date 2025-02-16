@@ -45,7 +45,8 @@ if selected_etfs:
     # get symbol and ticker from selected ETF
     symbol = selected_etfs[0]
     ticker = yf.Ticker(symbol)
-factsheet = dict(ticker.funds_data.__dict__)
+    
+factsheet = dict(ticker.funds_data())
 st.table(factsheet)
 
 '''
