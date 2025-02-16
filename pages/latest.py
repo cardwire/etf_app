@@ -66,7 +66,7 @@ if selected_etfs:
 
     with col3:
         st.write(f"{ticker} Sector Weightings")
-        sector_weightings = ticker.get_fund_data.sector_weightings()
+        sector_weightings = ticker.info.get('sectorWeightings', {})
         sector_weightings_df = pd.DataFrame.from_dict(sector_weightings, orient='index', columns=['Weight'])
         fig_sector = px.bar(sector_weightings_df, x=sector_weightings_df.index, y='Weight', title='Sector Weightings')
         st.plotly_chart(fig_sector)
