@@ -3,14 +3,7 @@ import pandas as pd
 import yfinance as yf
 from prophet import Prophet
 import plotly.graph_objs as go
-from database.operations import prophet_forecast
-from database.operations import ar_forecast
-from database.operations import arima_forecast
-from database.operations import sarima_forecast
-from database.operations import es_forecast
-from database.operations import xgb_forecast
-from database.operations import lstm_forecast
-
+from database.operations import prophet_forecast, ar_forecast, arima_forecast, sarima_forecast, es_forecast, xgb_forecast, lstm_forecast
 import numpy as np
 import sklearn
 import datetime as dt
@@ -25,15 +18,11 @@ if 'selected_etfs' not in st.session_state:
 # Title
 st.markdown("# ETF Selection")
 
-
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 data = data[["symbol", "full_name", "type", "total_assets", "return"]]
 data = data.rename(columns={"full_name": "funds name", "type": "funds type", "total_assets": "AUM"})
 
-
-# Add a column for checkbox selection
-data['Select'] = False
 # Add a column for checkbox selection
 data['Select'] = False
 
@@ -45,7 +34,7 @@ edited_data = st.data_editor(data, column_config={
 # Update selected ETFs in session state
 selected_etfs = edited_data[edited_data['Select']]['symbol'].tolist()
 
-# Limit selection to 1 ETFs
+# Limit selection to 1 ETF
 if len(selected_etfs) > 1:
     st.warning("You can select only one ETF to forecast its performance.")
     selected_etfs = selected_etfs[:1]
@@ -88,15 +77,8 @@ if selected_etfs:
         elif algorithm == "xgb":
             xgb_forecast(ticker, period)
         elif algorithm == "lstm":
-            lstm_forecast(ticker, period) 
-            '''
-        elif algorithm == "deepar":
-            deepar_forecast(ticker, period)
-        elif algorithm == "nbeats":
-            nbeats_forecast(ticker, period)
-        elif algorithm == "tft":
-            tft_forecast(ticker, period)
-'''
+            lstm_forecast(ticker, period)
+
     if st.button("Click to forecast"):
         on_click_forecast()
 else:
