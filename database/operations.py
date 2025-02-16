@@ -159,7 +159,7 @@ def arima_forecast(ticker, period):
     y = history['y']
 
     # Create and fit the ARIMA model
-    model = ARIMA(y, order=(0, 1, 0))
+    model = ARIMA(y, order=(1, 1, 1))
     model_fit = model.fit()
 
     # Create future dates
