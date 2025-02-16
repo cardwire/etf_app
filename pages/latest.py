@@ -52,6 +52,6 @@ if selected_etfs:
     long_sum = ticker.info['longBusinessSummary']
 
     st.markdown(f"## {symbol}:")
-    st.markdown(f"### Read this general information on your chosen ETF: {long_sum}")
+    st.markdown(f"### {long_sum}")
 
     st.divider()
