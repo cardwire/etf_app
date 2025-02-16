@@ -1,3 +1,5 @@
+# [Theme] = .streamlit/config.toml
+
 import streamlit as st
 import pandas as pd
 import yfinance as yf
@@ -16,7 +18,7 @@ if 'selected_etfs' not in st.session_state:
     st.session_state.selected_etfs = []
 
 # Title
-st.markdown("# ETF Selection")
+st.markdown("### ETF Selection")
 
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
