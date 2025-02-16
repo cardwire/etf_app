@@ -62,7 +62,7 @@ if selected_etfs:
 
     with col2:
         st.header("KPIs")
-        st.markdown(f" return (year to day): {ticker.info('ytdReturn')})"
+        st.markdown(f" return (year to day): {ticker.info('ytdReturn')}")
 
     with col3:
         st.header("")
