@@ -40,6 +40,11 @@ if len(selected_etfs) > 1:
 # Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
+# Check if an ETF is selected
+if selected_etfs:
+    # get symbol and ticker from selected ETF
+    symbol = selected_etfs[0]
+    ticker = yf.Ticker(symbol)
 factsheet = dict(ticker.funds_data.__dict__)
 st.table(factsheet)
 
