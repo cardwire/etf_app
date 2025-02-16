@@ -49,7 +49,7 @@ if selected_etfs:
     # get long business summary
     long_sum = ticker.info['longBusinessSummary']
 
-    st.markdown(f" ## {ticker} Factsheet")
+    st.markdown(f" ## Factsheet")
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -64,11 +64,15 @@ if selected_etfs:
         st.markdown(f" current ask: {ticker.info['ask']}")
         st.markdown(f" current asksize: {ticker.info['askSize']}")
 
-    with col3:
-        st.write("")
+   with col3:
+        st.write(f"{ticker} Sector Weightings")
+        sector_weightings = ticker.get_sector_weightings()
+        sector_weightings_df = pd.DataFrame.from_dict(sector_weightings, orient='index', columns=['Weight'])
+        fig_sector = px.bar(sector_weightings_df, x=sector_weightings_df.index, y='Weight', title='Sector Weightings')
+        st.plotly_chart(fig_sector)
+        
      
-        st.markdown(f"## {symbol}:")
-        st.markdown(f"### {long_sum}")
+       
 
 st.divider()
 
