@@ -57,15 +57,20 @@ if selected_etfs:
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.header("Business Summary")
+        st.write("Business Summary")
         st.markdown(f" {long_sum}")
 
     with col2:
-        st.header("KPIs")
+        st.write("KPIs")
         st.markdown(f" return (year to day): {ticker.info('ytdReturn')}")
+        st.markdown(f" current bid: {ticker.info('bid')}")
+        st.markdown(f" current bidsize: {ticker.info('bidSize')}")
+        st.markdown(f" current ask: {ticker.info('ask')}")
+        st.markdown(f" current asksize: {ticker.info('askSize')}")
+        
 
     with col3:
-        st.header("")
+        st.write("")
         st.image("https://static.streamlit.io/examples/owl.jpg")
         st.markdown(f"## {symbol}:")
         st.markdown(f"### {long_sum}")
