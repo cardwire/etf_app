@@ -93,7 +93,7 @@ st.divider()
 
 # Distribution of total assets
 st.markdown("### Distribution of Total Assets")
-x = np.log10(data['total_assets']
+x = np.log10(data['total_assets'])
 fig_assets = px.histogram(data, x=x, title='Distribution of Total Assets')
 fig_assets.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
 fig_assets.update_traces(marker_line_color='black', marker_line_width=1, marker_color='deepskyblue')
