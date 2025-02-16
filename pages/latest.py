@@ -12,7 +12,15 @@ st.markdown("# Select an ETF from the interactive Table. Or directly select your
 
 data = pd.read_csv("df_esg.csv", index_col=False)
 
-data["select"] = st.checkbox()
+# Add a column for checkboxes
+data['select'] = False
+checkboxes = []
+
+for i in range(len(data)):
+    checkboxes.append(st.checkbox(f'Select {data.iloc[i]["Ticker"]}', key=i))
+
+data['select'] = checkboxes
+
 st.dataframe(data)
 st.write()
 st.text_input()
