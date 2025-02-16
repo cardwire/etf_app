@@ -4,6 +4,9 @@ import plotly.express as px
 import missingno as msno
 import numpy as np
 import matplotlib.pyplot as plt
+import yfinance as yf
+
+
 
 st.set_page_config(page_title="Latest Actions and current Performance", page_icon="📊")
 
