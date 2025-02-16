@@ -41,13 +41,15 @@ if len(selected_etfs) > 1:
 st.session_state.selected_etfs = selected_etfs
 
 # Check if an ETF is selected
+# Check if an ETF is selected
 if selected_etfs:
     # get symbol and ticker from selected ETF
     symbol = selected_etfs[0]
     ticker = yf.Ticker(symbol)
-    
-factsheet = dict(ticker.funds_data())
-st.table(factsheet)
+
+    # Get the fund's data and display it as a table
+    factsheet = ticker.funds_data
+    st.table(pd.DataFrame(factsheet))
 
 '''
 # Check if an ETF is selected
