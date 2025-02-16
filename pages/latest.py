@@ -40,6 +40,10 @@ if len(selected_etfs) > 1:
 # Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
+factsheet = dict(ticker.funds_data.__dict__)
+st.table(factsheet)
+
+'''
 # Check if an ETF is selected
 if selected_etfs:
     # get symbol and ticker from selected ETF
@@ -70,6 +74,8 @@ if selected_etfs:
         sector_weightings_df = pd.DataFrame.from_dict(sector_weightings, orient='index', columns=['Weight'])
         fig_sector = px.bar(sector_weightings_df, x=sector_weightings_df.index, y='Weight', title='Sector Weightings')
         st.plotly_chart(fig_sector)
+'''
+
 
 st.divider()
 
