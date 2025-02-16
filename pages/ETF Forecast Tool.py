@@ -27,7 +27,7 @@ st.markdown("# ETF Selection")
 
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
-data = data[["symbol", "full_name", "type", "total_assets", "return"]]
+data = data[["symbol"], ["full_name"], ["type"], ["total_assets", "return"]]
 data = data.rename(columns = {"full_name" : "funds name", "type" : "funds type", "total_assets" : "AUM" } )
 
 # Add a column for checkbox selection
