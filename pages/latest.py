@@ -47,7 +47,7 @@ if selected_etfs:
     ticker = yf.Ticker(symbol)
     
     # Get fund's data and display as a table
-    factsheet = ticker.funds_data.__dict__
+    factsheet = ticker.get_funds_data()
     if isinstance(factsheet, dict):
         factsheet_df = pd.DataFrame.from_dict(factsheet, orient='index', columns=['Value'])
         st.table(factsheet_df)
