@@ -120,4 +120,7 @@ st.markdown("### Distribution of Negative Returns This Year")
 x = np.log10(-data['ytd_return'][data['ytd_return'] < 0])  # Filter out non-negative values
 fig = px.histogram(data[data['ytd_return'] < 0], x=x, title='Distribution of YTD Return (Negative)')
 fig.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
-fig.update_traces(marker_line_color='
+fig.update_traces(marker_line_color='black', marker_line_width=1, marker_color='seagreen')
+fig.update_xaxes(title_text='10exp(USD)')
+fig.update_layout(title_x=0.5)
+st.plotly_chart(fig)
