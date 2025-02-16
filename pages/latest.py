@@ -53,15 +53,25 @@ if selected_etfs:
     long_sum = ticker.info['longBusinessSummary']
 
    
-
+    st.markdown(f" ## {ticker} Factsheet")
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.header("Business Summary")
-        st.markdown(f"### {symbol}:")
         st.markdown(f" {long_sum}")
 
     with col2:
+        st.header("KPIs")
+        st.markdown(f" return (year to day): {ticker.info('ytdReturn')})"
+
+    with col3:
+        st.header("")
+        st.image("https://static.streamlit.io/examples/owl.jpg")
+        st.markdown(f"## {symbol}:")
+        st.markdown(f"### {long_sum}")
+
+st.divider()
+
         st.header("last 5 day performance")
         ticker_hist = ticker.history(period='5d', interval='1m')
         ticker_hist['Date'] = ticker_hist.index
@@ -102,11 +112,3 @@ if selected_etfs:
         fig.update_layout(title_font_color='black')
         
         st.plotly_chart(fig)
-
-    with col3:
-        st.header("")
-        st.image("https://static.streamlit.io/examples/owl.jpg")
-        st.markdown(f"## {symbol}:")
-        st.markdown(f"### {long_sum}")
-
-st.divider()
