@@ -120,7 +120,7 @@ if st.session_state.selected_etfs:
     fig = go.Figure()
     for i, dividend in enumerate(dividends):
         fig.add_trace(go.Scatter(x=dividend.index, y=dividend, mode='lines', name=st.session_state.selected_etfs[i]))
-    fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend",)
+    fig.update_layout(title="Dividends of Selected ETFs", xaxis_title="Date", yaxis_title="Dividend")
     
     st.plotly_chart(fig)
 
