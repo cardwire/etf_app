@@ -12,6 +12,7 @@ st.markdown("# Select an ETF from the interactive Table. Or directly select your
 
 data = pd.read_csv("df_esg.csv", index_col=False)
 
+data["select"] = st.checkbox()
 st.dataframe(data)
 st.write()
 st.text_input()
