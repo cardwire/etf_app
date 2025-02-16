@@ -66,7 +66,7 @@ if selected_etfs:
 
     with col3:
         st.write("")
-        st.image("https://static.streamlit.io/examples/owl.jpg")
+     
         st.markdown(f"## {symbol}:")
         st.markdown(f"### {long_sum}")
 
