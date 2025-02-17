@@ -134,7 +134,7 @@ dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction 
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    st.container(
+    with st.container()
     with stqdm(total=100, desc="Processing Data") as pbar:
         data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
         hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
@@ -156,4 +156,4 @@ if st.button("Launch 3D Visualizer"):
         else: 
             st.error("Selected method does not produce enough components for 3D visualization.")
             pbar.update(50)  # Example progress update
-)
+
