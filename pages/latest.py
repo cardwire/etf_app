@@ -82,9 +82,9 @@ with col2:
 with col3:
     st.markdown("## ESG Data")
     esg = pd.read_csv("esg.csv")
-    esg_rating = esg.loc[esg['ticker'] == symbol, 'esg_rating'].values[0] if not esg.empty else 'N/A'
+    esg_rating = esg.loc[esg['ticker'] == symbol, 'esg_rating'].values[0] if not esg.loc[esg['ticker'] == symbol].empty else 'N/A'
+    st.markdown(f"### ESG Rating: {esg_rating}")
 
-    st.markdown(f" ESG Rating: {esg_rating}")
         
 st.divider()
 
