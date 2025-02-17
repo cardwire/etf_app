@@ -20,6 +20,8 @@ st.markdown("# ETF Selection")
 
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
+data = data[["symbol", "full_name", "type", "total_assets", "ytd_return"]]
+data = data.rename(columns={"full_name": "funds name", "type": "funds type", "total_assets": "AUM"})
 
 # Add a column for checkbox selection
 data['Select'] = False
@@ -40,12 +42,11 @@ if len(selected_etfs) > 1:
 # Store selected ETFs in session state
 st.session_state.selected_etfs = selected_etfs
 
-#  Check if an ETF is selected
+# Check if an ETF is selected
 if selected_etfs:
     # get symbol and ticker from selected ETF
     symbol = selected_etfs[0]
     ticker = yf.Ticker(symbol)
-    
     # Get fund's data and display as a table
     factsheet = ticker.get_funds_data()
     if isinstance(factsheet, dict):
