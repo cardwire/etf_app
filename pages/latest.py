@@ -56,11 +56,6 @@ if selected_etfs:
         st.write("No fund data available for this ETF.")
 
 '''
-# Check if an ETF is selected
-if selected_etfs:
-    # get symbol and ticker from selected ETF
-    symbol = selected_etfs[0]
-    ticker = yf.Ticker(symbol)
 
     # get long business summary
     long_sum = ticker.info['longBusinessSummary']
