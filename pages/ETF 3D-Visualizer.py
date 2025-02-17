@@ -134,11 +134,11 @@ dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction 
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    with stqdm(total=10, desc="Processing Data") as pbar:
+    with stqdm(total=500, desc="Processing Data") as pbar:
         data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
         hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
         data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
-        pbar.update(50)  # Example progress update
+        pbar.update(10)  # Example progress update
 
         # 3D Scatter plot
         if data_embeddings.shape[1] >= 3:
