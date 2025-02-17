@@ -62,29 +62,28 @@ if selected_etfs:
 
     st.markdown(f" ## Factsheet")
     
-    col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.columns(3)
 
-    with col1:
-        st.markdown(" Business Summary")
-        st.markdown(f" {long_sum}")
+with col1:
+    st.markdown("Business Summary")
+    st.markdown(f"{long_sum}")
 
-    with col2:
-        st.markdown(" ## KPIs")
-        st.markdown(f" ### currency: {ticker.info['currency']}")
-        st.markdown(f" ### yield: {ticker.info['yield']}")
-        st.markdown(f" ### return (year to day): {ticker.info['ytdReturn']}")
-        st.markdown(f" ### trailingPE: {ticker.info['trailingPE']}")
-        st.markdown(f" ### current bid: {ticker.info['bid']}")
-        st.markdown(f" ### current bidsize: {ticker.info['bidSize']}")
-        st.markdown(f" ### current ask: {ticker.info['ask']}")
-        st.markdown(f" ### current asksize: {ticker.info['askSize']}")
+with col2:
+    st.markdown("## KPIs")
+    st.markdown(f"### Currency: {ticker.info.get('currency', 'N/A')}")
+    st.markdown(f"### Yield: {ticker.info.get('yield', 'N/A')}")
+    st.markdown(f"### Return (YTD): {ticker.info.get('ytdReturn', 'N/A')}")
+    st.markdown(f"### Trailing PE: {ticker.info.get('trailingPE', 'N/A')}")
+    st.markdown(f"### Current Bid: {ticker.info.get('bid', 'N/A')}")
+    st.markdown(f"### Current Bid Size: {ticker.info.get('bidSize', 'N/A')}")
+    st.markdown(f"### Current Ask: {ticker.info.get('ask', 'N/A')}")
+    st.markdown(f"### Current Ask Size: {ticker.info.get('askSize', 'N/A')}")
 
-    with col3:
-        st.markdown(" ## ESG Data")
-        esg = pd.read_csv("esg.csv")
-        st.markdown(f" ### ESG Rating: esg.ticker[{ticker}["esg_rating"]]")
-       
-
+with col3:
+    st.markdown("## ESG Data")
+    esg = pd.read_csv("esg.csv")
+    esg_rating = esg.loc[esg['ticker'] == symbol, 'esg_rating'].values[0] if not esg.empty else 'N/A'
+    st.markdown(f"### ESG Rating: {esg_rating}")
         
 st.divider()
 
