@@ -9,7 +9,7 @@ import yfinance as yf
 
 st.set_page_config(page_title="Latest Actions and current Performance", page_icon="📊")
 
-st.markdown("# Select an ETF from the interactive Table. Or directly select your ETF of choice via searching its Tickersymbol")
+st.markdown("### Select an ETF from the interactive Table. Or directly select your ETF of choice via searching its Tickersymbol")
 
 # Initialize session state for selected ETFs
 if 'selected_etfs' not in st.session_state:
@@ -55,35 +55,37 @@ if selected_etfs:
     else:
         st.write("No fund data available for this ETF.")
 
-'''
+
 
     # get long business summary
     long_sum = ticker.info['longBusinessSummary']
 
     st.markdown(f" ## Factsheet")
+    
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.write("Business Summary")
+        st.markdown(" Business Summary")
         st.markdown(f" {long_sum}")
 
     with col2:
-        st.write("KPIs")
-        st.markdown(f" return (year to day): {ticker.info['ytdReturn']}")
-        st.markdown(f" current bid: {ticker.info['bid']}")
-        st.markdown(f" current bidsize: {ticker.info['bidSize']}")
-        st.markdown(f" current ask: {ticker.info['ask']}")
-        st.markdown(f" current asksize: {ticker.info['askSize']}")
+        st.markdown(" ## KPIs")
+        st.markdown(f" ### currency: {ticker.info['currency']}")
+        st.markdown(f" ### yield: {ticker.info['yield']}")
+        st.markdown(f" ### return (year to day): {ticker.info['ytdReturn']}")
+        st.markdown(f" ### trailingPE: {ticker.info['trailingPE']}")
+        st.markdown(f" ### current bid: {ticker.info['bid']}")
+        st.markdown(f" ### current bidsize: {ticker.info['bidSize']}")
+        st.markdown(f" ### current ask: {ticker.info['ask']}")
+        st.markdown(f" ### current asksize: {ticker.info['askSize']}")
 
     with col3:
-        st.write(f"{ticker} Sector Weightings")
-        sector_weightings = ticker.info.get('sectorWeightings', {})
-        sector_weightings_df = pd.DataFrame.from_dict(sector_weightings, orient='index', columns=['Weight'])
-        fig_sector = px.bar(sector_weightings_df, x=sector_weightings_df.index, y='Weight', title='Sector Weightings')
-        st.plotly_chart(fig_sector)
-'''
+        st.markdown(" ## ESG Data")
+        esg = pd.read_csv("esg.csv")
+        st.markdown(f" ### ESG Rating: {esg.Ticker[ticker["esg_rating"]}
+       
 
-
+        
 st.divider()
 
 st.header("Last 5 Day Performance")
