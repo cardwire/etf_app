@@ -147,8 +147,7 @@ if st.button("Launch 3D Visualizer"):
                         hover_data=hover_data.columns, title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
     fig.update_traces(marker=dict(size=2.5), opacity=0.8)
     st.plotly_chart(fig)
-    else:
-        st.error("Selected method does not produce enough components for 3D visualization.")
+        else: st.error("Selected method does not produce enough components for 3D visualization.")
 
 
 
