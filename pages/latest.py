@@ -82,7 +82,7 @@ if selected_etfs:
     with col3:
         st.markdown(" ## ESG Data")
         esg = pd.read_csv("esg.csv")
-        st.markdown(f" ### ESG Rating: esg.ticker[{ticker}["esg_rating"])
+        st.markdown(f" ### ESG Rating: esg.ticker[{ticker}["esg_rating"]])
        
 
         
