@@ -140,7 +140,6 @@ if st.button("Launch 3D Visualizer"):
     data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
     
     # 3D Scatter plot
-    from time import sleep
     from stqdm import stqdm
     stqdm.plotly_chart()
     if data_embeddings.shape[1] >= 3:
