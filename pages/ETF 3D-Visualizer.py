@@ -14,7 +14,7 @@ from sklearn.feature_selection import SequentialFeatureSelector
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-
+from stqdm import stqdm  # Import stqdm
 
 # UMAP
 def get_umap_embeddings(data_final, n_components=3):
@@ -84,7 +84,6 @@ def call_dimensionality_reduction(method, data_final, labels=None, n_components=
     elif method == "MVR":
         return apply_mvr(data_final)
 
-
 # Streamlit App
 st.set_page_config(page_title="ETF Dimensionality Reduction", page_icon="📈")
 st.markdown("# ETF Dimensionality Reduction")
@@ -135,29 +134,24 @@ dimensionality_reduction_method = st.selectbox("Select Dimensionality Reduction 
 
 # Button to launch 3D visualizer
 if st.button("Launch 3D Visualizer"):
-    data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
-    hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
-    data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
-    
-    # 3D Scatter plot
-    from stqdm import stqdm
+    with stqdm(total=100, desc="Processing Data") as pbar:
+        data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
+        hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
+        data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
+        pbar.update(50)  # Example progress update
 
-    if data_embeddings.shape[1] >= 3:
-        fig = px.scatter_3d(data_with_hover, 
-                            x=data_embeddings.columns[0], 
-                            y=data_embeddings.columns[1], 
-                            z=data_embeddings.columns[2], 
-                            color=labels,
-                            hover_data=hover_data.columns, 
-                            title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
-        fig.update_traces(marker=dict(size=2.5), opacity=0.8)
-        st.plotly_chart(fig)
-    else: 
-        st.error("Selected method does not produce enough components for 3D visualization.")
-
-
-
-
-
-
-
+        # 3D Scatter plot
+        if data_embeddings.shape[1] >= 3:
+            fig = px.scatter_3d(data_with_hover, 
+                                x=data_embeddings.columns[0], 
+                                y=data_embeddings.columns[1], 
+                                z=data_embeddings.columns[2], 
+                                color=labels,
+                                hover_data=hover_data.columns, 
+                                title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
+            fig.update_traces(marker=dict(size=2.5), opacity=0.8)
+            st.plotly_chart(fig)
+            pbar.update(50)  # Example progress update
+        else: 
+            st.error("Selected method does not produce enough components for 3D visualization.")
+            pbar.update(50)  # Example progress update
