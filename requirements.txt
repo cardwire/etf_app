@@ -20,9 +20,5 @@ tensorflow
 keras
 xgboost
 missingno
-
-#mxnet==1.6.0
-#gluonts
-#pytorch
-#torchvision
-#pytorch-lightning
+stqdm
+time
