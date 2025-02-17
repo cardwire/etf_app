@@ -138,7 +138,7 @@ if st.button("Launch 3D Visualizer"):
         data_embeddings = call_dimensionality_reduction(dimensionality_reduction_method, data_final, labels)
         hover_data = data[['symbol', 'ytd_return', 'total_assets', 'fifty_day_average', 'bid', 'ask', 'category']].copy()
         data_with_hover = pd.concat([data_embeddings.reset_index(drop=True), hover_data.reset_index(drop=True)], axis=1)
-        pbar.update(10)  # Example progress update
+        pbar.update(50)  # Example progress update
 
         # 3D Scatter plot
         if data_embeddings.shape[1] >= 3:
@@ -151,7 +151,7 @@ if st.button("Launch 3D Visualizer"):
                                 title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
             fig.update_traces(marker=dict(size=2.5), opacity=0.8)
             st.plotly_chart(fig)
-            pbar.update(10)  # Example progress update
+            pbar.update(50)  # Example progress update
         else: 
             st.error("Selected method does not produce enough components for 3D visualization.")
-            pbar.update(10)  # Example progress update
+            pbar.update(50)  # Example progress update
