@@ -141,7 +141,7 @@ if st.button("Launch 3D Visualizer"):
     
     # 3D Scatter plot
     from stqdm import stqdm
-    stqdm.plotly_chart()
+
     if data_embeddings.shape[1] >= 3:
         fig = px.scatter_3d(data_with_hover, 
                             x=data_embeddings.columns[0], 
