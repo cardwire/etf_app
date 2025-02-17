@@ -143,11 +143,17 @@ if st.button("Launch 3D Visualizer"):
     from stqdm import stqdm
     stqdm.plotly_chart()
     if data_embeddings.shape[1] >= 3:
-        fig = px.scatter_3d(data_with_hover, x=data_embeddings.columns[0], y=data_embeddings.columns[1], z=data_embeddings.columns[2], color=labels,
-                        hover_data=hover_data.columns, title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
-    fig.update_traces(marker=dict(size=2.5), opacity=0.8)
-    st.plotly_chart(fig)
-    else: st.error("Selected method does not produce enough components for 3D visualization.")
+        fig = px.scatter_3d(data_with_hover, 
+                            x=data_embeddings.columns[0], 
+                            y=data_embeddings.columns[1], 
+                            z=data_embeddings.columns[2], 
+                            color=labels,
+                            hover_data=hover_data.columns, 
+                            title=f"3D {dimensionality_reduction_method} Clustering of ETFs")
+        fig.update_traces(marker=dict(size=2.5), opacity=0.8)
+        st.plotly_chart(fig)
+    else: 
+        st.error("Selected method does not produce enough components for 3D visualization.")
 
 
 
