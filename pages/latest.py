@@ -24,7 +24,7 @@ data = pd.read_excel("database/df.xlsx")
 # Add a column for checkbox selection
 data['Select'] = [False] * len(data)
 
-data = data[['Select', "symbol", "full_name", "type", "assets under management"]]
+data = data[["symbol", "full_name", "type", "assets under management"]]
 
 data = data.rename(columns={"full_name": "funds name", "type": "funds type"})
 
