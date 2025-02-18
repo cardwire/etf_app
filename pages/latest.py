@@ -22,7 +22,7 @@ st.markdown("# ETF Selection")
 data = pd.read_excel("database/df.xlsx")
 
 # Add a column for checkbox selection
-data['Select'] = []
+data['Select'] = [False] * len(data)
 
 data = data[['Select', "symbol", "full_name", "type", "assets under management"]]
 
