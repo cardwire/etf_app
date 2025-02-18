@@ -6,6 +6,7 @@ import missingno as msno
 import numpy as np
 import matplotlib.pyplot as plt
 import yfinance as yf
+import time
 
 st.set_page_config(page_title="Latest Actions and current Performance", page_icon="📊")
 
@@ -21,10 +22,7 @@ st.markdown("# ETF Selection")
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 
-
-
 data = data[["symbol", "full_name", "type", "total_assets"]]
-
 data = data.rename(columns={"full_name": "funds name", "type": "funds type"})
 
 # Add a column for checkbox selection
@@ -51,45 +49,53 @@ if selected_etfs:
     # get symbol and ticker from selected ETF
     symbol = selected_etfs[0]
     ticker = yf.Ticker(symbol)
-    # Get fund's data and display as a table
-    factsheet = ticker.get_funds_data()
-    if isinstance(factsheet, dict):
-        factsheet_df = pd.DataFrame.from_dict(factsheet, orient='index', columns=['Value'])
-        st.table(factsheet_df)
-    else:
-        st.write("No fund data available for this ETF.")
-
-
-
-    # get long business summary
-    long_sum = ticker.info['longBusinessSummary']
-
-    st.markdown(f" ## Factsheet")
     
-    col1, col2, col3 = st.columns(3)
+    # Handle rate limiting
+    attempts = 0
+    while attempts < 5:
+        try:
+            # Get fund's data and display as a table
+            factsheet = ticker.get_funds_data()
+            if isinstance(factsheet, dict):
+                factsheet_df = pd.DataFrame.from_dict(factsheet, orient='index', columns=['Value'])
+                st.table(factsheet_df)
+            else:
+                st.write("No fund data available for this ETF.")
+                
+            # get long business summary
+            long_sum = ticker.info['longBusinessSummary']
+            break
+        except yf.YFRateLimitError:
+            attempts += 1
+            time.sleep(2 ** attempts)  # Exponential backoff
 
-    with col1:
-   
-        st.markdown(f"{long_sum}")
-
-    with col2:
-        st.markdown("## KPIs")
-        st.markdown(f" Currency: {ticker.info.get('currency', 'N/A')}")
-        st.markdown(f" Yield: {ticker.info.get('yield', 'N/A')}")
-        st.markdown(f" Return (YTD): {ticker.info.get('ytdReturn', 'N/A')}")
-        st.markdown(f" Trailing PE: {ticker.info.get('trailingPE', 'N/A')}")
-        st.markdown(f" Current Bid: {ticker.info.get('bid', 'N/A')}")
-        st.markdown(f" Current Bid Size: {ticker.info.get('bidSize', 'N/A')}")
-        st.markdown(f" Current Ask: {ticker.info.get('ask', 'N/A')}")
-        st.markdown(f" Current Ask Size: {ticker.info.get('askSize', 'N/A')}")
-
-    with col3:
-        st.markdown("## ESG Data")
-        esg = pd.read_csv("etf_app/database/esg.csv")
-        esg_rating = esg.loc[esg['ticker'] == symbol, 'esg_rating'].values[0] if not esg.loc[esg['ticker'] == symbol].empty else 'N/A'
-        st.markdown(f"### ESG Rating: {esg_rating}")
-
+    if attempts == 5:
+        st.error("Too many requests. Please try again later.")
+    else:
+        st.markdown(f" ## Factsheet")
         
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.markdown(f"{long_sum}")
+
+        with col2:
+            st.markdown("## KPIs")
+            st.markdown(f" Currency: {ticker.info.get('currency', 'N/A')}")
+            st.markdown(f" Yield: {ticker.info.get('yield', 'N/A')}")
+            st.markdown(f" Return (YTD): {ticker.info.get('ytdReturn', 'N/A')}")
+            st.markdown(f" Trailing PE: {ticker.info.get('trailingPE', 'N/A')}")
+            st.markdown(f" Current Bid: {ticker.info.get('bid', 'N/A')}")
+            st.markdown(f" Current Bid Size: {ticker.info.get('bidSize', 'N/A')}")
+            st.markdown(f" Current Ask: {ticker.info.get('ask', 'N/A')}")
+            st.markdown(f" Current Ask Size: {ticker.info.get('askSize', 'N/A')}")
+
+        with col3:
+            st.markdown("## ESG Data")
+            esg = pd.read_csv("etf_app/database/esg.csv")
+            esg_rating = esg.loc[esg['ticker'] == symbol, 'esg_rating'].values[0] if not esg.loc[esg['ticker'] == symbol].empty else 'N/A'
+            st.markdown(f"### ESG Rating: {esg_rating}")
+
 st.divider()
 
 st.header("Last 5 Day Performance")
