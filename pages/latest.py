@@ -21,14 +21,14 @@ st.markdown("# ETF Selection")
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 
-# Add a column for checkbox selection
-data['Select'] = [False] * len(data)
+
 
 data = data[["symbol", "full_name", "type", "total_assets"]]
 
 data = data.rename(columns={"full_name": "funds name", "type": "funds type"})
 
-
+# Add a column for checkbox selection
+data['Select'] = [False] * len(data)
 
 # Display dataframe with checkboxes
 edited_data = st.data_editor(data, column_config={
