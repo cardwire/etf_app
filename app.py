@@ -12,6 +12,12 @@ from streamlit_extras.switch_page_button import switch_page
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
 esg = pd.read_csv("database/esg.csv")
+for ticker in esg:
+    if esg.ticker == data.symbol:
+        data["esg_rating"] = esg["esg_rating"]
+        data["carbon_intensity"] = esg["carbon_intensity"]
+        data["quality_sore"] = esg["quality_score"]
+        data["grade"] = esg["grade"]
 
 # Preprocess missing values
 data['type'] = data['type'].fillna('Other').replace('-', 'Other')
