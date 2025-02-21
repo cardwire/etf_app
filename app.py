@@ -67,7 +67,7 @@ st.markdown("## Exploratory Data Analysis (EDA) of the ETF Database")
 fig = px.histogram(data, x='esg_score', title='Distribution of ESG Scores')
 fig.update_layout(xaxis_title='ESG Score', yaxis_title='Count')
 fig.show()
-)
+
 
 st.divider()
 
@@ -77,7 +77,7 @@ st.write("Here you see the distribution of missing values in the ETF-Database.")
 fig, ax = plt.subplots()
 msno.matrix(data, ax=ax, color=(0.2549019607843137, 0.4117647058823529, 0.8823529411764706), fontsize=8)
 st.pyplot(fig)
-)
+
 
 # Distribution of ESG Ratings
 st.container(
