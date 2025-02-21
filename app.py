@@ -64,6 +64,12 @@ elif page == "ETF Forecast Tool":
 st.divider()
 st.container(
 st.markdown("## Exploratory Data Analysis (EDA) of the ETF Database")
+fig = px.histogram(merged_data, x='esg_score', title='Distribution of ESG Scores')
+fig.update_layout(xaxis_title='ESG Score', yaxis_title='Count')
+fig.show()
+)
+
+st.divider()
 
 # Visualize data completeness
 st.markdown("### Data Completeness at a Glance")
@@ -72,6 +78,12 @@ fig, ax = plt.subplots()
 msno.matrix(data, ax=ax, color=(0.2549019607843137, 0.4117647058823529, 0.8823529411764706), fontsize=8)
 st.pyplot(fig)
 )
+
+
+#plot distribution of esg_rating#
+st.container(
+st.markdown(" ### Distribution of ESG Ratings")
+
 
 # Count occurrences of each type and category
 type_counts = data['type'].value_counts().reset_index()
