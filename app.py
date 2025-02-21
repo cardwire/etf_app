@@ -11,7 +11,7 @@ from streamlit_extras.switch_page_button import switch_page
 
 # Load the ETF data
 data = pd.read_excel("database/df.xlsx")
-esg = pd.read_excel("database/esg_data.xlsx")
+esg = pd.read_csv("database/esg.csv")
 
 # Preprocess missing values
 data['type'] = data['type'].fillna('Other').replace('-', 'Other')
