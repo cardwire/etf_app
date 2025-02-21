@@ -63,7 +63,7 @@ elif page == "ETF Forecast Tool":
 # EDA of Entire Database Section
 st.divider()
 st.container(
-st.markdown("## Exploratory Data Analysis (EDA) of the ETF Database")
+st.markdown(" ## Exploratory Data Analysis (EDA) of the ETF Database")
 fig = px.histogram(data, x='esg_score', title='Distribution of ESG Scores')
 fig.update_layout(xaxis_title='ESG Score', yaxis_title='Count')
 fig.show()
