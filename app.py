@@ -55,6 +55,7 @@ elif page == "ETF Forecast Tool":
 
 # EDA of Entire Database Section
 st.divider()
+st.container(
 st.markdown("## Exploratory Data Analysis (EDA) of the ETF Database")
 
 # Visualize data completeness
@@ -63,6 +64,7 @@ st.write("Here you see the distribution of missing values in the ETF-Database.")
 fig, ax = plt.subplots()
 msno.matrix(data, ax=ax, color=(0.2549019607843137, 0.4117647058823529, 0.8823529411764706), fontsize=8)
 st.pyplot(fig)
+)
 
 # Count occurrences of each type and category
 type_counts = data['type'].value_counts().reset_index()
@@ -71,6 +73,7 @@ category_counts = data['category'].value_counts().reset_index()
 category_counts.columns = ['category', 'count']
 
 # Distribution of ETF types in the Database
+st.container(
 st.markdown("### Distribution of ETF Types in the Database")
 fig_type = px.bar(type_counts, x='type', y='count', title='ETF Types')
 fig_type.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'))
@@ -78,20 +81,24 @@ fig_type.update_traces(marker_line_color='black', marker_line_width=1, marker_co
 fig_type.update_xaxes(title_text='')
 fig_type.update_layout(title_x=0.5)
 st.plotly_chart(fig_type)
+)
 
 st.divider()
 
 # Distribution of ETF categories in the Database
+st.container(
 st.markdown("### Distribution of ETF Categories in the Database")
 fig_category = px.bar(category_counts, x='count', y='category', title='ETF Categories', orientation='h')
 fig_category.update_traces(marker_line_color='black', marker_line_width=1, marker_color='deepskyblue')
 fig_category.update_layout(plot_bgcolor='white', paper_bgcolor='white', font_size=12, yaxis=dict(gridcolor='lightgrey'), height=1000)
 fig_category.update_yaxes(categoryorder='total ascending')
 st.plotly_chart(fig_category)
+)
 
 st.divider()
 
 # Distribution of total assets
+st.container(
 st.markdown("### Distribution of Total Assets")
 x = np.log10(data['total_assets'])
 fig_assets = px.histogram(data, x=x, title='Distribution of Total Assets')
@@ -100,10 +107,13 @@ fig_assets.update_traces(marker_line_color='black', marker_line_width=1, marker_
 fig_assets.update_xaxes(title_text='10exp(USD)')
 fig_assets.update_layout(title_x=0.5)
 st.plotly_chart(fig_assets)
+)
+
 
 st.divider()
 
 # Distribution of positive returns this year
+st.container(
 st.markdown("### Distribution of Positive Returns This Year")
 x = np.log10(data['ytd_return'][data['ytd_return'] > 0])  # Filter out non-positive values
 fig = px.histogram(data[data['ytd_return'] > 0], x=x, title='Distribution of YTD Return (Positive)')
@@ -112,10 +122,13 @@ fig.update_traces(marker_line_color='black', marker_line_width=1, marker_color='
 fig.update_xaxes(title_text='10exp(USD)')
 fig.update_layout(title_x=0.5)
 st.plotly_chart(fig)
+)
+
 
 st.divider()
 
 # Distribution of negative returns this year
+st.container(
 st.markdown("### Distribution of Negative Returns This Year")
 x = np.log10(-data['ytd_return'][data['ytd_return'] < 0])  # Filter out non-negative values
 fig = px.histogram(data[data['ytd_return'] < 0], x=x, title='Distribution of YTD Return (Negative)')
@@ -124,3 +137,4 @@ fig.update_traces(marker_line_color='black', marker_line_width=1, marker_color='
 fig.update_xaxes(title_text='10exp(USD)')
 fig.update_layout(title_x=0.5)
 st.plotly_chart(fig)
+)
