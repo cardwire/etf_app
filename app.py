@@ -79,11 +79,9 @@ msno.matrix(data, ax=ax, color=(0.2549019607843137, 0.4117647058823529, 0.882352
 st.pyplot(fig)
 )
 
-
-#plot distribution of esg_rating#
+# Distribution of ESG Ratings
 st.container(
-st.markdown(" ### Distribution of ESG Ratings")
-
+st.markdown("### Distribution of ESG Ratings")
 
 # Count occurrences of each type and category
 type_counts = data['type'].value_counts().reset_index()
@@ -128,7 +126,6 @@ fig_assets.update_layout(title_x=0.5)
 st.plotly_chart(fig_assets)
 )
 
-
 st.divider()
 
 # Distribution of positive returns this year
@@ -142,7 +139,6 @@ fig.update_xaxes(title_text='10exp(USD)')
 fig.update_layout(title_x=0.5)
 st.plotly_chart(fig)
 )
-
 
 st.divider()
 
